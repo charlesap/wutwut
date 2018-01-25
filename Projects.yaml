@@ -1,0 +1,15 @@
+Wut.jl:
+ - Language: Julia
+ - Path: "../Wut.jl"
+wut:
+ - Language: Go
+ - Path: "../wut"
+wutpy
+ - Language: Python
+ - Path: "../wutpy"
+wutj
+ - Language: Java
+ - Path: "../wutj"
+wutc
+ - Language: c
+ - Path: "../wutc"
