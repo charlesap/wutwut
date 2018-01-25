@@ -1,0 +1,145 @@
+AbstractEncoder:
+ - Provides:
+   - encode(a::AbstractEncoder, v)
+   - getDisplayWidth(a::AbstractEncoder)
+   - decode(e::AbstractEncoder, b::BitPat; parentFieldName="")
+ - Requires:
+   - getWidth(a::ConcreteEncoder) 
+   - getDescription(a::ConcreteEncoder)
+   - encodeIntoArray(a::ConcreteEncoder, inputData, output)
+   - setLearning(a::AbstractEncoder, learningEnabled):
+   - setFieldStats(a::AbstractEncoder, fieldName, fieldStatistics):
+   - getScalarNames(a::AbstractEncoder, parentFieldName=''):
+   - getDecoderOutputFieldTypes(a::AbstractEncoder):
+   - setStateLock(a::AbstractEncoder,lock):
+   - _getInputValue(a::AbstractEncoder, obj, fieldName):
+   - getEncoderList(a::AbstractEncoder):
+   - getScalars(a::AbstractEncoder, inputData):
+   - getEncodedValues(a::AbstractEncoder, inputData):
+   - getBucketIndices(a::AbstractEncoder, inputData):
+   - scalarsToStr(a::AbstractEncoder, scalarValues, scalarNames=None):
+   - getFieldDescription(a::AbstractEncoder, fieldName):
+   - encodedBitDescription(a::AbstractEncoder, bitOffset, formatted=False):
+   - pprintHeader(a::AbstractEncoder, prefix=""):
+   - pprint(a::AbstractEncoder, output, prefix=""):
+   - decode(a::AbstractEncoder, encoded, parentFieldName=''):
+   - decodedToStr(a::AbstractEncoder, decodeResults):
+   - getBucketValues(a::AbstractEncoder):
+   - getBucketInfo(a::AbstractEncoder, buckets):
+   - topDownCompute(a::AbstractEncoder, encoded):
+   - closenessScores(a::AbstractEncoder, expValues, actValues, fractional=True):
+AdaptiveScalarEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+CategoryEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+   -  cL: Dict{String,Int64}
+   -  sE: ScalarEncoder
+CoordinateEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+DateEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+   -  season: Number
+   -  dayOfWeek: Number
+   -  weekend: Number
+   -  holiday: Number
+   -  timeOfDay: Number
+   -  customDays: Number
+   -  name: AbstractString
+   -  forced: Bool
+   -  sE: Nullable{ScalarEncoder}
+   -  sEo: Int64
+   -  dE: Nullable{ScalarEncoder}
+   -  dEo: Int64
+   -  wE: Nullable{ScalarEncoder}
+   -  wEo: Int64
+   -  hE::Nullable{ScalarEncoder}
+   -  hEo::Int64
+   -  tE::Nullable{ScalarEncoder}
+   -  tEo::Int64
+   -  cE::Nullable{ScalarEncoder}
+   -  cEo::Int64
+DeltaEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+GeospatialCoordinateEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+LogEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+MultiEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+PassThroughEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+RandomDistributedScalarEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+   -  minIndex: Int32      
+   -  maxIndex: Int32      
+   -  offset: Float64  
+   -  oidx: Int32
+   -  resolution: Float64
+   -  name: AbstractString
+   -  verbosity: Int32
+   -  maxoverlap: Int32
+   -  random: MersenneTwister
+   -  bucketmap: Dict{Int32,Vector{Int32}}
+   -  numTries: Int32
+   -  maxBuckets: Int32
+SDRCategoryEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+ScalarEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+   -  minval: Float64
+   -  maxval: Float64
+   -  periodic: Bool
+   -  radius: Float64
+   -  resolution: Float64
+   -  name: AbstractString
+   -  verbosity: Int64
+   -  clipInput: Bool
+   -  forced: Bool
+   -  padding: Int64
+   -  range: Float64
+ScalarSpaceEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
+SparsePassThroughEncoder:
+ - Extends: AbstractEncoder
+ - Contains:
+   -  w: Int64
+   -  n: Int64
