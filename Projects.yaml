@@ -1,6 +1,6 @@
 Wut.jl:
  - Language: Julia
- - Path: "../Wut.jl"
+ - Path: "../xWut.jl"
 wut:
  - Language: Go
  - Path: "../wut"
@@ -13,3 +13,9 @@ wutj
 wutc
  - Language: c
  - Path: "../wutc"
+wutware
+ - Language: vhdl
+ - Path "../wutware"
+wuths
+ - Language: Haskell
+ - Path: "../whuths"
