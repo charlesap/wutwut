@@ -3,8 +3,10 @@ Wut.jl:
  Path: "../xWut.jl"
  SourceSubPath: "src"
  TestsSubPath: "tests"
- MainFileName: "Wut.jl"
- MainFileSubPath: "src"
+ MainModFileName: "Wut.jl"
+ MainModFileSubPath: "src"
+ MainBinFileName: "Izit.jl"
+ MainBinFileSubPath: "src"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wut:
@@ -12,8 +14,10 @@ wut:
  Path: "../wut"
  SourceSubPath: ""
  TestsSubPath: ""
- MainFileName: "wut.go"
- MainFileSubPath: ""  
+ MainModFileName: "wut.go"
+ MainModFileSubPath: ""  
+ MainBinFileName: "izit.go"
+ MainBinFileSubPath: ""    
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutpy:
@@ -21,8 +25,10 @@ wutpy:
  Path: "../wutpy"
  SourceSubPath: ""
  TestsSubPath: ""
- MainFileName: "wut.py"
- MainFileSubPath: ""  
+ MainModFileName: "wut.py"
+ MainModFileSubPath: ""  
+ MainBinFileName: "izit.py"
+ MainBinFileSubPath: ""    
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutj:
@@ -30,8 +36,10 @@ wutj:
  Path: "../wutj"
  SourceSubPath: ""
  TestsSubPath: ""
- MainFileName: "wut.java"
- MainFileSubPath: ""  
+ MainModFileName: "wut.java"
+ MainModFileSubPath: ""  
+ MainBinFileName: "izit.java"
+ MainBinFileSubPath: ""     
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutc:
@@ -39,8 +47,10 @@ wutc:
  Path: "../wutc"
  SourceSubPath: ""
  TestsSubPath: ""
- MainFileName: "wut.c"
- MainFileSubPath: ""  
+ MainModFileName: "wut.c"
+ MainModFileSubPath: ""  
+ MainBinFileName: "wut.c"      
+ MainBinFileSubPath: ""        
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutware:
@@ -48,8 +58,10 @@ wutware:
  Path: "../wutware"
  SourceSubPath: ""
  TestsSubPath: ""
- MainFileName: "wut.vhdl"
- MainFileSubPath: ""  
+ MainModFileName: "wut.vhdl"
+ MainModFileSubPath: ""  
+ MainBinFileName: "izit.vhdl"   
+ MainBinFileSubPath: ""        
  MainModuleName: "Wut"
  MainModuleRequirements:
 wuths:
@@ -57,8 +69,10 @@ wuths:
  Path: "../whuths"
  SourceSubPath: ""
  TestsSubPath: ""
- MainFileName: "wut.hs"
- MainFileSubPath: ""  
+ MainModFileName: "wut.hs"
+ MainModFileSubPath: ""  
+ MainBinFileName: "wut.hs"      
+ MainBinFileSubPath: ""         
  MainModuleName: "Wut"
  MainModuleRequirements:
 

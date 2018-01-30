@@ -2,46 +2,52 @@ import yaml
 import os
 from string import Template
 
-with open("Projects.yaml", 'r') as stream:
-    try:
-        projects = yaml.load(stream)
-    except yaml.YAMLError as exc:
-        print(exc)
-        exit()
+def getYamlFile(f):
+    with open(f, 'r') as stream:
+        try:
+            d = yaml.load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+            exit()
+    return d
 
-with open("Encoders.yaml", 'r') as stream:
-    try:                                  
-        encoders = yaml.load(stream)
-    except yaml.YAMLError as exc:
-        print(exc) 
-        exit()                       
+def checkProjectDirs(d):
+    src=os.path.join(d['Path'],d['SourceSubPath'])                               
+    tst=os.path.join(d['Path'],d['TestsSubPath'])                                
+    if not os.path.exists(d['Path']):                                            
+        os.makedirs(d['Path'])                                                      
+    if not os.path.exists(src):                                             
+        os.makedirs(src)                                                      
+    if not os.path.exists(tst):                                             
+        os.makedirs(tst)                                                      
 
-with open("Languages.yaml", 'r') as stream:
-    try:                                  
-        languages = yaml.load(stream)      
-    except yaml.YAMLError as exc:         
-        print(exc)                        
-        exit()                      
+def loadSourceFiles(d):
+    m=""
+    e={}
+
+    mfn=d['MainFileName']                                                  
+    mfloc=os.path.join(d['Path'],d['MainFileSubPath'],mfn)                 
+                                                                           
+    if not os.path.exists(mfloc):                                          
+        open(mfloc,'a').close()                                              
+
+    return (m,e)
+
+projects = getYamlFile("Projects.yaml")
+encoders = getYamlFile("Encoders.yaml")
+languages = getYamlFile("Languages.yaml")
 
 for p in projects.items():
-    print("\n\n---",p[0]) 
     d=p[1] 
-    lang=d['Language']
-    loc=d['Path']
-    src=os.path.join(loc,d['SourceSubPath'])
-    tst=os.path.join(loc,d['TestsSubPath'])
-    if not os.path.exists(loc):
-      os.makedirs(loc)
-    if not os.path.exists(src):
-      os.makedirs(src)
-    if not os.path.exists(tst):
-      os.makedirs(tst)
-    mfn=d['MainFileName']
-    mfloc=os.path.join(loc,d['MainFileSubPath'],mfn)
-    if not os.path.exists(mfloc):
-      print("-->",mfloc," does not exist.")
-      open(mfloc,'a').close()
-    fl=open(mfloc).readline().rstrip()
+
+    checkProjectDirs(d)
+    m, e = loadSourceFiles(d)
+
+
+#    fl=open(mfloc).readline().rstrip()
+
+
+
     l=languages[d['Language']]
     modstmt = Template(l['ModuleStart']).substitute(mn=d['MainModuleName'])
     print(modstmt)
