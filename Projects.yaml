@@ -7,6 +7,7 @@ Wut.jl:
  MainModFileSubPath: "src"
  MainBinFileName: "Izit.jl"
  MainBinFileSubPath: "src"
+ MainTestFileName: "test.jl"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wut:
@@ -18,6 +19,7 @@ wut:
  MainModFileSubPath: ""  
  MainBinFileName: "izit.go"
  MainBinFileSubPath: ""    
+ MainTestFileName: "test.go"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutpy:
@@ -29,6 +31,7 @@ wutpy:
  MainModFileSubPath: ""  
  MainBinFileName: "izit.py"
  MainBinFileSubPath: ""    
+ MainTestFileName: "test.py"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutj:
@@ -40,6 +43,7 @@ wutj:
  MainModFileSubPath: ""  
  MainBinFileName: "izit.java"
  MainBinFileSubPath: ""     
+ MainTestFileName: "test.java"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutc:
@@ -51,6 +55,7 @@ wutc:
  MainModFileSubPath: ""  
  MainBinFileName: "wut.c"      
  MainBinFileSubPath: ""        
+ MainTestFileName: "test.c"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutware:
@@ -62,6 +67,7 @@ wutware:
  MainModFileSubPath: ""  
  MainBinFileName: "izit.vhdl"   
  MainBinFileSubPath: ""        
+ MainTestFileName: "test.script"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wuths:
@@ -73,6 +79,7 @@ wuths:
  MainModFileSubPath: ""  
  MainBinFileName: "wut.hs"      
  MainBinFileSubPath: ""         
+ MainBinFileName: "test.hs"
  MainModuleName: "Wut"
  MainModuleRequirements:
 
