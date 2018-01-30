@@ -1,0 +1,10 @@
+General:
+ - CommandLineHelp
+ - SaneNoInputsError
+Encoders:
+ ScalarEncoder:
+  - Minimum
+  - Maximum
+  - FailOnEvenW
+  - NonCyclic
+  - Cyclic

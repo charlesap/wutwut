@@ -1,21 +1,64 @@
 Wut.jl:
- - Language: Julia
- - Path: "../xWut.jl"
+ Language: Julia
+ Path: "../xWut.jl"
+ SourceSubPath: "src"
+ TestsSubPath: "tests"
+ MainFileName: "Wut.jl"
+ MainFileSubPath: "src"
+ MainModuleName: "Wut"
+ MainModuleRequirements:
 wut:
- - Language: Go
- - Path: "../wut"
-wutpy
- - Language: Python
- - Path: "../wutpy"
-wutj
- - Language: Java
- - Path: "../wutj"
-wutc
- - Language: c
- - Path: "../wutc"
-wutware
- - Language: vhdl
- - Path "../wutware"
-wuths
- - Language: Haskell
- - Path: "../whuths"
+ Language: Go
+ Path: "../wut"
+ SourceSubPath: ""
+ TestsSubPath: ""
+ MainFileName: "wut.go"
+ MainFileSubPath: ""  
+ MainModuleName: "Wut"
+ MainModuleRequirements:
+wutpy:
+ Language: Python
+ Path: "../wutpy"
+ SourceSubPath: ""
+ TestsSubPath: ""
+ MainFileName: "wut.py"
+ MainFileSubPath: ""  
+ MainModuleName: "Wut"
+ MainModuleRequirements:
+wutj:
+ Language: Java
+ Path: "../wutj"
+ SourceSubPath: ""
+ TestsSubPath: ""
+ MainFileName: "wut.java"
+ MainFileSubPath: ""  
+ MainModuleName: "Wut"
+ MainModuleRequirements:
+wutc:
+ Language: c
+ Path: "../wutc"
+ SourceSubPath: ""
+ TestsSubPath: ""
+ MainFileName: "wut.c"
+ MainFileSubPath: ""  
+ MainModuleName: "Wut"
+ MainModuleRequirements:
+wutware:
+ Language: vhdl
+ Path: "../wutware"
+ SourceSubPath: ""
+ TestsSubPath: ""
+ MainFileName: "wut.vhdl"
+ MainFileSubPath: ""  
+ MainModuleName: "Wut"
+ MainModuleRequirements:
+wuths:
+ Language: Haskell
+ Path: "../whuths"
+ SourceSubPath: ""
+ TestsSubPath: ""
+ MainFileName: "wut.hs"
+ MainFileSubPath: ""  
+ MainModuleName: "Wut"
+ MainModuleRequirements:
+
