@@ -2,12 +2,13 @@ Wut.jl:
  Language: Julia
  Path: "../xWut.jl"
  SourceSubPath: "src"
- TestsSubPath: "tests"
+ TestsSubPath: "test"
+ MetaFileName: "REQUIRE"
  MainModFileName: "Wut.jl"
  MainModFileSubPath: "src"
  MainBinFileName: "Izit.jl"
  MainBinFileSubPath: "src"
- MainTestFileName: "test.jl"
+ MainTestFileName: "runtests.jl"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wut:
@@ -15,22 +16,24 @@ wut:
  Path: "../wut"
  SourceSubPath: ""
  TestsSubPath: ""
+ MetaFileName: ""
  MainModFileName: "wut.go"
  MainModFileSubPath: ""  
  MainBinFileName: "izit.go"
  MainBinFileSubPath: ""    
- MainTestFileName: "test.go"
+ MainTestFileName: "wut_test.go"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutpy:
  Language: Python
  Path: "../wutpy"
- SourceSubPath: ""
- TestsSubPath: ""
- MainModFileName: "wut.py"
- MainModFileSubPath: ""  
+ SourceSubPath: "wut"
+ TestsSubPath: "wut"
+ MetaFileName: "setup.py"
+ MainModFileName: "__init__.py"
+ MainModFileSubPath: "wut"  
  MainBinFileName: "izit.py"
- MainBinFileSubPath: ""    
+ MainBinFileSubPath: "wut"    
  MainTestFileName: "test.py"
  MainModuleName: "Wut"
  MainModuleRequirements:
@@ -39,6 +42,7 @@ wutj:
  Path: "../wutj"
  SourceSubPath: ""
  TestsSubPath: ""
+ MetaFileName: ""
  MainModFileName: "wut.java"
  MainModFileSubPath: ""  
  MainBinFileName: "izit.java"
@@ -51,9 +55,10 @@ wutc:
  Path: "../wutc"
  SourceSubPath: ""
  TestsSubPath: ""
+ MetaFileName: ""
  MainModFileName: "wut.c"
  MainModFileSubPath: ""  
- MainBinFileName: "wut.c"      
+ MainBinFileName: "izit.c"      
  MainBinFileSubPath: ""        
  MainTestFileName: "test.c"
  MainModuleName: "Wut"
@@ -63,6 +68,7 @@ wutware:
  Path: "../wutware"
  SourceSubPath: ""
  TestsSubPath: ""
+ MetaFileName: ""
  MainModFileName: "wut.vhdl"
  MainModFileSubPath: ""  
  MainBinFileName: "izit.vhdl"   
@@ -72,14 +78,28 @@ wutware:
  MainModuleRequirements:
 wuths:
  Language: Haskell
- Path: "../whuths"
+ Path: "../wuths"
  SourceSubPath: ""
  TestsSubPath: ""
+ MetaFileName: ""
  MainModFileName: "wut.hs"
  MainModFileSubPath: ""  
- MainBinFileName: "wut.hs"      
+ MainBinFileName: "izit.hs"      
  MainBinFileSubPath: ""         
- MainBinFileName: "test.hs"
+ MainTestFileName: "test.hs"
  MainModuleName: "Wut"
  MainModuleRequirements:
+wutjs:                          
+ Language: Javascript              
+ Path: "../wutjs"              
+ SourceSubPath: ""              
+ TestsSubPath: ""               
+ MetaFileName: "package.json"
+ MainModFileName: "index.js"      
+ MainModFileSubPath: ""         
+ MainBinFileName: "izit.js"      
+ MainBinFileSubPath: ""         
+ MainTestFileName: "test.js"     
+ MainModuleName: "Wut"          
+ MainModuleRequirements:        
 

@@ -1,57 +1,118 @@
 Julia:
+ Comment: "#"
  ModuleStart: "module ${mn}"
  ModuleEnd: "end # module"
  MainStart: "function  main(args)"
  MainEnd: "end\nexport main"         
+ EncoderFileName: "${en}.jl"
  ImportStart: ""
  ImportEnd: ""
  ImportElement: "include(\"${inm}\")"
+ MetaText: "Julia 0.6"
 Go:
+ Comment: "//"
  ModuleStart: "package ${mn}"
  ModuleEnd: ""
  MainStart: "func  main()"
  MainEnd: "}"         
+ EncoderFileName: "${en}.go"
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import \"${inm}\""
+ MetaText: ""
 Python:
+ Comment: "#"
  ModuleStart: "# ${mn} module"
  ModuleEnd: ""
  MainStart: "if __name__ ==  'main':"
  MainEnd: ""         
+ EncoderFileName: "${en}.py"
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import ${inm}"
+ MetaText: ""
 Java:
- ModuleStart: "public class ${mn} {"
- ModuleEnd: "}"
+ Comment: "//"
+ ModuleStart: "package ${mn};"
+ ModuleEnd: ""
  MainStart: "public static  main( String[] args ){"
  MainEnd: "}"         
+ EncoderFileName: "${en}.java"
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import ${inm};"
+ MetaText: ""
 c:
+ Comment: "//"
  ModuleStart: "# implementing ${mn}"
  ModuleEnd: "# end of implementation"
  MainStart: "void  main(void){"
  MainEnd: "}"         
+ EncoderFileName: "${en}.c"
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import ${inm}"
+ MetaText: ""
 vhdl:
+ Comment: "--"
  ModuleStart: "entity ${mn} is\nend;"
  ModuleEnd: ""
  MainStart: "architecture ${mn} is\nbegin\n"
  MainEnd: "end ${mn};"         
+ EncoderFileName: "${en}.vhdl"
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "use ${inm};"
+ MetaText: ""
 Haskell:
+ Comment: "--"
  ModuleStart: "module ${mn}"
  ModuleEnd: "end # module"
  MainStart: "main = do"
  MainEnd: ""         
+ EncoderFileName: "${en}.hs"
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import ${inm}"
+ MetaText: ""
+Javascript:                                           
+ Comment: "//"
+ ModuleStart: "module ${mn}"                       
+ ModuleEnd: "end # module"                  
+ MainStart: "main = do"                     
+ MainEnd: ""                                
+ EncoderFileName: "${en}.js"
+ ImportStart: ""                            
+ ImportEnd: ""                              
+ ImportElement: "import ${inm}"             
+ MetaText: '{
+  "name": "wutjs",
+  "version": "0.0.0",
+  "description": "A sample Node.js app using Express 4",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "engines": {
+    "node": "4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charlesap/wutjs"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "author": "Charles Perkins",
+  "contributors": [
+    "Some Body <somebody@somewhere.com> (http://somewhere.com)"
+  ],
+  "license": "MIT"
+  }'
+
 
