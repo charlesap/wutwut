@@ -14,12 +14,15 @@ def getYamlFile(f):
 def checkProjectDirs(d):
     src=os.path.join(d['Path'],d['SourceSubPath'])                               
     tst=os.path.join(d['Path'],d['TestsSubPath'])                                
+    bin=os.path.join(d['Path'],d['MainBinFileSubPath'])
     if not os.path.exists(d['Path']):                                            
         os.makedirs(d['Path'])                                                      
     if not os.path.exists(src):                                             
         os.makedirs(src)                                                      
     if not os.path.exists(tst):                                             
         os.makedirs(tst)                                                      
+    if not os.path.exists(bin):
+        os.makedirs(bin)
 
 def checkTheFile(fn):
 
@@ -59,9 +62,51 @@ def updateTopComment(fn,l):
 #      tl=t.split('\n')
 #      fl=f[1].split('\n')
 #    return changed
-    
 
+def updateStartModule(fn,l,d):    
+    s=open(fn,'r').read()
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['ModuleStart']).substitute(mn=d['MainModuleName'])+'\n')
 
+def updateEndModule(fn,l,d):
+    s=open(fn,'r').read()
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['ModuleEnd']).substitute(mn=d['MainModuleName'])+'\n' )
+
+def updateImportMain(fn,l,d):                                                          
+    s=open(fn,'r').read()                                                             
+    with open(fn,'w') as tc:                                                          
+        tc.write(s+'\n')                                                              
+        tc.write( Template(l['MainFuncImport']).substitute(mn=d['MainModuleName'])+'\n' )  
+                                                                                      
+def updateStartMain(fn,l,d):                                                          
+    s=open(fn,'r').read()                                                             
+    with open(fn,'w') as tc:                                                          
+        tc.write(s+'\n')                                                              
+        tc.write( Template(l['MainStart']).substitute(mn=d['MainModuleName'])+'\n' )  
+                                                                                      
+def updatePreambleMain(fn,l,d):                                                          
+    s=open(fn,'r').read()                                                             
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['MainFuncPreamble']).substitute(mn=d['MainModuleName'])+'\n' ) 
+                                                                                     
+def updateEndMain(fn,l,d):                                                            
+    s=open(fn,'r').read()                                                             
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')                                                                                      
+        tc.write( Template(l['MainEnd']).substitute(mn=d['MainModuleName'])+'\n' )
+                                                                                           
+def updateContains(fn,l,d,cn,cd):                                                                 
+    s=open(fn,'r').read()                                                                  
+    with open(fn,'w') as tc:                                                               
+        tc.write(s+'\n') 
+        tc.write('type '+cn+' struct {\n')
+        for c in cd:                                                                  
+          tc.write( '    ' + c +'\n' )         
+        tc.write('}\n')
 
 projects = getYamlFile("Projects.yaml")
 encoders = getYamlFile("Encoders.yaml")
@@ -76,15 +121,36 @@ for p in projects.items():
     checkProjectDirs(d)                                                                                 
     checkSourceFiles(d,l,encoders)
 
-    updateTheLicense(os.path.join(d['Path'],"LICENSE"))
-    updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],d['MainModFileName']),l)
-    updateTopComment(os.path.join(d['Path'],d['MainBinFileSubPath'],d['MainBinFileName']),l)
-    updateTopComment(os.path.join(d['Path'],d['TestsSubPath'],d['MainTestFileName']),l)
+    licf=os.path.join(d['Path'],"LICENSE")
+    modf=os.path.join(d['Path'],d['MainModFileSubPath'],d['MainModFileName'])
+    binf=os.path.join(d['Path'],d['MainBinFileSubPath'],d['MainBinFileName'])
+    tstf=os.path.join(d['Path'],d['TestsSubPath'],d['MainTestFileName'])
+
+    updateTheLicense(licf)
+    updateTopComment(modf,l)
+    updateTopComment(binf,l)
+    updateTopComment(tstf,l)
+
+    updateStartModule(modf,l,d)
+    updateEndModule(modf,l,d)
+
+    updateImportMain(binf,l,d)
+    updateStartMain(binf,l,d)
+    updatePreambleMain(binf,l,d)                                                             
+    updateEndMain(binf,l,d)                                                               
+
     for i in encoders.items():                                                        
         enc=i[1]                                                                      
         encfn = Template(l['EncoderFileName']).substitute(en=i[0])                    
         updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l)
-        
+        updateStartModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)        
+        if 'Contains' in enc:
+          updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d,i[0],enc['Contains'])
+
+        updateEndModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)
+
+
+
 
 #    fl=open(mfloc).readline().rstrip()
 

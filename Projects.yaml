@@ -15,12 +15,12 @@ wut:
  Language: Go
  Path: "../wut"
  SourceSubPath: ""
- TestsSubPath: ""
+ TestsSubPath: "test"
  MetaFileName: ""
  MainModFileName: "wut.go"
  MainModFileSubPath: ""  
  MainBinFileName: "izit.go"
- MainBinFileSubPath: ""    
+ MainBinFileSubPath: "cmd"    
  MainTestFileName: "wut_test.go"
  MainModuleName: "Wut"
  MainModuleRequirements:
