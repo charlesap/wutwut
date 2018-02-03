@@ -75,6 +75,18 @@ def updateEndModule(fn,l,d):
         tc.write(s+'\n')
         tc.write( Template(l['ModuleEnd']).substitute(mn=d['MainModuleName'])+'\n' )
 
+def updateStartInitModule(fn,l,d):                                                        
+    s=open(fn,'r').read()                                                             
+    with open(fn,'w') as tc:                                                          
+        tc.write(s+'\n')                                                              
+        tc.write( Template(l['ModuleInitStart']).substitute(mn=d['MainModuleName'])+'\n') 
+                                                                                      
+def updateEndInitModule(fn,l,d):                                                          
+    s=open(fn,'r').read()                                                             
+    with open(fn,'w') as tc:                                                          
+        tc.write(s+'\n')                                                              
+        tc.write( Template(l['ModuleInitEnd']).substitute(mn=d['MainModuleName'])+'\n' )  
+                                                                                      
 def updateImportMain(fn,l,d):                                                          
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:                                                          
@@ -100,13 +112,17 @@ def updateEndMain(fn,l,d):
         tc.write( Template(l['MainEnd']).substitute(mn=d['MainModuleName'])+'\n' )
                                                                                            
 def updateContains(fn,l,d,cn,cd):                                                                 
-    s=open(fn,'r').read()                                                                  
+    s=open(fn,'r').read()  
+                                                               
     with open(fn,'w') as tc:                                                               
         tc.write(s+'\n') 
-        tc.write('type '+cn+' struct {\n')
-        for c in cd:                                                                  
-          tc.write( '    ' + c +'\n' )         
-        tc.write('}\n')
+        tc.write( Template(l['StructStart']).substitute(snm=cn)+'\n')
+        for c in cd:  
+          t=c[1]
+          if c[1] in l['Typemap']:
+             t=l['Typemap'][c[1]]                                                                
+          tc.write( '    ' + c[0] + ' ' + t +'\n' )         
+        tc.write(Template(l['StructEnd']).substitute(snm=cn)+'\n')
 
 projects = getYamlFile("Projects.yaml")
 encoders = getYamlFile("Encoders.yaml")
@@ -132,6 +148,8 @@ for p in projects.items():
     updateTopComment(tstf,l)
 
     updateStartModule(modf,l,d)
+    updateStartInitModule(modf,l,d)
+    updateEndInitModule(modf,l,d)
     updateEndModule(modf,l,d)
 
     updateImportMain(binf,l,d)
@@ -144,6 +162,8 @@ for p in projects.items():
         encfn = Template(l['EncoderFileName']).substitute(en=i[0])                    
         updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l)
         updateStartModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)        
+#        updateStartInitModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)       
+#        updateEndInitModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)       
         if 'Contains' in enc:
           updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d,i[0],enc['Contains'])
 

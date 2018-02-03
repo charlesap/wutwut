@@ -22,7 +22,7 @@ wut:
  MainBinFileName: "izit.go"
  MainBinFileSubPath: "cmd"    
  MainTestFileName: "wut_test.go"
- MainModuleName: "Wut"
+ MainModuleName: "wut"
  MainModuleRequirements:
 wutpy:
  Language: Python

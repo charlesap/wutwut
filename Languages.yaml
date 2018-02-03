@@ -2,6 +2,8 @@ Julia:
  Comment: "#"
  ModuleStart: "module ${mn}"
  ModuleEnd: "end # module"
+ ModuleInitStart: "function Initialize()"                       
+ ModuleInitEnd: ""                                                                       
  MainStart: "function  main(args)"
  MainFuncImport: ""
  MainFuncPreamble: ""
@@ -10,24 +12,43 @@ Julia:
  ImportStart: ""
  ImportEnd: ""
  ImportElement: "include(\"${inm}\")"
+ StructStart: "julia ${snm} is "
+ StructEnd: ""
+ StructElement: "${enm} ${etp}"              
  MetaText: "Julia 0.6"
+ Typemap:                      
+    Int64: Int64
+    Float64: Float64
+    AbstractString: AbstractString
 Go:
  Comment: "//"
  ModuleStart: "package ${mn}"
  ModuleEnd: ""
+ ModuleInitStart: "func Initialize(){"
+ ModuleInitEnd: "}"
  MainStart: "func  main(){"
  MainFuncImport: "package main\n\nimport \"fmt\"\nimport \"github.com/charlesap/wut\"\n\n"         
- MainFuncPreamble: "  fmt.Println(\"izit version 0.0.0\")"                 
+ MainFuncPreamble: "  wut.Initialize()\n  fmt.Println(\"izit version 0.0.0\")"                 
  MainEnd: "}"         
  EncoderFileName: "${en}.go"
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import \"${inm}\""
+ StructStart: "type ${snm} struct {"
+ StructEnd: "}"
+ StructElement: "${enm} ${etp}"
  MetaText: ""
+ Typemap:
+    Int64: int64
+    Float64: float64
+    AbstractString: string
+    Bool: bool
 Python:
  Comment: "#"
  ModuleStart: "# ${mn} module"
  ModuleEnd: ""
+ ModuleInitStart: "function Initialize()"                       
+ ModuleInitEnd: ""                                  
  MainStart: "if __name__ ==  'main':"
  MainFuncImport: ""         
  MainFuncPreamble: ""                 
@@ -36,11 +57,20 @@ Python:
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import ${inm}"
+ StructStart: "type ${snm} struct {"
+ StructEnd: "}"
+ StructElement: "${enm} ${etp}"              
  MetaText: ""
+ Typemap:                      
+    Int64: integer             
+    Float64: float
+    AbstractString: string
 Java:
  Comment: "//"
  ModuleStart: "package ${mn};"
  ModuleEnd: ""
+ ModuleInitStart: "void Initialize(void){"                       
+ ModuleInitEnd: "}"                                  
  MainStart: "public static  main( String[] args ){"
  MainFuncImport: ""         
  MainFuncPreamble: ""                 
@@ -49,11 +79,20 @@ Java:
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import ${inm};"
+ StructStart: "type ${snm} struct {"
+ StructEnd: "}"
+ StructElement: "${enm} ${etp}"              
  MetaText: ""
+ Typemap:                      
+    Int64: integer             
+    Float64: float
+    AbstractString: string
 c:
  Comment: "//"
  ModuleStart: "# implementing ${mn}"
  ModuleEnd: "# end of implementation"
+ ModuleInitStart: "void Initialize(void){"                       
+ ModuleInitEnd: "}"                                  
  MainStart: "void  main(void){"
  MainFuncImport: ""         
  MainFuncPreamble: ""                 
@@ -62,11 +101,20 @@ c:
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import ${inm}"
+ StructStart: "type ${snm} struct {"
+ StructEnd: "}"
+ StructElement: "${enm} ${etp}"              
  MetaText: ""
+ Typemap:                      
+    Int64: integer             
+    Float64: float
+    AbstractString: string
 vhdl:
  Comment: "--"
  ModuleStart: "entity ${mn} is\nend;"
  ModuleEnd: ""
+ ModuleInitStart: "Initialize is\nbegin\n"                       
+ ModuleInitEnd: "end"                                  
  MainStart: "architecture ${mn} is\nbegin\n"
  MainFuncImport: ""         
  MainFuncPreamble: ""                 
@@ -75,11 +123,20 @@ vhdl:
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "use ${inm};"
+ StructStart: "type ${snm} struct {"
+ StructEnd: "}"
+ StructElement: "${enm} ${etp}"              
  MetaText: ""
+ Typemap:                      
+    Int64: integer             
+    Float64: float
+    AbstractString: string
 Haskell:
  Comment: "--"
  ModuleStart: "module ${mn}"
  ModuleEnd: "end # module"
+ ModuleInitStart: "Initialize = do"                       
+ ModuleInitEnd: ""                                  
  MainStart: "main = do"
  MainFuncImport: ""         
  MainFuncPreamble: ""                 
@@ -88,11 +145,20 @@ Haskell:
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "import ${inm}"
+ StructStart: "type ${snm} struct {"
+ StructEnd: "}"
+ StructElement: "${enm} ${etp}"              
  MetaText: ""
+ Typemap:                      
+    Int64: integer             
+    Float64: float
+    AbstractString: string
 Javascript:                                           
  Comment: "//"
  ModuleStart: "module ${mn}"                       
  ModuleEnd: "end # module"                  
+ ModuleInitStart: "function Initialize()"                       
+ ModuleInitEnd: ""                                  
  MainStart: "main = do"                     
  MainFuncImport: ""         
  MainFuncPreamble: ""                 
@@ -101,6 +167,9 @@ Javascript:
  ImportStart: ""                            
  ImportEnd: ""                              
  ImportElement: "import ${inm}"             
+ StructStart: "type ${snm} struct {"
+ StructEnd: "}"
+ StructElement: "${enm} ${etp}"              
  MetaText: '{
   "name": "wutjs",
   "version": "0.0.0",
@@ -130,5 +199,9 @@ Javascript:
   ],
   "license": "MIT"
   }'
+ Typemap:                      
+    Int64: integer             
+    Float64: float
+    AbstractString: string
 
 
