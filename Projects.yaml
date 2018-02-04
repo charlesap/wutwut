@@ -14,7 +14,7 @@ Wut.jl:
  MainModuleRequirements:
 wut:
  Language: Go
- Path: "../wut"
+ Path: "../wutgo"
  SourceSubPath: ""
  TestsSubPath: "test"
  MetaFileName: ""

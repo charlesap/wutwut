@@ -175,9 +175,12 @@ for p in projects.items():
 
     if moddfn != "":
         updateTopComment(moddfp,l)                                                                             
-        updateDefRefs(moddfp,l,d,encoders.items())
-    else:
-        updateDefRefs(modifp,l,d,encoders.items())
+
+    if l['HasImplicitImports'] == "No":
+        if moddfn != "":
+            updateDefRefs(moddfp,l,d,encoders.items())
+        else:
+            updateDefRefs(modifp,l,d,encoders.items())
 
     updateStartInitModule(modifp,l,d)
     updateEndInitModule(modifp,l,d)
