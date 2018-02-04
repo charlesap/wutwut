@@ -5,11 +5,11 @@ Wut.jl:
  TestsSubPath: "test"
  MetaFileName: "REQUIRE"
  MainDefFileName: ""
- MainModFileName: "Wut.jl"
+ MainModFileName: "Wut"
  MainModFileSubPath: "src"
- MainBinFileName: "Izit.jl"
+ MainBinFileName: "Izit"
  MainBinFileSubPath: "src"
- MainTestFileName: "runtests.jl"
+ MainTestFileName: "runtests"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wut:
@@ -19,11 +19,11 @@ wut:
  TestsSubPath: "test"
  MetaFileName: ""
  MainDefFileName: ""
- MainModFileName: "wut.go"
+ MainModFileName: "wut"
  MainModFileSubPath: ""  
- MainBinFileName: "izit.go"
+ MainBinFileName: "izit"
  MainBinFileSubPath: "cmd"    
- MainTestFileName: "wut_test.go"
+ MainTestFileName: "wut_test"
  MainModuleName: "wut"
  MainModuleRequirements:
 wutpy:
@@ -33,11 +33,11 @@ wutpy:
  TestsSubPath: "wut"
  MetaFileName: "setup.py"
  MainDefFileName: ""
- MainModFileName: "__init__.py"
+ MainModFileName: "__init__"
  MainModFileSubPath: "wut"  
- MainBinFileName: "izit.py"
+ MainBinFileName: "izit"
  MainBinFileSubPath: "wut"    
- MainTestFileName: "test.py"
+ MainTestFileName: "test"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutj:
@@ -47,11 +47,11 @@ wutj:
  TestsSubPath: ""
  MetaFileName: ""
  MainDefFileName: ""
- MainModFileName: "wut.java"
+ MainModFileName: "wut"
  MainModFileSubPath: ""  
- MainBinFileName: "izit.java"
+ MainBinFileName: "izit"
  MainBinFileSubPath: ""     
- MainTestFileName: "test.java"
+ MainTestFileName: "test"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutc:
@@ -60,14 +60,42 @@ wutc:
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
- MainDefFileName: "wut.h"
- MainModFileName: "wut.c"
+ MainDefFileName: "wut"
+ MainModFileName: "wut"
  MainModFileSubPath: ""  
- MainBinFileName: "izit.c"      
+ MainBinFileName: "izit"      
  MainBinFileSubPath: ""        
- MainTestFileName: "test.c"
- MainModuleName: "Wut"
+ MainTestFileName: "test"
+ MainModuleName: "wut"
  MainModuleRequirements:
+wutrs:                        
+ Language: rust                 
+ Path: "../wutrs"             
+ SourceSubPath: ""           
+ TestsSubPath: ""            
+ MetaFileName: ""            
+ MainDefFileName: "wut"      
+ MainModFileName: "wut"      
+ MainModFileSubPath: ""      
+ MainBinFileName: "izit"     
+ MainBinFileSubPath: ""      
+ MainTestFileName: "test"    
+ MainModuleName: "wut"      
+ MainModuleRequirements:    
+wutcs:                       
+ Language: csharp              
+ Path: "../wutcs"            
+ SourceSubPath: ""           
+ TestsSubPath: ""            
+ MetaFileName: ""            
+ MainDefFileName: "wut"      
+ MainModFileName: "wut"      
+ MainModFileSubPath: ""     
+ MainBinFileName: "izit"    
+ MainBinFileSubPath: ""     
+ MainTestFileName: "test"   
+ MainModuleName: "wut"      
+ MainModuleRequirements:    
 wutware:
  Language: vhdl
  Path: "../wutware"
@@ -75,11 +103,11 @@ wutware:
  TestsSubPath: ""
  MetaFileName: ""
  MainDefFileName: ""
- MainModFileName: "wut.vhdl"
+ MainModFileName: "wut"
  MainModFileSubPath: ""  
- MainBinFileName: "izit.vhdl"   
+ MainBinFileName: "izit"   
  MainBinFileSubPath: ""        
- MainTestFileName: "test.script"
+ MainTestFileName: "test"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wuths:
@@ -89,11 +117,11 @@ wuths:
  TestsSubPath: ""
  MetaFileName: ""
  MainDefFileName: ""
- MainModFileName: "wut.hs"
+ MainModFileName: "wut"
  MainModFileSubPath: ""  
- MainBinFileName: "izit.hs"      
+ MainBinFileName: "izit"      
  MainBinFileSubPath: ""         
- MainTestFileName: "test.hs"
+ MainTestFileName: "test"
  MainModuleName: "Wut"
  MainModuleRequirements:
 wutjs:                          
@@ -103,11 +131,11 @@ wutjs:
  TestsSubPath: ""               
  MetaFileName: "package.json"
  MainDefFileName: ""
- MainModFileName: "index.js"      
+ MainModFileName: "index"      
  MainModFileSubPath: ""         
- MainBinFileName: "izit.js"      
+ MainBinFileName: "izit"      
  MainBinFileSubPath: ""         
- MainTestFileName: "test.js"     
+ MainTestFileName: "test"     
  MainModuleName: "Wut"          
  MainModuleRequirements:        
 

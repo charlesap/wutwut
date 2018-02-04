@@ -33,9 +33,15 @@ def checkSourceFiles(d,l,encoders):
 
     checkTheFile(os.path.join(d['Path'],"LICENSE"))
     checkTheFile(os.path.join(d['Path'],d['MetaFileName']))
-    checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],d['MainModFileName']))                                             
-    checkTheFile(os.path.join(d['Path'],d['MainBinFileSubPath'],d['MainBinFileName']))
-    checkTheFile(os.path.join(d['Path'],d['TestsSubPath'],d['MainTestFileName']))
+    moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])                       
+    modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])                       
+    binfn = Template(l['ImpFileName']).substitute(en=d['MainBinFileName'])
+    tstfn = Template(l['ImpFileName']).substitute(en=d['MainTestFileName'])
+    checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],modifn))
+    if moddfn != "":
+        checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],moddfn))                                             
+    checkTheFile(os.path.join(d['Path'],d['MainBinFileSubPath'],binfn))
+    checkTheFile(os.path.join(d['Path'],d['TestsSubPath'],tstfn))
     for i in encoders.items():
         enc=i[1]
         encdfn = Template(l['DefFileName']).substitute(en=i[0])
@@ -127,6 +133,17 @@ def updateContains(fn,l,d,cn,cd):
           tc.write( '    ' + Template(l['StructElement']).substitute(enm=c[0],etp=t) +'\n' )         
         tc.write(Template(l['StructEnd']).substitute(snm=cn)+'\n')
 
+def updateDefRefs(fn,l,d,encl):                                                                                      
+    s=open(fn,'r').read()                                                                                              
+                                                                                                                       
+    with open(fn,'w') as tc:                                                                                           
+        tc.write(s+'\n')                                                                                               
+        
+        for i in encl:
+          t=i[0]                                                                                                       
+          
+          tc.write( Template(l['ImportElement']).substitute(inm=t) +'\n' )
+                                                                                                                       
 projects = getYamlFile("Projects.yaml")
 encoders = getYamlFile("Encoders.yaml")
 languages = getYamlFile("Languages.yaml")
@@ -141,19 +158,30 @@ for p in projects.items():
     checkSourceFiles(d,l,encoders)
 
     licf=os.path.join(d['Path'],"LICENSE")
-    modf=os.path.join(d['Path'],d['MainModFileSubPath'],d['MainModFileName'])
-    binf=os.path.join(d['Path'],d['MainBinFileSubPath'],d['MainBinFileName'])
-    tstf=os.path.join(d['Path'],d['TestsSubPath'],d['MainTestFileName'])
+    moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])           
+    modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])           
+    moddfp=os.path.join(d['Path'],d['MainModFileSubPath'],moddfn)
+    modifp=os.path.join(d['Path'],d['MainModFileSubPath'],modifn)
+
+    binf=os.path.join(d['Path'],d['MainBinFileSubPath'],Template(l['ImpFileName']).substitute(en=d['MainBinFileName']))
+    tstf=os.path.join(d['Path'],d['TestsSubPath'],Template(l['ImpFileName']).substitute(en=d['MainTestFileName']))
 
     updateTheLicense(licf)
-    updateTopComment(modf,l)
+    updateTopComment(modifp,l)
     updateTopComment(binf,l)
     updateTopComment(tstf,l)
 
-    updateStartModule(modf,l,d)
-    updateStartInitModule(modf,l,d)
-    updateEndInitModule(modf,l,d)
-    updateEndModule(modf,l,d)
+    updateStartModule(modifp,l,d)
+
+    if moddfn != "":
+        updateTopComment(moddfp,l)                                                                             
+        updateDefRefs(moddfp,l,d,encoders.items())
+    else:
+        updateDefRefs(modifp,l,d,encoders.items())
+
+    updateStartInitModule(modifp,l,d)
+    updateEndInitModule(modifp,l,d)
+    updateEndModule(modifp,l,d)
 
     updateImportMain(binf,l,d)
     updateStartMain(binf,l,d)

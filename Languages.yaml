@@ -105,7 +105,7 @@ c:
  ImpFileName: "${en}.c"
  ImportStart: ""
  ImportEnd: ""               
- ImportElement: "import ${inm}"
+ ImportElement: "#include \"${inm}\""
  StructStart: "struct ${snm} {"
  StructEnd: "};"
  StructElement: "${etp} ${enm};"              
@@ -114,6 +114,52 @@ c:
     Int64: int             
     Float64: float
     AbstractString: string
+rust:                                                                                        
+ Comment: "//"                                                                            
+ ModuleStart: "// implementing ${mn}"                                                     
+ ModuleEnd: "// end of implementation"                                                    
+ ModuleInitStart: "void Initialize(void){"                                                
+ ModuleInitEnd: "}"                                                                       
+ MainStart: "fn main(){"                                                           
+ MainFuncImport: "\n\n#include <stdio.h>\n#include \"wut.h\"\n"                           
+ MainFuncPreamble: "  Initialize()\n  println(\"izit version 0.0.0\")"                     
+ MainEnd: "}"                                                                             
+ DefFileName: ""                                                                   
+ ImpFileName: "${en}.rs"                                                                   
+ ImportStart: ""                                                                          
+ ImportEnd: ""                                                                            
+ ImportElement: "use ${inm}"                                                     
+ StructStart: "struct ${snm} {"                                                           
+ StructEnd: "};"                                                                          
+ StructElement: "${enm}: ${etp},"                                                          
+ MetaText: ""                                                                             
+ Typemap:                                                                                 
+    Int64: i64                                                                            
+    Float64: f64                                                                        
+    AbstractString: str                                                               
+csharp:                                                                                     
+ Comment: "//"                                                                            
+ ModuleStart: "namespace ${mn}{"                                                     
+ ModuleEnd: "}// ${mn}"                                                    
+ ModuleInitStart: "static void Initialize(void){"                                                
+ ModuleInitEnd: "}"                                                                       
+ MainStart: "  class binaryname{\n    static void main(){"                                                                  
+ MainFuncImport: "\n\nusing system;\nusing wut;\n"                           
+ MainFuncPreamble: "  Initialize()\n  Console.WriteLine(\"izit version 0.0.0\");"                    
+ MainEnd: "  }\n    }"                                                                             
+ DefFileName: ""                                                                          
+ ImpFileName: "${en}.cs"                                                                  
+ ImportStart: ""                                                                          
+ ImportEnd: ""                                                                            
+ ImportElement: "using ${inm}"                                                              
+ StructStart: "struct ${snm} {"                                                           
+ StructEnd: "};"                                                                          
+ StructElement: "${enm}: ${etp},"                                                         
+ MetaText: ""                                                                             
+ Typemap:                                                                                 
+    Int64: i64                                                                            
+    Float64: f64                                                                          
+    AbstractString: str                                                                   
 vhdl:
  Comment: "--"
  ModuleStart: "entity ${mn} is\nend;"
