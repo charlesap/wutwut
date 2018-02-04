@@ -38,8 +38,11 @@ def checkSourceFiles(d,l,encoders):
     checkTheFile(os.path.join(d['Path'],d['TestsSubPath'],d['MainTestFileName']))
     for i in encoders.items():
         enc=i[1]
-        encfn = Template(l['EncoderFileName']).substitute(en=i[0])
-        checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],encfn))
+        encdfn = Template(l['DefFileName']).substitute(en=i[0])
+        encifn = Template(l['ImpFileName']).substitute(en=i[0])
+        checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],encifn))
+        if encdfn != "":
+          checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn))
 
 def updateTheLicense(fn):
     l=open('LICENSE','r').read()
@@ -121,7 +124,7 @@ def updateContains(fn,l,d,cn,cd):
           t=c[1]
           if c[1] in l['Typemap']:
              t=l['Typemap'][c[1]]                                                                
-          tc.write( '    ' + c[0] + ' ' + t +'\n' )         
+          tc.write( '    ' + Template(l['StructElement']).substitute(enm=c[0],etp=t) +'\n' )         
         tc.write(Template(l['StructEnd']).substitute(snm=cn)+'\n')
 
 projects = getYamlFile("Projects.yaml")
@@ -159,15 +162,22 @@ for p in projects.items():
 
     for i in encoders.items():                                                        
         enc=i[1]                                                                      
-        encfn = Template(l['EncoderFileName']).substitute(en=i[0])                    
-        updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l)
-        updateStartModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)        
-#        updateStartInitModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)       
-#        updateEndInitModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)       
-        if 'Contains' in enc:
-          updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d,i[0],enc['Contains'])
+        encdfn = Template(l['DefFileName']).substitute(en=i[0])                    
+        encifn = Template(l['ImpFileName']).substitute(en=i[0])                      
+        updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l)
+        if encdfn != "":
+          updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l)
 
-        updateEndModule(os.path.join(d['Path'],d['MainModFileSubPath'],encfn),l,d)
+        updateStartModule(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d)        
+       
+        if 'Contains' in enc:
+          if encdfn == "":
+            updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d,i[0],enc['Contains'])
+          else:
+            updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l,d,i[0],enc['Contains'])
+
+
+        updateEndModule(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d)
 
 
 
