@@ -116,7 +116,7 @@ c:
  ModuleInitEnd: "}"                                  
  MainStart: "void  main(void){"
  MainFuncImport: "\n\n#include <stdio.h>\n#include \"wut.h\"\n"         
- MainFuncPreamble: "  Initialize();\n  printf(\"izit version 0.0.0\");"                 
+ MainFuncPreamble: "  Initialize();\n  printf(\"izit version 0.0.0\\n\");"                 
  MainEnd: "}"         
  HasImplicitImports: "No"            
  DefFileName: "${en}.h"
