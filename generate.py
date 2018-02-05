@@ -43,6 +43,7 @@ def checkSourceFiles(d,l,encoders):
     checkTheFile(os.path.join(d['Path'],d['MainBinFileSubPath'],binfn))
     checkTheFile(os.path.join(d['Path'],d['TestsSubPath'],tstfn))
     for i in encoders.items():
+      if i[0]!="_top_":
         enc=i[1]
         encdfn = Template(l['DefFileName']).substitute(en=i[0])
         encifn = Template(l['ImpFileName']).substitute(en=i[0])
@@ -133,18 +134,23 @@ def updateContains(fn,l,d,cn,cd):
           tc.write( '    ' + Template(l['StructElement']).substitute(enm=c[0],etp=t) +'\n' )         
         tc.write(Template(l['StructEnd']).substitute(snm=cn)+'\n')
 
-def updateDefRefs(fn,l,d,encl):                                                                                      
+def updateDefRefs(fn,l,d,encl,enci):                                                                                      
     s=open(fn,'r').read()                                                                                              
                                                                                                                        
     with open(fn,'w') as tc:                                                                                           
         tc.write(s+'\n')                                                                                               
         
         for i in encl:
-          if l['DefFileName']=="":
-            t=Template(l['ImpFileName']).substitute(en=i[0])                  
-          else:                                                                                     
-            t=Template(l['DefFileName']).substitute(en=i[0])
-          tc.write( Template(l['ImportElement']).substitute(inm=t) +'\n' )
+          if i[0]!="_top_":
+
+            if l['HasImplicitImports'] == "No" or i[0] not in enci:
+              print(enci[i[0]],"\n\n")
+
+              if l['DefFileName']=="":
+                t=Template(l['ImpFileName']).substitute(en=i[0])                  
+              else:                                                                                     
+                t=Template(l['DefFileName']).substitute(en=i[0])
+              tc.write( Template(l['ImportElement']).substitute(inm=t) +'\n' )
                                                                                                                        
 projects = getYamlFile("Projects.yaml")
 encoders = getYamlFile("Encoders.yaml")
@@ -180,9 +186,9 @@ for p in projects.items():
 
     if l['HasImplicitImports'] == "No":
         if moddfn != "":
-            updateDefRefs(moddfp,l,d,encoders.items())
+            updateDefRefs(moddfp,l,d,encoders.items(),encoders)
         else:
-            updateDefRefs(modifp,l,d,encoders.items())
+            updateDefRefs(modifp,l,d,encoders.items(),encoders)
 
     updateStartInitModule(modifp,l,d)
     updateEndInitModule(modifp,l,d)
@@ -194,6 +200,7 @@ for p in projects.items():
     updateEndMain(binf,l,d)                                                               
 
     for i in encoders.items():                                                        
+      if i[0]!="_top_":
         enc=i[1]                                                                      
         encdfn = Template(l['DefFileName']).substitute(en=i[0])                    
         encifn = Template(l['ImpFileName']).substitute(en=i[0])                      
@@ -204,11 +211,11 @@ for p in projects.items():
         updateStartModule(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d)        
 
         if 'Imports' in enc:
-          if encdfn == "":
-            updateDefRefs(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d,enc['Imports'])                                   
-          else:
-            updateDefRefs(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l,d,enc['Imports'])
-               
+            if encdfn == "":
+              updateDefRefs(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d,enc['Imports'],encoders)
+            else:
+              updateDefRefs(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l,d,enc['Imports'],encoders)
+
         if 'Contains' in enc:
           if encdfn == "":
             updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d,i[0],enc['Contains'])
@@ -221,19 +228,4 @@ for p in projects.items():
 
 
 
-#    fl=open(mfloc).readline().rstrip()
 
-
-#    modstmt = Template(l['ModuleStart']).substitute(mn=d['MainModuleName'])
-#    print(modstmt)
-#    mainstmt = Template(l['MainStart']).substitute(mn=d['MainModuleName'])
-#    print(mainstmt)                                                         
-#    mainendstmt = Template(l['MainEnd']).substitute(mn=d['MainModuleName'])
-#    print(mainendstmt)                                                         
-#    modendstmt = Template(l['ModuleEnd']).substitute(mn=d['MainModuleName'])
-#    print(modendstmt)                                                         
-
-
-#for e in encoders.items():
-#    print(e[0])
-#    d=e[1]
