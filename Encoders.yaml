@@ -1,11 +1,11 @@
 _top_:
    Provides:
-   - [Initialize]
+   - [_nothing_,Initialize,[]]
 AbstractEncoder:
    Provides:
-   - [Encode,[[a,AbstractEncoder],[v]]]
-   - [GetDisplayWidth,[[a,AbstractEncoder]]]
-   - [Decode,[[e,AbstractEncoder], [b,BitPat], [parentFieldName,String,""]]]
+   - [Int64,Encode,[[a,AbstractEncoder],[v]]]
+   - [Int64,GetDisplayWidth,[[a,AbstractEncoder]]]
+   - [Int64,Decode,[[e,AbstractEncoder], [b,BitPat], [parentFieldName,String,""]]]
    Requires:
    - getWidth(a::ConcreteEncoder) 
    - getDescription(a::ConcreteEncoder)

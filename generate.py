@@ -85,17 +85,17 @@ def updateEndModule(fn,l,d):
         tc.write(s+'\n')
         tc.write( Template(l['ModuleEnd']).substitute(mn=d['MainModuleName'])+'\n' )
 
-def updateStartInitModule(fn,l,d):                                                        
-    s=open(fn,'r').read()                                                             
-    with open(fn,'w') as tc:                                                          
-        tc.write(s+'\n')                                                              
-        tc.write( Template(l['ModuleInitStart']).substitute(mn=d['MainModuleName'])+'\n') 
+#def updateStartInitModule(fn,l,d):                                                        
+#    s=open(fn,'r').read()                                                             
+#    with open(fn,'w') as tc:                                                          
+#        tc.write(s+'\n')                                                              
+#        tc.write( Template(l['ModuleInitStart']).substitute(mn=d['MainModuleName'])+'\n') 
                                                                                       
-def updateEndInitModule(fn,l,d):                                                          
-    s=open(fn,'r').read()                                                             
-    with open(fn,'w') as tc:                                                          
-        tc.write(s+'\n')                                                              
-        tc.write( Template(l['ModuleInitEnd']).substitute(mn=d['MainModuleName'])+'\n' )  
+#def updateEndInitModule(fn,l,d):                                                          
+#    s=open(fn,'r').read()                                                             
+#    with open(fn,'w') as tc:                                                          
+#        tc.write(s+'\n')                                                              
+#        tc.write( Template(l['ModuleInitEnd']).substitute(mn=d['MainModuleName'])+'\n' )  
                                                                                       
 def updateImportMain(fn,l,d):                                                          
     s=open(fn,'r').read()                                                             
@@ -134,6 +134,43 @@ def updateContains(fn,l,d,cn,cd):
           tc.write( '    ' + Template(l['StructElement']).substitute(enm=c[0],etp=t) +'\n' )         
         tc.write(Template(l['StructEnd']).substitute(snm=cn)+'\n')
 
+def updateProvidesDef(fn,l,d,cn,cd):                                                                                      
+    s=open(fn,'r').read()                                                                                              
+                                                                                                                       
+    with open(fn,'w') as tc:                                                                                           
+        tc.write(s+'\n')                                                                                               
+        
+
+        for c in cd:                                                                                                   
+          t=c[0]
+          if c[0] in l['Typemap']:                                                         
+             t=l['Typemap'][c[0]]
+          prm=c[2]
+          if prm==[]:
+             prm=""
+          else:
+             prm=""
+          tc.write( Template(l['FuncDef']).substitute(fnm=c[1],ftyp=t,fprm=prm) +'\n' )                           
+
+def updateProvidesImp(fn,l,d,cn,cd):                                                                                   
+    s=open(fn,'r').read()                                                                                              
+                                                                                                                       
+    with open(fn,'w') as tc:                                                                                           
+        tc.write(s+'\n')                                                                                               
+                                                                                                                       
+        for c in cd:                                                                                                   
+          t=c[0]                                                                                                       
+          if c[0] in l['Typemap']:                                                          
+             t=l['Typemap'][c[0]]                                                           
+          prm=c[2]
+          if prm==[]:
+             prm=""
+          else:         
+             prm=""
+          tc.write(Template(l['FuncImpStart']).substitute(fnm=c[1],ftyp=t,fprm=prm) +'\n' )
+          tc.write(Template(l['FuncImpEnd']).substitute(fnm=c[1],ftyp=t,fprm=prm) +'\n' )
+
+                                                                                                                       
 def updateDefRefs(fn,l,d,encl,enci):                                                                                      
     s=open(fn,'r').read()                                                                                              
                                                                                                                        
@@ -144,7 +181,6 @@ def updateDefRefs(fn,l,d,encl,enci):
           if i[0]!="_top_":
 
             if l['HasImplicitImports'] == "No" or i[0] not in enci:
-              print(enci[i[0]],"\n\n")
 
               if l['DefFileName']=="":
                 t=Template(l['ImpFileName']).substitute(en=i[0])                  
@@ -166,66 +202,66 @@ for p in projects.items():
     checkSourceFiles(d,l,encoders)
 
     licf=os.path.join(d['Path'],"LICENSE")
-    moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])           
-    modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])           
-    moddfp=os.path.join(d['Path'],d['MainModFileSubPath'],moddfn)
-    modifp=os.path.join(d['Path'],d['MainModFileSubPath'],modifn)
 
     binf=os.path.join(d['Path'],d['MainBinFileSubPath'],Template(l['ImpFileName']).substitute(en=d['MainBinFileName']))
     tstf=os.path.join(d['Path'],d['TestsSubPath'],Template(l['ImpFileName']).substitute(en=d['MainTestFileName']))
 
     updateTheLicense(licf)
-    updateTopComment(modifp,l)
     updateTopComment(binf,l)
     updateTopComment(tstf,l)
-
-    updateStartModule(modifp,l,d)
-
-    if moddfn != "":
-        updateTopComment(moddfp,l)                                                                             
-
-    if l['HasImplicitImports'] == "No":
-        if moddfn != "":
-            updateDefRefs(moddfp,l,d,encoders.items(),encoders)
-        else:
-            updateDefRefs(modifp,l,d,encoders.items(),encoders)
-
-    updateStartInitModule(modifp,l,d)
-    updateEndInitModule(modifp,l,d)
-    updateEndModule(modifp,l,d)
 
     updateImportMain(binf,l,d)
     updateStartMain(binf,l,d)
     updatePreambleMain(binf,l,d)                                                             
     updateEndMain(binf,l,d)                                                               
 
-    for i in encoders.items():                                                        
-      if i[0]!="_top_":
-        enc=i[1]                                                                      
-        encdfn = Template(l['DefFileName']).substitute(en=i[0])                    
-        encifn = Template(l['ImpFileName']).substitute(en=i[0])                      
-        updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l)
-        if encdfn != "":
-          updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l)
+    for i in encoders.items():
+      enc=i[1]                                                        
+      if i[0]=="_top_":
+        moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])                                            
+        modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])                                            
+      else:
+        moddfn = Template(l['DefFileName']).substitute(en=i[0])                                                        
+        modifn = Template(l['ImpFileName']).substitute(en=i[0])                                                        
 
-        updateStartModule(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d)        
+      moddfp=os.path.join(d['Path'],d['MainModFileSubPath'],moddfn)                                                      
+      modifp=os.path.join(d['Path'],d['MainModFileSubPath'],modifn)                                                      
 
-        if 'Imports' in enc:
-            if encdfn == "":
-              updateDefRefs(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d,enc['Imports'],encoders)
-            else:
-              updateDefRefs(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l,d,enc['Imports'],encoders)
+      updateTopComment(modifp,l)                                                                                         
 
-        if 'Contains' in enc:
-          if encdfn == "":
-            updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d,i[0],enc['Contains'])
-          else:
-            updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l,d,i[0],enc['Contains'])
+      updateStartModule(modifp,l,d)
+                                                                                      
+      if moddfn != "":                                                                                                   
+        updateTopComment(moddfp,l)                                                                                     
 
+      if i[0]=="_top_":                                                                                                                      
+        if l['HasImplicitImports'] == "No":                                                                                
+            if moddfn != "":                                                                                               
+                updateDefRefs(moddfp,l,d,encoders.items(),encoders)                                                        
+            else:                                                                                                          
+                updateDefRefs(modifp,l,d,encoders.items(),encoders)                                                        
+      else:                       
+        if 'Imports' in enc:                                                                                           
+            if moddfn == "":                                                                                           
+              updateDefRefs(modifp,l,d,enc['Imports'],encoders)        
+            else:                                                                                                      
+              updateDefRefs(moddfp,l,d,enc['Imports'],encoders)        
+                                                                                                                       
+        if 'Contains' in enc:                                                                                          
+          if moddfn == "":                                                                                             
+            updateContains(modifp,l,d,i[0],enc['Contains'])            
+          else:                                                                                                        
+            updateContains(moddfp,l,d,i[0],enc['Contains'])            
 
-        updateEndModule(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d)
+      if 'Provides' in enc:
+          if l['DefFileName'] != "":                                                                                             
+            updateProvidesDef(moddfp,l,d,i[0],enc['Provides'])
+          updateProvidesImp(modifp,l,d,i[0],enc['Provides'])
 
+#      if i[0]=="_top_":                                                                                                                                                                                               
+#        updateStartInitModule(modifp,l,d)                                                                                  
+#        updateEndInitModule(modifp,l,d)                                                                                    
 
-
+      updateEndModule(modifp,l,d)                                                                                        
 
 

@@ -17,6 +17,9 @@ Julia:
  StructStart: "julia ${snm} is "
  StructEnd: ""
  StructElement: "${enm} ${etp}"              
+ FuncImpStart: "function ${fnm}(${fprm})"
+ FuncImpEnd: ""
+ FuncDef: ""
  MetaText: "Julia 0.6"
  Typemap:                      
     Int64: Int64
@@ -41,12 +44,16 @@ Go:
  StructStart: "type ${snm} struct {"
  StructEnd: "}"
  StructElement: "${enm} ${etp}"
+ FuncImpStart: "func ${fnm}(${fprm}) ${ftyp}{"
+ FuncImpEnd: "}"       
+ FuncDef: ""          
  MetaText: ""
  Typemap:
     Int64: int64
     Float64: float64
     AbstractString: string
     Bool: bool
+    _nothing_: ""
 Python:
  Comment: "#"
  ModuleStart: "# ${mn} module"
@@ -66,6 +73,9 @@ Python:
  StructStart: "type ${snm} struct {"
  StructEnd: "}"
  StructElement: "${enm} ${etp}"              
+ FuncImpStart: "function ${fnm}(${fprm})"
+ FuncImpEnd: ""       
+ FuncDef: ""          
  MetaText: ""
  Typemap:                      
     Int64: integer             
@@ -90,6 +100,9 @@ Java:
  StructStart: "type ${snm} struct {"
  StructEnd: "}"
  StructElement: "${enm} ${etp}"              
+ FuncImpStart: "function ${fnm}(${fprm})"
+ FuncImpEnd: ""       
+ FuncDef: ""          
  MetaText: ""
  Typemap:                      
     Int64: integer             
@@ -114,12 +127,16 @@ c:
  StructStart: "#ifndef _${snm}_\n#define _${snm}_\ntypedef struct {"
  StructEnd: "} ${snm};\n#endif\n"
  StructElement: "${etp} ${enm};"              
+ FuncImpStart: "${ftyp} ${fnm}(${fprm}){"
+ FuncImpEnd: "}//${fnm}"       
+ FuncDef: "${ftyp} ${fnm}(${fprm});"          
  MetaText: ""
  Typemap:                      
     Int64: int             
     Float64: float
     AbstractString: "char *"
     Bool: int
+    _nothing_: void
 rust:                                                                                        
  Comment: "//"                                                                            
  ModuleStart: "// implementing ${mn}"                                                     
@@ -139,6 +156,9 @@ rust:
  StructStart: "struct ${snm} {"                                                           
  StructEnd: "};"                                                                          
  StructElement: "${enm}: ${etp},"                                                          
+ FuncImpStart: "function ${fnm}(${fprm})"
+ FuncImpEnd: ""       
+ FuncDef: ""          
  MetaText: ""                                                                             
  Typemap:                                                                                 
     Int64: i64                                                                            
@@ -163,6 +183,9 @@ csharp:
  StructStart: "struct ${snm} {"                                                           
  StructEnd: "};"                                                                          
  StructElement: "${enm}: ${etp},"                                                         
+ FuncImpStart: "function ${fnm}(${fprm})"
+ FuncImpEnd: ""       
+ FuncDef: ""          
  MetaText: ""                                                                             
  Typemap:                                                                                 
     Int64: i64                                                                            
@@ -187,6 +210,9 @@ vhdl:
  StructStart: "type ${snm} struct {"
  StructEnd: "}"
  StructElement: "${enm} ${etp}"              
+ FuncImpStart: "function ${fnm}(${fprm})"
+ FuncImpEnd: ""       
+ FuncDef: ""          
  MetaText: ""
  Typemap:                      
     Int64: integer             
@@ -211,6 +237,9 @@ Haskell:
  StructStart: "type ${snm} struct {"
  StructEnd: "}"
  StructElement: "${enm} ${etp}"              
+ FuncImpStart: "function ${fnm}(${fprm})"
+ FuncImpEnd: ""       
+ FuncDef: ""          
  MetaText: ""
  Typemap:                      
     Int64: integer             
@@ -235,6 +264,9 @@ Javascript:
  StructStart: "type ${snm} struct {"
  StructEnd: "}"
  StructElement: "${enm} ${etp}"              
+ FuncImpStart: "function ${fnm}(${fprm})"
+ FuncImpEnd: ""       
+ FuncDef: ""          
  MetaText: '{
   "name": "wutjs",
   "version": "0.0.0",
