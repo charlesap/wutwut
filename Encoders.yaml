@@ -40,6 +40,8 @@ CategoryEncoder:
    -  [n, Int64]
    -  [cL, Int64, Dict_String_Int64]
    -  [sE, ScalarEncoder]
+   Imports:
+   -  [ScalarEncoder]
 CoordinateEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -70,6 +72,8 @@ DateEncoder:
    -  [tEo, Int64]
    -  [cE, ScalarEncoder, Nullable]
    -  [cEo, Int64]
+   Imports:
+   -  [ScalarEncoder] 
 DeltaEncoder:
    Extends: AbstractEncoder
    Contains:

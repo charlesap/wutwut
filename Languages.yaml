@@ -103,7 +103,7 @@ c:
  ModuleInitEnd: "}"                                  
  MainStart: "void  main(void){"
  MainFuncImport: "\n\n#include <stdio.h>\n#include \"wut.h\"\n"         
- MainFuncPreamble: "  Initialize()\n  printf(\"izit version 0.0.0\")"                 
+ MainFuncPreamble: "  Initialize();\n  printf(\"izit version 0.0.0\");"                 
  MainEnd: "}"         
  HasImplicitImports: "No"            
  DefFileName: "${en}.h"
@@ -111,14 +111,15 @@ c:
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "#include \"${inm}\""
- StructStart: "struct ${snm} {"
- StructEnd: "};"
+ StructStart: "#ifndef _${snm}_\n#define _${snm}_\ntypedef struct {"
+ StructEnd: "} ${snm};\n#endif\n"
  StructElement: "${etp} ${enm};"              
  MetaText: ""
  Typemap:                      
     Int64: int             
     Float64: float
-    AbstractString: string
+    AbstractString: "char *"
+    Bool: int
 rust:                                                                                        
  Comment: "//"                                                                            
  ModuleStart: "// implementing ${mn}"                                                     

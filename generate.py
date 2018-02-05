@@ -140,8 +140,10 @@ def updateDefRefs(fn,l,d,encl):
         tc.write(s+'\n')                                                                                               
         
         for i in encl:
-          t=i[0]                                                                                                       
-          
+          if l['DefFileName']=="":
+            t=Template(l['ImpFileName']).substitute(en=i[0])                  
+          else:                                                                                     
+            t=Template(l['DefFileName']).substitute(en=i[0])
           tc.write( Template(l['ImportElement']).substitute(inm=t) +'\n' )
                                                                                                                        
 projects = getYamlFile("Projects.yaml")
@@ -200,7 +202,13 @@ for p in projects.items():
           updateTopComment(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l)
 
         updateStartModule(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d)        
-       
+
+        if 'Imports' in enc:
+          if encdfn == "":
+            updateDefRefs(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d,enc['Imports'])                                   
+          else:
+            updateDefRefs(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn),l,d,enc['Imports'])
+               
         if 'Contains' in enc:
           if encdfn == "":
             updateContains(os.path.join(d['Path'],d['MainModFileSubPath'],encifn),l,d,i[0],enc['Contains'])
