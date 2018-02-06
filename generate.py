@@ -85,17 +85,17 @@ def updateEndModule(fn,l,d):
         tc.write(s+'\n')
         tc.write( Template(l['ModuleEnd']).substitute(mn=d['MainModuleName'])+'\n')
 
-def updateGuardStart(fn,l,d):                                                             
+def updateGuardStart(fn,l,nm):                                                             
     s=open(fn,'r').read()                                                                  
     with open(fn,'w') as tc:                                                               
         tc.write(s+'\n')
-        tc.write( Template(l['GuardStart']).substitute(snm=d['MainModuleName'])+'\n')      
+        tc.write( Template(l['GuardStart']).substitute(gnm=nm)+'\n')      
                                                                                            
-def updateGuardEnd(fn,l,d):                                                               
+def updateGuardEnd(fn,l,nm):                                                               
     s=open(fn,'r').read()                                                                  
     with open(fn,'w') as tc:                                                                
         tc.write(s+'\n')                                                                    
-        tc.write( Template(l['GuardEnd']).substitute(snm=d['MainModuleName'])+'\n' )
+        tc.write( Template(l['GuardEnd']).substitute(gnm=nm)+'\n' )
                                                                                             
 #def updateStartInitModule(fn,l,d):                                                        
 #    s=open(fn,'r').read()                                                             
@@ -228,6 +228,9 @@ for p in projects.items():
     updateEndMain(binf,l,d)                                                               
 
     for i in encoders.items():
+      encnm=i[0]
+      if encnm=="_top_":
+        encnm=d['MainModFileName']
       enc=i[1]                                                        
       if i[0]=="_top_":
         moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])                                            
@@ -245,7 +248,7 @@ for p in projects.items():
                                                                                       
       if moddfn != "":                                                                                                   
         updateTopComment(moddfp,l)                                                                                     
-        updateGuardStart(moddfp,l,d)
+        updateGuardStart(moddfp,l,encnm)
 
       if i[0]=="_top_":                                                                                                                      
         if l['HasImplicitImports'] == "No":                                                                                
@@ -278,5 +281,5 @@ for p in projects.items():
       updateEndModule(modifp,l,d)                                                                                        
 
       if moddfn != "":
-        updateGuardEnd(moddfp,l,d)                                                                                   
+        updateGuardEnd(moddfp,l,encnm)                                                                                   
 

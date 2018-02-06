@@ -132,7 +132,7 @@ c:
  ImportStart: ""
  ImportEnd: ""               
  ImportElement: "#include \"${inm}\""
- GuardStart: "#ifndef _${snm}_\n#define _${snm}_"
+ GuardStart: "#ifndef _${gnm}_\n#define _${gnm}_"
  GuardEnd: "#endif"
  StructStart: "typedef struct {"
  StructEnd: "} ${snm};"
