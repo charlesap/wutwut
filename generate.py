@@ -83,8 +83,20 @@ def updateEndModule(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['ModuleEnd']).substitute(mn=d['MainModuleName'])+'\n' )
+        tc.write( Template(l['ModuleEnd']).substitute(mn=d['MainModuleName'])+'\n')
 
+def updateGuardStart(fn,l,d):                                                             
+    s=open(fn,'r').read()                                                                  
+    with open(fn,'w') as tc:                                                               
+        tc.write(s+'\n')
+        tc.write( Template(l['GuardStart']).substitute(snm=d['MainModuleName'])+'\n')      
+                                                                                           
+def updateGuardEnd(fn,l,d):                                                               
+    s=open(fn,'r').read()                                                                  
+    with open(fn,'w') as tc:                                                                
+        tc.write(s+'\n')                                                                    
+        tc.write( Template(l['GuardEnd']).substitute(snm=d['MainModuleName'])+'\n' )
+                                                                                            
 #def updateStartInitModule(fn,l,d):                                                        
 #    s=open(fn,'r').read()                                                             
 #    with open(fn,'w') as tc:                                                          
@@ -233,6 +245,7 @@ for p in projects.items():
                                                                                       
       if moddfn != "":                                                                                                   
         updateTopComment(moddfp,l)                                                                                     
+        updateGuardStart(moddfp,l,d)
 
       if i[0]=="_top_":                                                                                                                      
         if l['HasImplicitImports'] == "No":                                                                                
@@ -264,4 +277,6 @@ for p in projects.items():
 
       updateEndModule(modifp,l,d)                                                                                        
 
+      if moddfn != "":
+        updateGuardEnd(moddfp,l,d)                                                                                   
 
