@@ -1,6 +1,7 @@
 import yaml
 import os
 from string import Template
+from subprocess import call
 
 def getYamlFile(f):
     with open(f, 'r') as stream:
@@ -282,4 +283,9 @@ for p in projects.items():
 
       if moddfn != "":
         updateGuardEnd(moddfp,l,encnm)                                                                                   
+
+    if d['MakeBin'] != "":
+        print("calling: "+d['MakeBin'])
+        call(d['MakeBin'],shell=True)
+
 

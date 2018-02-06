@@ -165,13 +165,19 @@ rust:
  ImportElement: "//use ${inm}"                                                     
  GuardStart: ""                                                                             
  GuardEnd: ""                                                                               
- StructStart: "//struct ${snm} {"                                                           
- StructEnd: "//};"                                                                          
+ StructStart: "struct ${snm} {"                                                           
+ StructEnd: "};"                                                                          
  StructElement: "${enm}: ${etp},"                                                          
  FuncImpStart: "//function ${fnm}(${fprm})"
  FuncImpEnd: ""       
  FuncDef: ""          
- MetaText: ""                                                                             
+ MetaText: '[package]
+name = "wutrs"
+version = "0.0.0"
+authors = ["Charles Perkins <chuck@kuracali.com>"]
+
+[dependencies]
+'
  Typemap:                                                                                 
     Int64: i64                                                                            
     Float64: f64                                                                        

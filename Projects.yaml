@@ -12,6 +12,10 @@ Wut.jl:
  MainTestFileName: "runtests"
  MainModuleName: "Wut"
  MainModuleRequirements:
+ MakeClean: ""
+ MakeLib: ""
+ MakeBin: ""
+ MakeTest: ""
 wut:
  Language: Go
  Path: "../wutgo"
@@ -26,6 +30,10 @@ wut:
  MainTestFileName: "wut_test"
  MainModuleName: "wut"
  MainModuleRequirements:
+ MakeClean: "cd ../wutgo; rm izit"               
+ MakeLib: ""                 
+ MakeBin: "cd ../wutgo; go build cmd/izit.go"                 
+ MakeTest: ""                
 wutpy:
  Language: Python
  Path: "../wutpy"
@@ -40,6 +48,10 @@ wutpy:
  MainTestFileName: "test"
  MainModuleName: "Wut"
  MainModuleRequirements:
+ MakeClean: ""               
+ MakeLib: ""                 
+ MakeBin: ""                 
+ MakeTest: ""                
 wutj:
  Language: Java
  Path: "../wutj"
@@ -54,6 +66,10 @@ wutj:
  MainTestFileName: "test"
  MainModuleName: "Wut"
  MainModuleRequirements:
+ MakeClean: ""               
+ MakeLib: ""                 
+ MakeBin: ""                 
+ MakeTest: ""                
 wutc:
  Language: c
  Path: "../wutc"
@@ -68,20 +84,28 @@ wutc:
  MainTestFileName: "test"
  MainModuleName: "wut"
  MainModuleRequirements:
+ MakeClean: "cd ../wutc; rm izit"               
+ MakeLib: ""                 
+ MakeBin: "cd ../wutc; cc -o izit izit.c wut.c"                 
+ MakeTest: ""                
 wutrs:                        
  Language: rust                 
  Path: "../wutrs"             
- SourceSubPath: ""           
- TestsSubPath: ""            
- MetaFileName: ""            
+ SourceSubPath: "src"           
+ TestsSubPath: "src"            
+ MetaFileName: "Cargo.toml"
  MainDefFileName: "wut"      
  MainModFileName: "wut"      
- MainModFileSubPath: ""      
+ MainModFileSubPath: "src"      
  MainBinFileName: "izit"     
- MainBinFileSubPath: ""      
+ MainBinFileSubPath: "src"      
  MainTestFileName: "test"    
  MainModuleName: "wut"      
  MainModuleRequirements:    
+ MakeClean: "cd ../wutrs; rm izit"               
+ MakeLib: ""                 
+ MakeBin: "cd ../wutrs; rustc src/izit.rs"                 
+ MakeTest: ""                
 wutcs:                       
  Language: csharp              
  Path: "../wutcs"            
@@ -96,6 +120,10 @@ wutcs:
  MainTestFileName: "test"   
  MainModuleName: "wut"      
  MainModuleRequirements:    
+ MakeClean: ""               
+ MakeLib: ""                 
+ MakeBin: ""                 
+ MakeTest: ""                
 wutware:
  Language: vhdl
  Path: "../wutware"
@@ -110,6 +138,10 @@ wutware:
  MainTestFileName: "test"
  MainModuleName: "Wut"
  MainModuleRequirements:
+ MakeClean: ""               
+ MakeLib: ""                 
+ MakeBin: ""                 
+ MakeTest: ""                
 wuths:
  Language: Haskell
  Path: "../wuths"
@@ -124,6 +156,10 @@ wuths:
  MainTestFileName: "test"
  MainModuleName: "Wut"
  MainModuleRequirements:
+ MakeClean: ""               
+ MakeLib: ""                 
+ MakeBin: ""                 
+ MakeTest: ""                
 wutjs:                          
  Language: Javascript              
  Path: "../wutjs"              
@@ -138,4 +174,8 @@ wutjs:
  MainTestFileName: "test"     
  MainModuleName: "Wut"          
  MainModuleRequirements:        
+ MakeClean: ""               
+ MakeLib: ""                 
+ MakeBin: ""                 
+ MakeTest: ""                
 
