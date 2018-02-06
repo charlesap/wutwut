@@ -196,7 +196,7 @@ def updateDefRefs(fn,l,d,encl,enci):
             if l['HasImplicitImports'] == "No" or i[0] not in enci:
 
               if l['DefFileName']=="":
-                t=Template(l['ImpFileName']).substitute(en=i[0])                  
+                t=Template(l['RefFileName']).substitute(en=i[0])                  
               else:                                                                                     
                 t=Template(l['DefFileName']).substitute(en=i[0])
               tc.write( Template(l['ImportElement']).substitute(inm=t) +'\n' )

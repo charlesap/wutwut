@@ -92,7 +92,7 @@ wutrs:
  Language: rust                 
  Path: "../wutrs"             
  SourceSubPath: "src"           
- TestsSubPath: "src"            
+ TestsSubPath: "test"            
  MetaFileName: "Cargo.toml"
  MainDefFileName: "wut"      
  MainModFileName: "wut"      
@@ -103,7 +103,7 @@ wutrs:
  MainModuleName: "wut"      
  MainModuleRequirements:    
  MakeClean: "cd ../wutrs; rm izit"               
- MakeLib: ""                 
+ MakeLib: "cd ../wutrs/src; rustc --crate-type=lib wut.rs"                 
  MakeBin: "cd ../wutrs; rustc src/izit.rs"                 
  MakeTest: ""                
 wutcs:                       
