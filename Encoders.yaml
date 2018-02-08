@@ -42,7 +42,7 @@ CategoryEncoder:
    -  [w, Int64]
    -  [n, Int64]
    -  [cL, Int64, Dict_String_Int64]
-   -  [sE, ScalarEncoder]
+   -  [sE, [ScalarEncoder,ScalarEncoder]]
    Imports:
    -  [ScalarEncoder]
 CoordinateEncoder:
@@ -61,20 +61,20 @@ DateEncoder:
    -  [holiday, Int64, Number]
    -  [timeOfDay, Int64, Number]
    -  [customDays, Int64, Number]
-   -  [name, AbstractString]
    -  [forced, Bool]
-   -  [sE, ScalarEncoder, Nullable]
+   -  [sE, [ScalarEncoder,ScalarEncoder], Nullable]
    -  [sEo, Int64]
-   -  [dE, ScalarEncoder, Nullable]
+   -  [dE, [ScalarEncoder,ScalarEncoder], Nullable]
    -  [dEo, Int64]
-   -  [wE, ScalarEncoder, Nullable]
+   -  [wE, [ScalarEncoder,ScalarEncoder], Nullable]
    -  [wEo, Int64]
-   -  [hE, ScalarEncoder, Nullable]
+   -  [hE, [ScalarEncoder,ScalarEncoder], Nullable]
    -  [hEo, Int64]
-   -  [tE, ScalarEncoder, Nullable]
+   -  [tE, [ScalarEncoder,ScalarEncoder], Nullable]
    -  [tEo, Int64]
-   -  [cE, ScalarEncoder, Nullable]
+   -  [cE, [ScalarEncoder,ScalarEncoder], Nullable]
    -  [cEo, Int64]
+   -  [name, AbstractString]
    Imports:
    -  [ScalarEncoder] 
 DeltaEncoder:
@@ -112,13 +112,13 @@ RandomDistributedScalarEncoder:
    -  [offset, Float64]
    -  [oidx, Int64]
    -  [resolution, Float64]
-   -  [name, AbstractString]
    -  [verbosity, Int64]
    -  [maxoverlap, Int64]
    -  [random, Int64, MersenneTwister]
    -  [bucketmap, Int64, Dict_Int32_Vector_Int32]
    -  [numTries, Int64]
    -  [maxBuckets, Int64]
+   -  [name, AbstractString]
 SDRCategoryEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -134,12 +134,12 @@ ScalarEncoder:
    -  [periodic, Bool]
    -  [radius, Float64]
    -  [resolution, Float64]
-   -  [name, AbstractString]
    -  [verbosity, Int64]
    -  [clipInput, Bool]
    -  [forced, Bool]
    -  [padding, Int64]
    -  [srange, Float64]
+   -  [name, AbstractString]
 ScalarSpaceEncoder:
    Extends: AbstractEncoder
    Contains:

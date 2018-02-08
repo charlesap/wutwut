@@ -142,9 +142,16 @@ def updateContains(fn,l,d,cn,cd):
         tc.write( Template(l['StructStart']).substitute(snm=cn)+'\n')
         for c in cd:  
           t=c[1]
-          if c[1] in l['Typemap']:
-             t=l['Typemap'][c[1]]                                                                
-          tc.write( '    ' + Template(l['StructElement']).substitute(enm=c[0],etp=t) +'\n' )         
+          m=""
+          if type(c[1]) is list:
+            m=t[0]
+            t=t[1]
+          if t in l['Typemap']:
+             t=l['Typemap'][c[1]]
+          if type(c[1]) is list:
+            tc.write( '    ' + Template(l['StructElementImported']).substitute(enm=c[0],em=m,etp=t) +'\n' )
+          else:                                                                
+            tc.write( '    ' + Template(l['StructElement']).substitute(enm=c[0],etp=t) +'\n' )         
         tc.write(Template(l['StructEnd']).substitute(snm=cn)+'\n')
 
 def updateProvidesDef(fn,l,d,cn,cd):                                                                                      
