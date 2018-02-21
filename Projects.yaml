@@ -177,5 +177,5 @@ wutjs:
  MakeClean: ""               
  MakeLib: ""                 
  MakeBin: ""                 
- MakeTest: ""                
+ MakeTest: "cd ../wutjs; LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node test.js"                
 
