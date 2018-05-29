@@ -16,24 +16,26 @@ Wut.jl:
  MakeLib: ""
  MakeBin: ""
  MakeTest: ""
+ DoTest: ""
 wut:
  Language: Go
  Path: "../wutgo"
  SourceSubPath: ""
- TestsSubPath: "test"
+ TestsSubPath: "cmd"
  MetaFileName: ""
  MainDefFileName: ""
  MainModFileName: "wut"
  MainModFileSubPath: ""  
  MainBinFileName: "izit"
  MainBinFileSubPath: "cmd"    
- MainTestFileName: "wut_test"
+ MainTestFileName: "izit_test"
  MainModuleName: "wut"
  MainModuleRequirements:
  MakeClean: "cd ../wutgo; rm izit"               
  MakeLib: ""                 
  MakeBin: "cd ../wutgo; go build cmd/izit.go"                 
  MakeTest: ""                
+ DoTest: ""
 wutpy:
  Language: Python
  Path: "../wutpy"
@@ -52,6 +54,7 @@ wutpy:
  MakeLib: ""                 
  MakeBin: ""                 
  MakeTest: ""                
+ DoTest: ""
 wutj:
  Language: Java
  Path: "../wutj"
@@ -70,6 +73,7 @@ wutj:
  MakeLib: ""                 
  MakeBin: ""                 
  MakeTest: ""                
+ DoTest: ""
 wutc:
  Language: c
  Path: "../wutc"
@@ -88,6 +92,7 @@ wutc:
  MakeLib: ""                 
  MakeBin: "cd ../wutc; cc -o izit izit.c wut.c"                 
  MakeTest: ""                
+ DoTest: ""
 wutrs:                        
  Language: rust                 
  Path: "../wutrs"             
@@ -103,9 +108,10 @@ wutrs:
  MainModuleName: "wut"      
  MainModuleRequirements:    
  MakeClean: "cd ../wutrs; rm izit"               
- MakeLib: "cd ../wutrs/src; rustc --crate-type=lib wut.rs"                 
+ MakeLib: "cd ../wutrs/src; rustc --crate-type=lib lib.rs"                 
  MakeBin: "cd ../wutrs; rustc src/izit.rs"                 
  MakeTest: ""                
+ DoTest: ""
 wutcs:                       
  Language: csharp              
  Path: "../wutcs"            
@@ -124,6 +130,7 @@ wutcs:
  MakeLib: ""                 
  MakeBin: ""                 
  MakeTest: ""                
+ DoTest: ""
 wutware:
  Language: vhdl
  Path: "../wutware"
@@ -142,6 +149,7 @@ wutware:
  MakeLib: ""                 
  MakeBin: ""                 
  MakeTest: ""                
+ DoTest: ""
 wuths:
  Language: Haskell
  Path: "../wuths"
@@ -160,6 +168,7 @@ wuths:
  MakeLib: ""                 
  MakeBin: ""                 
  MakeTest: ""                
+ DoTest: ""
 wutjs:                          
  Language: Javascript              
  Path: "../wutjs"              
@@ -178,4 +187,5 @@ wutjs:
  MakeLib: ""                 
  MakeBin: ""                 
  MakeTest: "cd ../wutjs; LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node test.js"                
+ DoTest: ""
 

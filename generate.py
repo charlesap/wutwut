@@ -37,14 +37,16 @@ def checkSourceFiles(d,l,encoders):
     moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])                       
     modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])                       
     binfn = Template(l['ImpFileName']).substitute(en=d['MainBinFileName'])
+    bihfn = Template(l['DefFileName']).substitute(en=d['MainBinFileName'])
     tstfn = Template(l['ImpFileName']).substitute(en=d['MainTestFileName'])
     checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],modifn))
     if moddfn != "":
         checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],moddfn))                                             
+        checkTheFile(os.path.join(d['Path'],d['MainBinFileSubPath'],bihfn))
     checkTheFile(os.path.join(d['Path'],d['MainBinFileSubPath'],binfn))
     checkTheFile(os.path.join(d['Path'],d['TestsSubPath'],tstfn))
     for i in encoders.items():
-      if i[0]!="_top_":
+      if i[0]!="_top_" and i[0]!="_cmd_":
         enc=i[1]
         encdfn = Template(l['DefFileName']).substitute(en=i[0])
         encifn = l['ImpSubPrefix']+Template(l['ImpFileName']).substitute(en=i[0])
@@ -134,6 +136,30 @@ def updateEndMain(fn,l,d):
         tc.write(s+'\n')                                                                                      
         tc.write( Template(l['MainEnd']).substitute(mn=d['MainModuleName'])+'\n' )
                                                                                            
+def updateImportTest(fn,l,d):
+    s=open(fn,'r').read()
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['TestFuncImport']).substitute(mn=d['MainModuleName'])+'\n' )
+
+def updateStartTest(fn,l,d):
+    s=open(fn,'r').read()
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['TestStart']).substitute(mn=d['MainModuleName'])+'\n' )
+
+def updatePreambleTest(fn,l,d):
+    s=open(fn,'r').read()
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['TestFuncPreamble']).substitute(mn=d['MainModuleName'])+'\n' )
+
+def updateEndTest(fn,l,d):
+    s=open(fn,'r').read()
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['TestEnd']).substitute(mn=d['MainModuleName'])+'\n' )
+ 
 def updateContains(fn,l,d,cn,cd):                                                                 
     s=open(fn,'r').read()  
                                                                
@@ -198,7 +224,7 @@ def updateDefRefs(fn,l,d,encl,enci,top):
         tc.write(s+'\n')                                                                                               
         
         for i in encl:
-          if i[0]!="_top_":
+          if i[0]!="_top_" and i[0]!="_cmd_":
 
             if l['HasImplicitImports'] == "No" or i[0] not in enci:
 
@@ -226,10 +252,13 @@ for p in projects.items():
     licf=os.path.join(d['Path'],"LICENSE")
 
     binf=os.path.join(d['Path'],d['MainBinFileSubPath'],Template(l['ImpFileName']).substitute(en=d['MainBinFileName']))
+    bihf=os.path.join(d['Path'],d['MainBinFileSubPath'],Template(l['DefFileName']).substitute(en=d['MainBinFileName']))
     tstf=os.path.join(d['Path'],d['TestsSubPath'],Template(l['ImpFileName']).substitute(en=d['MainTestFileName']))
 
     updateTheLicense(licf)
     updateTopComment(binf,l)
+    if l['DefFileName'] != "":
+       updateTopComment(bihf,l)
     updateTopComment(tstf,l)
 
     updateImportMain(binf,l,d)
@@ -237,28 +266,43 @@ for p in projects.items():
     updatePreambleMain(binf,l,d)                                                             
     updateEndMain(binf,l,d)                                                               
 
+    updateImportTest(tstf,l,d)
+    updateStartTest(tstf,l,d)
+    updatePreambleTest(tstf,l,d)
+    updateEndTest(tstf,l,d)
+
+
     for i in encoders.items():
       encnm=i[0]
       if encnm=="_top_":
         encnm=d['MainModFileName']
+      if encnm=="_cmd_":
+        encnm=d['MainBinFileName']
       enc=i[1]                                                        
       if i[0]=="_top_":
         moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])                                            
         modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])                                            
+      elif i[0]=="_cmd_":
+        moddfn = Template(l['DefFileName']).substitute(en=d['MainBinFileName'])
+        modifn = Template(l['ImpFileName']).substitute(en=d['MainBinFileName'])
       else:
         moddfn = Template(l['DefFileName']).substitute(en=i[0])                                                        
         modifn = l['ImpSubPrefix']+Template(l['ImpFileName']).substitute(en=i[0])                                                        
 
-      moddfp=os.path.join(d['Path'],d['MainModFileSubPath'],moddfn)                                                      
-      modifp=os.path.join(d['Path'],d['MainModFileSubPath'],modifn)                                                      
+      if i[0]=="_cmd_":
+        moddfp=os.path.join(d['Path'],d['MainBinFileSubPath'],moddfn)
+        modifp=os.path.join(d['Path'],d['MainBinFileSubPath'],modifn)
+      else:
+        moddfp=os.path.join(d['Path'],d['MainModFileSubPath'],moddfn)                                                      
+        modifp=os.path.join(d['Path'],d['MainModFileSubPath'],modifn)                                                      
 
-      updateTopComment(modifp,l)                                                                                         
-
-      updateStartModule(modifp,l,d)
+      if i[0]!="_cmd_":
+        updateTopComment(modifp,l)                                                                                         
+        updateStartModule(modifp,l,d)
                                                                                       
-      if moddfn != "":                                                                                                   
-        updateTopComment(moddfp,l)                                                                                     
-        updateGuardStart(moddfp,l,encnm)
+        if moddfn != "":                                                                                                   
+          updateTopComment(moddfp,l)                                                                                     
+          updateGuardStart(moddfp,l,encnm)
 
       if i[0]=="_top_":                                                                                                                      
         if l['HasImplicitImports'] == "No":                                                                                
@@ -266,6 +310,10 @@ for p in projects.items():
                 updateDefRefs(moddfp,l,d,encoders.items(),encoders,True)                                                        
             else:                                                                                                          
                 updateDefRefs(modifp,l,d,encoders.items(),encoders,True)                                                        
+
+      elif i[0]=="_cmd_":
+        pass
+
       else:                       
                                                                                                
         updateStartInitModule(modifp,l,d,i[0])                                                                             
@@ -287,13 +335,18 @@ for p in projects.items():
             updateProvidesDef(moddfp,l,d,i[0],enc['Provides'])
           updateProvidesImp(modifp,l,d,i[0],enc['Provides'])
 
-      if i[0]!="_top_":                                                                                                                                                                                               
+      if i[0]!="_top_" and i[0]!="_cmd_":                                                                                                                                                                                               
           updateEndInitModule(modifp,l,d,i[0])                                                                                    
 
-      updateEndModule(modifp,l,d)                                                                                        
+      if i[0]!="_cmd_":
+        updateEndModule(modifp,l,d)                                                                                        
 
       if moddfn != "":
           updateGuardEnd(moddfp,l,encnm)                                                                                   
+
+    if d['MakeLib'] != "":
+        print("calling: "+d['MakeLib'])
+        call(d['MakeLib'],shell=True)
 
     if d['MakeBin'] != "":
         print("calling: "+d['MakeBin'])
