@@ -378,32 +378,32 @@ Javascript:
  MetaText: '{
   "name": "wutjs",
   "version": "0.0.0",
-  "description": "A sample Node.js app using Express 4",
+  "description": "HTM in Javascript",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
+  "directories": {
+    "test": "test"
   },
-  "dependencies": {
-    "express": "^4.13.3"
+  "scripts": {
+    "start": "node index.js",
+    "test": "test.js"
   },
   "engines": {
     "node": "4.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/charlesap/wutjs"
+    "url": "git+https://github.com/charlesap/wutjs.git"
   },
   "keywords": [
-    "node",
-    "heroku",
-    "express"
+    "HTM"
   ],
   "author": "Charles Perkins",
-  "contributors": [
-    "Some Body <somebody@somewhere.com> (http://somewhere.com)"
-  ],
-  "license": "MIT"
-  }'
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/charlesap/wutjs/issues"
+  },
+  "homepage": "https://github.com/charlesap/wutjs#readme"
+}'
  Typemap:                      
     Int64: integer             
     Float64: float

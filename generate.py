@@ -41,7 +41,7 @@ def checkSourceFiles(d,l,encoders):
     tstfn = Template(l['ImpFileName']).substitute(en=d['MainTestFileName'])
     if metafn != "":
       checkTheFile(os.path.join(d['Path'],d['MetaFileName']))
-      updateTheMeta(os.path.join(d['Path'],d['MetaFileName']))
+      updateTheMeta(os.path.join(d['Path'],d['MetaFileName']),l)
     checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],modifn))
     if moddfn != "":
         checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],moddfn))                                             
@@ -57,10 +57,10 @@ def checkSourceFiles(d,l,encoders):
         if encdfn != "":
           checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn))
 
-def updateTheMeta(fn):
-    l=d['MetaFileContents']
+def updateTheMeta(fn,l):
+    c=l['MetaText']
     with open(fn,'w') as f:
-      f.write(l)
+      f.write(c)
 
 
 def updateTheLicense(fn):
