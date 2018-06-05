@@ -108,8 +108,8 @@ wutrs:
  MainModuleName: "wut"      
  MainModuleRequirements:    
  MakeClean: "cd ../wutrs; rm izit"               
- MakeLib: "cd ../wutrs/src; rustc --crate-type=lib lib.rs"                 
- MakeBin: "cd ../wutrs; rustc src/izit.rs"                 
+ MakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib lib.rs"                 
+ MakeBin: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case izit.rs --extern wut=libwut.rlib"                 
  MakeTest: ""                
  DoTest: ""
 wutcs:                       
