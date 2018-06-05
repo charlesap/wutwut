@@ -4,6 +4,7 @@ Wut.jl:
  SourceSubPath: "src"
  TestsSubPath: "test"
  MetaFileName: "REQUIRE"
+ MetaFileContents: ""
  MainDefFileName: ""
  MainModFileName: "Wut"
  MainModFileSubPath: "src"
@@ -23,6 +24,7 @@ wut:
  SourceSubPath: ""
  TestsSubPath: "cmd"
  MetaFileName: ""
+ MetaFileContents: ""
  MainDefFileName: ""
  MainModFileName: "wut"
  MainModFileSubPath: ""  
@@ -42,6 +44,7 @@ wutpy:
  SourceSubPath: "wut"
  TestsSubPath: "wut"
  MetaFileName: "setup.py"
+ MetaFileContents: ""
  MainDefFileName: ""
  MainModFileName: "__init__"
  MainModFileSubPath: "wut"  
@@ -61,6 +64,7 @@ wutj:
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
+ MetaFileContents: ""
  MainDefFileName: ""
  MainModFileName: "wut"
  MainModFileSubPath: ""  
@@ -80,6 +84,7 @@ wutc:
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
+ MetaFileContents: ""
  MainDefFileName: "wut"
  MainModFileName: "wut"
  MainModFileSubPath: ""  
@@ -99,6 +104,7 @@ wutrs:
  SourceSubPath: "src"           
  TestsSubPath: "test"            
  MetaFileName: "Cargo.toml"
+ MetaFileContents: ""
  MainDefFileName: ""      
  MainModFileName: "lib"      
  MainModFileSubPath: "src"      
@@ -118,6 +124,7 @@ wutcs:
  SourceSubPath: ""           
  TestsSubPath: ""            
  MetaFileName: ""            
+ MetaFileContents: ""
  MainDefFileName: "wut"      
  MainModFileName: "wut"      
  MainModFileSubPath: ""     
@@ -137,6 +144,7 @@ wutware:
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
+ MetaFileContents: ""
  MainDefFileName: ""
  MainModFileName: "wut"
  MainModFileSubPath: ""  
@@ -156,6 +164,7 @@ wuths:
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
+ MetaFileContents: ""
  MainDefFileName: ""
  MainModFileName: "wut"
  MainModFileSubPath: ""  
@@ -175,6 +184,31 @@ wutjs:
  SourceSubPath: ""              
  TestsSubPath: ""               
  MetaFileName: "package.json"
+ MetaFileContents: '{
+  "name": "wut",
+  "version": "0.0.0",
+  "description": "HTM in Javascript",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charlesap/wutjs.git"
+  },
+  "keywords": [
+    "HTM"
+  ],
+  "author": "Charles Perkins",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/charlesap/wutjs/issues"
+  },
+  "homepage": "https://github.com/charlesap/wutjs#readme"
+}'
  MainDefFileName: ""
  MainModFileName: "index"      
  MainModFileSubPath: ""         

@@ -33,12 +33,15 @@ def checkTheFile(fn):
 def checkSourceFiles(d,l,encoders):
 
     checkTheFile(os.path.join(d['Path'],"LICENSE"))
-    checkTheFile(os.path.join(d['Path'],d['MetaFileName']))
+    metafn = d['MetaFileName']
     moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])                       
     modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])                       
     binfn = Template(l['ImpFileName']).substitute(en=d['MainBinFileName'])
     bihfn = Template(l['DefFileName']).substitute(en=d['MainBinFileName'])
     tstfn = Template(l['ImpFileName']).substitute(en=d['MainTestFileName'])
+    if metafn != "":
+      checkTheFile(os.path.join(d['Path'],d['MetaFileName']))
+      updateTheMeta(os.path.join(d['Path'],d['MetaFileName']))
     checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],modifn))
     if moddfn != "":
         checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],moddfn))                                             
@@ -53,6 +56,12 @@ def checkSourceFiles(d,l,encoders):
         checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],encifn))
         if encdfn != "":
           checkTheFile(os.path.join(d['Path'],d['MainModFileSubPath'],encdfn))
+
+def updateTheMeta(fn):
+    l=d['MetaFileContents']
+    with open(fn,'w') as f:
+      f.write(l)
+
 
 def updateTheLicense(fn):
     l=open('LICENSE','r').read()
