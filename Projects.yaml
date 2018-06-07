@@ -1,6 +1,7 @@
 Wut.jl:
  Language: Julia
  Path: "../xWut.jl"
+ SourceFiles: " src( [Wut.jl:MainMod] [Izit.jl:MainBin] [<encoder>.jl:Mod]) test( [runtests.jl:MainTest] )  [REQUIRE:Meta] [LICENSE:License] "
  SourceSubPath: "src"
  TestsSubPath: "test"
  MetaFileName: "REQUIRE"
@@ -20,6 +21,7 @@ Wut.jl:
 wut:
  Language: Go
  Path: "../wutgo"
+ SourceFiles: " cmd( [izit.go:MainBin] [izit_test:MainTest] ) [wut.go:MainMod] [<encoder>.go:Mod]  [LICENSE:License] " 
  SourceSubPath: ""
  TestsSubPath: "cmd"
  MetaFileName: ""
@@ -39,6 +41,7 @@ wut:
 wutpy:
  Language: Python
  Path: "../wutpy"
+ SourceFiles: " wut( [__init__.py:MainMod] [izit.py:MainBin] [test.py:MainTest] [<encoder>.py:Mod]) [setup.py:Meta] [LICENSE:License] "
  SourceSubPath: "wut"
  TestsSubPath: "wut"
  MetaFileName: "setup.py"
@@ -58,6 +61,7 @@ wutpy:
 wutj:
  Language: Java
  Path: "../wutj"
+ SourceFiles: " src(main(java( [Wut.java:MainMod] [Izit.java:MainBin] [Test.java:MainTest] [<encoder>.java:Mod]))) [pom.xml:Meta] [LICENSE:License] "
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
@@ -77,6 +81,7 @@ wutj:
 wutc:
  Language: c
  Path: "../wutc"
+ SourceFiles: " [wut.c:MainMod] [wut.h:MainModDef] [izit.c:MainBin] [izit.h:MainBinDef] [test.c:MainTest] [test.h:MainTestDef] [<encoder>.c:Mod] [<encoder>.h:ModDef] [LICENSE:License] "
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
@@ -96,11 +101,12 @@ wutc:
 wutrs:                        
  Language: rust                 
  Path: "../wutrs"             
+ SourceFiles: " src( [wut.rs:MainMod] [izit.rs:MainBin] [<encoder>.rs:Mod]) test( [test.rs:MainTest] ) [Cargo.toml:Meta] [LICENSE:License] "
  SourceSubPath: "src"           
  TestsSubPath: "test"            
  MetaFileName: "Cargo.toml"
  MainDefFileName: ""      
- MainModFileName: "lib"      
+ MainModFileName: "wut"      
  MainModFileSubPath: "src"      
  MainBinFileName: "izit"     
  MainBinFileSubPath: "src"      
@@ -108,32 +114,34 @@ wutrs:
  MainModuleName: "wut"      
  MainModuleRequirements:    
  MakeClean: "cd ../wutrs; rm izit"               
- MakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib lib.rs"                 
+ MakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib wut.rs"                 
  MakeBin: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case izit.rs --extern wut=libwut.rlib"                 
  MakeTest: ""                
  DoTest: ""
 wutcs:                       
  Language: csharp              
  Path: "../wutcs"            
+ SourceFiles: " cmd( [Izit.cs:MainBin]  [Test.cs:MainTest] ) [Wut.cs:MainMod] [<encoder>.cs:Mod] [LICENSE:License] "
  SourceSubPath: ""           
- TestsSubPath: ""            
+ TestsSubPath: "test"            
  MetaFileName: ""            
- MainDefFileName: "wut"      
- MainModFileName: "wut"      
+ MainDefFileName: "Wut"      
+ MainModFileName: "Wut"      
  MainModFileSubPath: ""     
  MainBinFileName: "izit"    
- MainBinFileSubPath: ""     
+ MainBinFileSubPath: "cmd"     
  MainTestFileName: "test"   
- MainModuleName: "wut"      
+ MainModuleName: "Wut"      
  MainModuleRequirements:    
- MakeClean: "cd ../wutcs; rm izit.exe"               
- MakeLib: ""                 
- MakeBin: "cd ../wutcs; csc izit.cs"                 
+ MakeClean: "cd ../wutcs; rm *.dll; cd cmd; rm *.exe"               
+ MakeLib: "cd ../wutcs; csc -target:library -out:Wut.dll *.cs"                 
+ MakeBin: "cd ../wutcs/cmd; csc -reference:../Wut.dll izit.cs"                 
  MakeTest: ""                
  DoTest: ""
 wutware:
  Language: vhdl
  Path: "../wutware"
+ SourceFiles: " [Izit.vhdl:MainBin]  [Test.vhdl:MainTest] [Wut.vhdl:MainMod] [<encoder>.vhdl:Mod] [LICENSE:License] "
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
@@ -153,6 +161,7 @@ wutware:
 wuths:
  Language: Haskell
  Path: "../wuths"
+ SourceFiles: " [izit.hs:MainBin]  [test.hs:MainTest] [wut.hs:MainMod] [<encoder>.hs:Mod] [LICENSE:License] "
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
@@ -172,6 +181,7 @@ wuths:
 wutjs:                          
  Language: Javascript              
  Path: "../wutjs"              
+ SourceFiles: " [izit.js:MainBin]  [test.js:MainTest] [index.js:MainMod] [<encoder>.js:Mod] [package.json:Meta] [LICENSE:License] "
  SourceSubPath: ""              
  TestsSubPath: ""               
  MetaFileName: "package.json"
