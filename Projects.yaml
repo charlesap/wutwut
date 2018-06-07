@@ -126,9 +126,9 @@ wutcs:
  MainTestFileName: "test"   
  MainModuleName: "wut"      
  MainModuleRequirements:    
- MakeClean: ""               
+ MakeClean: "cd ../wutcs; rm izit.exe"               
  MakeLib: ""                 
- MakeBin: ""                 
+ MakeBin: "cd ../wutcs; csc izit.cs"                 
  MakeTest: ""                
  DoTest: ""
 wutware:

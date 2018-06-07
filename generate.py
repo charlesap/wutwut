@@ -131,8 +131,20 @@ def updateStartMain(fn,l,d):
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:                                                          
         tc.write(s+'\n')                                                              
-        tc.write( Template(l['MainStart']).substitute(mn=d['MainModuleName'])+'\n' )  
+        tc.write( Template(l['MainStart']).substitute(mn=d['MainModuleName'],bn=d['MainBinFileName'])+'\n' )  
                                                                                       
+def updatePreMainStart(fn,l,d):
+    s=open(fn,'r').read()
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['MainPreStart']).substitute(mn=d['MainModuleName'],bn=d['MainBinFileName'])+'\n' )
+
+def updatePostMainEnd(fn,l,d):
+    s=open(fn,'r').read()
+    with open(fn,'w') as tc:
+        tc.write(s+'\n')
+        tc.write( Template(l['MainPostEnd']).substitute(mn=d['MainModuleName'])+'\n' )
+
 def updatePreambleMain(fn,l,d):                                                          
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:
@@ -271,9 +283,12 @@ for p in projects.items():
     updateTopComment(tstf,l)
 
     updateImportMain(binf,l,d)
+    updatePreMainStart(binf,l,d)
     updateStartMain(binf,l,d)
     updatePreambleMain(binf,l,d)                                                             
     updateEndMain(binf,l,d)                                                               
+
+
 
     updateImportTest(tstf,l,d)
     updateStartTest(tstf,l,d)
@@ -346,12 +361,15 @@ for p in projects.items():
 
       if i[0]!="_top_" and i[0]!="_cmd_":                                                                                                                                                                                               
           updateEndInitModule(modifp,l,d,i[0])                                                                                    
+         
 
       if i[0]!="_cmd_":
         updateEndModule(modifp,l,d)                                                                                        
 
       if moddfn != "":
           updateGuardEnd(moddfp,l,encnm)                                                                                   
+
+    updatePostMainEnd(binf,l,d)
 
     if d['MakeLib'] != "":
         print("calling: "+d['MakeLib'])
