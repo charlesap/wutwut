@@ -59,9 +59,9 @@ def printpath(flist,pth,f):
             ei=i[0]
             if ei[0]!='_':
               lnm=pre+ei+post
-              flist.append(assemblepath(pth,lnm))
+              flist.append([assemblepath(pth,lnm),None,None])
     else:
-      flist.append(assemblepath(pth,nm))
+      flist.append([assemblepath(pth,nm),None,None])
     return flist
 
 def FileList(r,s):
@@ -94,10 +94,46 @@ def FileList(r,s):
          
         else:
           print("uh... >"+s[c]+"<")
+          print(" ERROR: Can't interpret "+d['Language']+ " SourceFiles string in Projects.yaml")
           c=len(s)
+          ok=False
 
-    #  flist.append(r+"/"+s)
     return flist,ok
+
+def LoadAll(fl):
+    i=0
+    e=len(fl)
+    while i < e:
+      fe=fl[i]
+      p=os.path.dirname(fe[0])
+      if not os.path.exists(p):
+        os.makedirs(p)
+        print("making "+p)
+      if not os.path.exists(fe[0]):
+        open(fe[0],'a').close()
+        print("making "+fe[0])
+
+      with open(fe[0]) as fh:  
+        fl[i][2] = fh.read() 
+
+      i=i+1
+    return fl,True
+
+def GenerateAll(fl):
+    return fl,True
+
+def MergeAll(fl):
+    return fl,True
+
+def WriteAll(fl):
+    return fl,True
+
+def BuildAll(fl):
+    return fl,True
+
+def TestAll(fl):
+    return fl,True
+
 
 
 projects = getYamlFile("Projects.yaml")
@@ -109,11 +145,19 @@ for p in projects.items():
 
     d=p[1] 
     l=languages[d['Language']]
+    fl,ok=FileList(d['Path'],d['SourceFiles'])
 
-    
-    t,ok=FileList(d['Path'],d['SourceFiles'])
     if ok:
-      for f in t:
-        print("--->"+f)
-    else:
-      print(" ERROR: Can't interpret "+d['Language']+ " SourceFiles string in Projects.yaml")
+      fl,ok=LoadAll(fl)
+    if ok:
+      fl,ok=GenerateAll(fl)
+    if ok:
+      fl,ok=MergeAll(fl)
+    if ok:
+      fl,ok=WriteAll(fl)
+    if ok:
+      fl,ok=BuildAll(fl)
+    if ok:
+      fl,ok=TestAll(fl)
+
+      

@@ -32,7 +32,7 @@ def checkTheFile(fn):
 
 def checkSourceFiles(d,l,encoders):
 
-    checkTheFile(os.path.join(d['Path'],"LICENSE"))
+    checkTheFile(os.path.join(d['Path'],"rsc/LICENSE"))
     metafn = d['MetaFileName']
     moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])                       
     modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])                       
@@ -64,19 +64,19 @@ def updateTheMeta(fn,l):
 
 
 def updateTheLicense(fn):
-    l=open('LICENSE','r').read()
+    l=open('rsc/LICENSE','r').read()
     with open(fn,'w') as f:
       f.write(l)
 
 def updateTopComment(fn,l):
-    t=open('TOPCOMMENT','r').read()
+    t=open('rsc/TOPCOMMENT','r').read()
     s=open(fn,'r').read()
 
 #    if s=="":
     with open(fn,'w') as tc:                                                                 
-        tc.write(l['Comment'] + " " + os.path.basename(fn) + '\n')
+        tc.write(l['xComment'] + " " + os.path.basename(fn) + '\n')
         for tl in t.split('\n'):
-          tc.write(l['Comment'] + " " + tl + '\n')
+          tc.write(l['xComment'] + " " + tl + '\n')
         tc.write('\n')
       
 #    else:
@@ -89,13 +89,13 @@ def updateStartModule(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['ModuleStart']).substitute(mn=d['MainModuleName'])+'\n')
+        tc.write( Template(l['xModuleStart']).substitute(mn=d['MainModuleName'])+'\n')
 
 def updateEndModule(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['ModuleEnd']).substitute(mn=d['MainModuleName'])+'\n')
+        tc.write( Template(l['xModuleEnd']).substitute(mn=d['MainModuleName'])+'\n')
 
 def updateGuardStart(fn,l,nm):                                                             
     s=open(fn,'r').read()                                                                  
@@ -113,73 +113,73 @@ def updateStartInitModule(fn,l,d,tmn):
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:                                                          
         tc.write(s+'\n')                                                              
-        tc.write( Template(l['ModuleInitStart']).substitute(mn=tmn)+'\n') 
+        tc.write( Template(l['xModuleInitStart']).substitute(mn=tmn)+'\n') 
                                                                                      
 def updateEndInitModule(fn,l,d,tmn):                                                          
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:                                                          
         tc.write(s+'\n')                                                              
-        tc.write( Template(l['ModuleInitEnd']).substitute(mn=tmn)+'\n' )  
+        tc.write( Template(l['xModuleInitEnd']).substitute(mn=tmn)+'\n' )  
                                                                                       
 def updateImportMain(fn,l,d):                                                          
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:                                                          
         tc.write(s+'\n')                                                              
-        tc.write( Template(l['MainFuncImport']).substitute(mn=d['MainModuleName'])+'\n' )  
+        tc.write( Template(l['xMainFuncImport']).substitute(mn=d['MainModuleName'])+'\n' )  
                                                                                       
 def updateStartMain(fn,l,d):                                                          
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:                                                          
         tc.write(s+'\n')                                                              
-        tc.write( Template(l['MainStart']).substitute(mn=d['MainModuleName'],bn=d['MainBinFileName'])+'\n' )  
+        tc.write( Template(l['xMainStart']).substitute(mn=d['MainModuleName'],bn=d['MainBinFileName'])+'\n' )  
                                                                                       
 def updatePreMainStart(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['MainPreStart']).substitute(mn=d['MainModuleName'],bn=d['MainBinFileName'])+'\n' )
+        tc.write( Template(l['xMainPreStart']).substitute(mn=d['MainModuleName'],bn=d['MainBinFileName'])+'\n' )
 
 def updatePostMainEnd(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['MainPostEnd']).substitute(mn=d['MainModuleName'])+'\n' )
+        tc.write( Template(l['xMainPostEnd']).substitute(mn=d['MainModuleName'])+'\n' )
 
 def updatePreambleMain(fn,l,d):                                                          
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['MainFuncPreamble']).substitute(mn=d['MainModuleName'])+'\n' ) 
+        tc.write( Template(l['xMainFuncPreamble']).substitute(mn=d['MainModuleName'])+'\n' ) 
                                                                                      
 def updateEndMain(fn,l,d):                                                            
     s=open(fn,'r').read()                                                             
     with open(fn,'w') as tc:
         tc.write(s+'\n')                                                                                      
-        tc.write( Template(l['MainEnd']).substitute(mn=d['MainModuleName'])+'\n' )
+        tc.write( Template(l['xMainEnd']).substitute(mn=d['MainModuleName'])+'\n' )
                                                                                            
 def updateImportTest(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['TestFuncImport']).substitute(mn=d['MainModuleName'])+'\n' )
+        tc.write( Template(l['xTestFuncImport']).substitute(mn=d['MainModuleName'])+'\n' )
 
 def updateStartTest(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['TestStart']).substitute(mn=d['MainModuleName'])+'\n' )
+        tc.write( Template(l['xTestStart']).substitute(mn=d['MainModuleName'])+'\n' )
 
 def updatePreambleTest(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['TestFuncPreamble']).substitute(mn=d['MainModuleName'])+'\n' )
+        tc.write( Template(l['xTestFuncPreamble']).substitute(mn=d['MainModuleName'])+'\n' )
 
 def updateEndTest(fn,l,d):
     s=open(fn,'r').read()
     with open(fn,'w') as tc:
         tc.write(s+'\n')
-        tc.write( Template(l['TestEnd']).substitute(mn=d['MainModuleName'])+'\n' )
+        tc.write( Template(l['xTestEnd']).substitute(mn=d['MainModuleName'])+'\n' )
  
 def updateContains(fn,l,d,cn,cd):                                                                 
     s=open(fn,'r').read()  
@@ -247,7 +247,7 @@ def updateDefRefs(fn,l,d,encl,enci,top):
         for i in encl:
           if i[0]!="_top_" and i[0]!="_cmd_":
 
-            if l['HasImplicitImports'] == "No" or i[0] not in enci:
+            if l['xHasImplicitImports'] == "No" or i[0] not in enci:
 
               if l['DefFileName']=="":
                 t=Template(l['RefFileName']).substitute(en=i[0])                  
@@ -270,7 +270,7 @@ for p in projects.items():
     checkProjectDirs(d)                                                                                 
     checkSourceFiles(d,l,encoders)
 
-    licf=os.path.join(d['Path'],"LICENSE")
+    licf=os.path.join(d['Path'],"rsc/LICENSE")
 
     binf=os.path.join(d['Path'],d['MainBinFileSubPath'],Template(l['ImpFileName']).substitute(en=d['MainBinFileName']))
     bihf=os.path.join(d['Path'],d['MainBinFileSubPath'],Template(l['DefFileName']).substitute(en=d['MainBinFileName']))
@@ -329,7 +329,7 @@ for p in projects.items():
           updateGuardStart(moddfp,l,encnm)
 
       if i[0]=="_top_":                                                                                                                      
-        if l['HasImplicitImports'] == "No":                                                                                
+        if l['xHasImplicitImports'] == "No":                                                                                
             if moddfn != "":                                                                                               
                 updateDefRefs(moddfp,l,d,encoders.items(),encoders,True)                                                        
             else:                                                                                                          
