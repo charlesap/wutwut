@@ -21,7 +21,7 @@ Wut.jl:
 wut:
  Language: Go
  Path: "../wutgo"
- SourceFiles: " cmd( [izit.go:MainBin] [izit_test:MainTest] ) [wut.go:MainMod] [<encoder>.go:Mod]  [LICENSE:License] " 
+ SourceFiles: " cmd( [izit.go:MainBin] [izit_test.go:MainTest] ) [wut.go:MainMod] [<encoder>.go:Mod]  [LICENSE:License] " 
  SourceSubPath: ""
  TestsSubPath: "cmd"
  MetaFileName: ""
