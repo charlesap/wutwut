@@ -1,6 +1,9 @@
 _cmd_:
    Provides:
    - [_nothing_,Help,[]]
+_tst_:
+   Provides:
+     [_nothing_,Test,[]]
 _top_:
    Provides:
    - [_nothing_,Initialize,[]]

@@ -32,7 +32,7 @@ def checkTheFile(fn):
 
 def checkSourceFiles(d,l,encoders):
 
-    checkTheFile(os.path.join(d['Path'],"rsc/LICENSE"))
+    checkTheFile(os.path.join(d['Path'],"../wutwut/rsc/LICENSE"))
     metafn = d['MetaFileName']
     moddfn = Template(l['DefFileName']).substitute(en=d['MainModFileName'])                       
     modifn = Template(l['ImpFileName']).substitute(en=d['MainModFileName'])                       
@@ -64,12 +64,12 @@ def updateTheMeta(fn,l):
 
 
 def updateTheLicense(fn):
-    l=open('rsc/LICENSE','r').read()
+    l=open('../wutwut/rsc/LICENSE','r').read()
     with open(fn,'w') as f:
       f.write(l)
 
 def updateTopComment(fn,l):
-    t=open('rsc/TOPCOMMENT','r').read()
+    t=open('../wutwut/rsc/TOPCOMMENT','r').read()
     s=open(fn,'r').read()
 
 #    if s=="":
@@ -263,14 +263,14 @@ languages = getYamlFile("Languages.yaml")
 
 
 for p in projects.items():
-
+ if p[0]!="all":
     d=p[1] 
     l=languages[d['Language']]
 
     checkProjectDirs(d)                                                                                 
     checkSourceFiles(d,l,encoders)
 
-    licf=os.path.join(d['Path'],"rsc/LICENSE")
+    licf=os.path.join(d['Path'],"../wutwut/rsc/LICENSE")
 
     binf=os.path.join(d['Path'],d['MainBinFileSubPath'],Template(l['ImpFileName']).substitute(en=d['MainBinFileName']))
     bihf=os.path.join(d['Path'],d['MainBinFileSubPath'],Template(l['DefFileName']).substitute(en=d['MainBinFileName']))
