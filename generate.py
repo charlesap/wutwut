@@ -296,20 +296,23 @@ def BuildAll(wt,fl):
   if wt['MakeClean']!="":
     print("calling: "+wt['MakeClean'])
     call(wt['MakeClean'],shell=True)
-  if wt['MakeClean']!="":
+  if wt['MakeLib']!="":
     print("calling: "+wt['MakeLib'])
     call(wt['MakeLib'],shell=True)
-  if wt['MakeClean']!="":
+  if wt['MakeBin']!="":
     print("calling: "+wt['MakeBin'])
     call(wt['MakeBin'],shell=True)
-  if wt['MakeClean']!="":
+  if wt['MakeTest']!="":
     print(wt['MakeTest'])
     call(wt['MakeTest'],shell=True)
   return fl,True
 
 def TestAll(wt,fl):
-    print(wt['DoTest'])
-    return fl,True
+  if wt['DoTest']!="":
+      print(wt['DoTest'])
+      call(wt['DoTest'],shell=True)
+
+  return fl,True
 
 
 
@@ -325,7 +328,7 @@ for p in projects.items():
     wt.update(projects['all'])
     l=languages[wt['Language']]
     fl,ok=FileList(wt['Path'],wt['SourceFiles'])
-    print(wt['Language']+" "+wt['License'])
+    #print(wt['Language']+" "+wt['License'])
     if ok:
       fl,ok=LoadAll(fl)
     if ok:
