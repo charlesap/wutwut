@@ -73,17 +73,18 @@ wutpy:
 Wut.jl:
  Language: Julia
  Path: "../Wut.jl"
- SourceFiles: " src( [Wut.jl:MainMod] [Izit.jl:MainBin] [<encoder>.jl:Mod]) test( [runtests.jl:MainTest] )  [REQUIRE:Meta] [LICENSE:License] "
- MainMod: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<encoder>:PackageInclude][<_top_/Provides>:Method][Wut:PackageEnd]"
- Mod: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][Wut:PackageEnd]"
- MainBin: "(rsc/TOPCOMMENT:Comment)"
- MainTest: "(rsc/TOPCOMMENT:Comment)"
+ SourceFiles: " src( [Wut.jl:Lib] [Izit.jl:Bin] [<encoder>.jl:Mod]) test( [runtests.jl:Tst] )  [REQUIRE:Meta] [LICENSE:License] "
+ Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<encoder>:PackageInclude][<_top_/Provides>:Method][Wut:PackageEnd]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[Wut:BinInclude][Wut:PackageEnd]"
+ Bin: "(rsc/TOPCOMMENT:Comment)[main:BinMethod]"
+ Tst: "(rsc/TOPCOMMENT:Comment)"
  Meta: ""
  Comment: "# "
  PackageStart: "\nmodule ${me}"
  PackageEnd: "end # module ${me}"
  PackageInclude: "include (\"${me}.jl\")"
- Method: "\nfunction ${me}()\n    #"
+ BinInclude: "import ${me}"
+ BinMethod: "\n#Wut.Initialize()\n\nprintln(\"Julia izit version <~current>:<WutVersion~>\")\n"
  StructureStart: ""
  SourceSubPath: "src"
  TestsSubPath: "test"
@@ -100,7 +101,7 @@ Wut.jl:
  MakeLib: ""
  MakeBin: ""
  MakeTest: ""
- DoTest: ""
+ DoTest: "rm /home/cperkins/.julia/v0.6/Wut.jl; ln -s /home/cperkins/go/src/github.com/charlesap/Wut.jl /home/cperkins/.julia/v0.6/Wut.jl; julia ../Wut.jl/src/Izit.jl"
 wutj:
  Language: Java
  Path: "../wutj"
