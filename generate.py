@@ -293,9 +293,22 @@ def WriteAll(wt,fl):
     return fl,True
 
 def BuildAll(wt,fl):
-    return fl,True
+  if wt['MakeClean']!="":
+    print("calling: "+wt['MakeClean'])
+    call(wt['MakeClean'],shell=True)
+  if wt['MakeClean']!="":
+    print("calling: "+wt['MakeLib'])
+    call(wt['MakeLib'],shell=True)
+  if wt['MakeClean']!="":
+    print("calling: "+wt['MakeBin'])
+    call(wt['MakeBin'],shell=True)
+  if wt['MakeClean']!="":
+    print(wt['MakeTest'])
+    call(wt['MakeTest'],shell=True)
+  return fl,True
 
 def TestAll(wt,fl):
+    print(wt['DoTest'])
     return fl,True
 
 
