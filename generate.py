@@ -131,6 +131,28 @@ def FTGetTo(s,c,d):
     return s[b+1:c-1],c
 
 
+def Interp(l,wt,fl,en):
+    r=l
+    a=l.find("<~")
+    b=l.find(">:<")
+    c=l.find("~>")
+    if a>-1 and b>a and c>b:
+      
+      prel=l[0:a]
+      oldt=l[a+2:b]
+      lookup=l[b+3:c]
+      postl=l[c+2:]
+
+      conv=oldt
+      if lookup in wt:
+        llist=wt[lookup]
+        lu=llist.split(' ')
+        for i in lu:
+          bp=i.split('/')
+          if bp[0]==oldt:
+            conv=bp[1]
+      r=prel+conv+postl
+    return r
 
 def GenerateAll(wt,fl,en):
     i=0
@@ -155,9 +177,9 @@ def GenerateAll(wt,fl,en):
             if tp=='Comment':
               tc=wt['Comment']
               for q in l.splitlines():
-                d=d+tc+q+"\n"
+                d=d+Interp(tc+q+"\n",wt,fl,en)
             else:
-              d=d+l
+              d=d+Interp(l,wt,fl,en)
             c=SkipSpaces(s,c)
 
           elif s[c]=='[':
@@ -168,9 +190,10 @@ def GenerateAll(wt,fl,en):
             else:
               tps=" ERROR: "+tp+" Not Found in Projects.yaml entry for "+wt['Language']
 
+            
             if fp=='{encoder}':
               fp=fl[i][1]
-              d=d+Template(tps).substitute(me=fp)+"\n"
+              d=d+Interp(Template(tps).substitute(me=fp)+"\n",wt,fl,en)
 
             elif fp[0]=='<' and fp[-1]=='>':
               ne=fp[1:-1].split('/')
@@ -178,18 +201,58 @@ def GenerateAll(wt,fl,en):
                 if ne[0]=='encoder':
                   for p in en:
                     if p[0][0]!='_':
-                      d=d+Template(tps).substitute(me=p)+"\n"
+                      r=Template(tps).substitute(me=p)+"\n"
+                      d=d+Interp(r,wt,fl,en)
               else:
                 if ne[0]=='encoder':
                   w=en[fl[i][1]]
                   if ne[1] in w:
-                    for x in w[ne[1]]: 
-                      d=d+Template(tps).substitute(me=x)+"\n"
+                    for x in w[ne[1]]:
+                      tt=[None,None,None,None] 
+                      if type(x)==list:
+                        if len(x)>0:
+                          tt[0]=x[0]
+                        if len(x)>1:
+                          tt[1]=x[1]
+                        if len(x)>2:
+                          tt[2]=x[2]
+                        if len(x)>3:
+                          tt[3]=x[3]
+                      r=Template(tps).substitute(me=x,me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])
+                      d=d+Interp(r+"\n",wt,fl,en)
+                else:
+                  w=en[ne[0]]
+                  if ne[1] in w:
+                    for x in w[ne[1]]:
+                      tt=[None,None,None,None]
+                      if type(x)==list:
+                        if len(x)>0:
+                          tt[0]=x[0]
+                        if len(x)>1:
+                          tt[1]=x[1]
+                        if len(x)>2:
+                          tt[2]=x[2]
+                        if len(x)>3:
+                          tt[3]=x[3]
+                      r=Template(tps).substitute(me=x,me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])
+                      d=d+Interp(r+"\n",wt,fl,en)
 
-                #fp="REPEAT "+ne[0]+" "+ne[1]
-                #d=d+Template(tps).substitute(me=fp)+"\n"
+                  #fp="REPEAT "+ne[0]+" "+ne[1]
+                  #d=d+Template(tps).substitute(me=fp)+"\n"
             else:
-              d=d+Template(tps).substitute(me=fp)+"\n"
+              tt=[None,None,None,None]
+              if type(tps)==list:
+                        if len(tps)>0:
+                          tt[0]=tps[0]
+                        if len(tps)>1:
+                          tt[1]=tps[1]
+                        if len(tps)>2:
+                          tt[2]=tps[2]
+                        if len(tps)>3:
+                          tt[3]=tps[3]
+
+              r=Template(tps).substitute(me=fp,me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])+"\n"
+              d=d+Interp(r,wt,fl,en)
 
             c=SkipSpaces(s,c)
 
@@ -206,10 +269,10 @@ def GenerateAll(wt,fl,en):
       
       fl[i][3]=d
       
-      if fl[i][3]!=None:
-        if fl[i][2]!='License':
-          print(fl[i][0]+":")
-          print(fl[i][3])
+      #if fl[i][3]!=None:
+      #  if fl[i][2]!='License':
+      #    print(fl[i][0]+":")
+      #    print(fl[i][3])
       i=i+1
     return fl,True
 
@@ -217,6 +280,16 @@ def MergeAll(wt,fl):
     return fl,True
 
 def WriteAll(wt,fl):
+    i=0
+    e=len(fl)
+    while i < e:
+      fe=fl[i]
+      p=os.path.dirname(fe[0])
+
+      with open(fe[0],'w') as fh:
+        fh.write(fl[i][3])
+
+      i=i+1
     return fl,True
 
 def BuildAll(wt,fl):

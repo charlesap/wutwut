@@ -208,16 +208,17 @@ def updateProvidesDef(fn,l,d,cn,cd):
         tc.write(s+'\n')                                                                                               
         
 
-        for c in cd:                                                                                                   
-          t=c[0]
-          if c[0] in l['Typemap']:                                                         
-             t=l['Typemap'][c[0]]
-          prm=c[2]
+        for c in cd: 
+         if c!=[]:                                                                                                  
+          t=c[2]
+          if c[2] in l['Typemap']:                                                         
+             t=l['Typemap'][c[2]]
+          prm=c[1]
           if prm==[]:
              prm=""
           else:
              prm=""
-          tc.write( Template(l['FuncDef']).substitute(fnm=c[1],ftyp=t,fprm=prm) +'\n' )                           
+          tc.write( Template(l['FuncDef']).substitute(fnm=c[0],ftyp=t,fprm=prm) +'\n' )                           
 
 def updateProvidesImp(fn,l,d,cn,cd):                                                                                   
     s=open(fn,'r').read()                                                                                              
@@ -225,17 +226,19 @@ def updateProvidesImp(fn,l,d,cn,cd):
     with open(fn,'w') as tc:                                                                                           
         tc.write(s+'\n')                                                                                               
                                                                                                                        
-        for c in cd:                                                                                                   
-          t=c[0]                                                                                                       
-          if c[0] in l['Typemap']:                                                          
-             t=l['Typemap'][c[0]]                                                           
-          prm=c[2]
+        for c in cd:
+         if c!=[]:
+          print("--->"+str(c))                                                                                                   
+          t=c[2]                                                                                                       
+          if c[2] in l['Typemap']:                                                          
+             t=l['Typemap'][c[2]]                                                           
+          prm=c[1]
           if prm==[]:
              prm=""
           else:         
              prm=""
-          tc.write(Template(l['FuncImpStart']).substitute(fnm=c[1],ftyp=t,fprm=prm) +'\n' )
-          tc.write(Template(l['FuncImpEnd']).substitute(fnm=c[1],ftyp=t,fprm=prm) +'\n' )
+          tc.write(Template(l['FuncImpStart']).substitute(fnm=c[0],ftyp=t,fprm=prm) +'\n' )
+          tc.write(Template(l['FuncImpEnd']).substitute(fnm=c[0],ftyp=t,fprm=prm) +'\n' )
 
                                                                                                                        
 def updateDefRefs(fn,l,d,encl,enci,top):                                                                                      

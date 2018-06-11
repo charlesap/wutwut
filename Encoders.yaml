@@ -1,17 +1,17 @@
 _cmd_:
    Provides:
-   - [_nothing_,Help,[]]
+   - [Help,[],_nothing_]
 _tst_:
    Provides:
-     [_nothing_,Test,[]]
+   - [Test,[],_nothing_]
 _top_:
    Provides:
-   - [_nothing_,Initialize,[]]
+   - [Initialize,[],_nothing_]
 AbstractEncoder:
    Provides:
-   - [_nothing_,Encode,[[a,AbstractEncoder],[v]]]
-   - [_nothing_,GetDisplayWidth,[[a,AbstractEncoder]]]
-   - [_nothing_,Decode,[[e,AbstractEncoder], [b,BitPat], [parentFieldName,String,""]]]
+   - [Encode,[[a,AbstractEncoder],[v]],_nothing_]
+   - [GetDisplayWidth,[[a,AbstractEncoder]],_nothing_]
+   - [Decode,[[e,AbstractEncoder], [b,BitPat], [parentFieldName,String,""]],_nothing_]
    Requires:
    - getWidth(a::ConcreteEncoder) 
    - getDescription(a::ConcreteEncoder)
@@ -48,7 +48,7 @@ CategoryEncoder:
    -  [w, Int64]
    -  [n, Int64]
    -  [cL, Int64, Dict_String_Int64]
-   -  [sE, [ScalarEncoder,ScalarEncoder]]
+   -  [sE, ScalarEncoder]
    Imports:
    -  [ScalarEncoder]
 CoordinateEncoder:
@@ -68,17 +68,17 @@ DateEncoder:
    -  [timeOfDay, Int64, Number]
    -  [customDays, Int64, Number]
    -  [forced, Bool]
-   -  [sE, [ScalarEncoder,ScalarEncoder], Nullable]
+   -  [sE, ScalarEncoder, Nullable]
    -  [sEo, Int64]
-   -  [dE, [ScalarEncoder,ScalarEncoder], Nullable]
+   -  [dE, ScalarEncoder, Nullable]
    -  [dEo, Int64]
-   -  [wE, [ScalarEncoder,ScalarEncoder], Nullable]
+   -  [wE, ScalarEncoder, Nullable]
    -  [wEo, Int64]
-   -  [hE, [ScalarEncoder,ScalarEncoder], Nullable]
+   -  [hE, ScalarEncoder, Nullable]
    -  [hEo, Int64]
-   -  [tE, [ScalarEncoder,ScalarEncoder], Nullable]
+   -  [tE, ScalarEncoder, Nullable]
    -  [tEo, Int64]
-   -  [cE, [ScalarEncoder,ScalarEncoder], Nullable]
+   -  [cE, ScalarEncoder, Nullable]
    -  [cEo, Int64]
    -  [name, AbstractString]
    Imports:
