@@ -1,15 +1,15 @@
 <project>
-  <groupId>edu.berkeley</groupId>
-  <artifactId>spark-check-project</artifactId>
+  <groupId>com.agiide</groupId>
+  <artifactId>wut-project</artifactId>
   <modelVersion>4.0.0</modelVersion>
-  <name>Spark Check Project</name>
+  <name>Wut Project</name>
   <packaging>jar</packaging>
   <version>1.0</version>
   <properties>
       <!-- The final name for the JAR that you can find in target directory-->
-      <jar.final.name>sparkcheck-app</jar.final.name>
+      <jar.final.name>Izm-app</jar.final.name>
       <!--  the default class that has the public static void main(String[]) method -->
-      <main.class>CheckSpark</main.class>
+      <main.class>Izm</main.class>
   </properties>
   <dependencies>
     <dependency> <!-- Spark dependency -->
