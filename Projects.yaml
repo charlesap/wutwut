@@ -1,5 +1,6 @@
 all:
  License: "(rsc/LICENSE:Verbatim)"
+ WutVersion: "current/0.0.1"
 wut:
  Language: Go
  Path: "../wutgo"
@@ -13,8 +14,8 @@ wut:
  PackageStart: "\npackage ${me}\n"
  Import: "import \"fmt\"\nimport \"${me}\""
  Method: "\nfunc ${me_0}(){\n}"
- BinMethod: "\nfunc main(){\n  wut.Initialize()\n  fmt.Println(\"izit version 0.0.0\")\n}"
- TstMethod: "\nfunc main(){\n  wut.Initialize()\n  fmt.Println(\"testing wut version 0.0.0\")\n}"
+ BinMethod: "\nfunc main(){\n  wut.Initialize()\n  fmt.Println(\"izit version <~current>:<WutVersion~>\")\n}"
+ TstMethod: "\nfunc main(){\n  wut.Initialize()\n  fmt.Println(\"testing wut version <~current>:<WutVersion~>\")\n}"
  StructureStart: "\ntype ${me} struct {"
  StructureEnd: "}"
  StructureElement: "  ${me_0} <~${me_1}>:<TypeMap~>"
