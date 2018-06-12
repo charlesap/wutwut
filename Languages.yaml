@@ -290,7 +290,7 @@ csharp:
     Int64: i64                                                                            
     Float64: f64                                                                          
     AbstractString: str                                                                   
-vhdl:
+Verilog:
  lc: "--"
  xComment: "--"
  xModuleStart: "entity ${mn} is\nend;"
