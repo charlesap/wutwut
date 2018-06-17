@@ -2,9 +2,9 @@ all:
  License: "(rsc/LICENSE:Verbatim)"
  WutVersion: "current/0.0.1"
 wut:
- Language: Go
+ Language: "Go"
  Path: "../wutgo"
- SourceFiles: " cmd( [izit.go:Bin] [izit_test.go:Tst] ) [wut.go:Lib] [<encoder>.go:Mod]  [LICENSE:License] " 
+ SourceFiles: " cmd( [izit.go:Bin] [izit_test.go:Tst] ) [wut.go:Lib] [<encoder>.go:Mod] [LICENSE:License] " 
  Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<_top_/Provides>:Method]"
  Mod: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:Method]"
  Bin: "(rsc/TOPCOMMENT:Comment)[main:PackageStart][github.com/charlesap/wutgo:Import][main:BinMethod][<_cmd_/Provides>:Method]"
@@ -12,13 +12,36 @@ wut:
  Meta: ""
  Comment: "// "
  PackageStart: "\npackage ${me}\n"
- Import: "import \"fmt\"\nimport \"${me}\""
- Method: "\nfunc ${me_0}(){\n}"
- BinMethod: "\nfunc main(){\n  wut.Initialize()\n  fmt.Println(\"Go izit version <~current>:<WutVersion~>\")\n}"
- TstMethod: "\nfunc main(){\n  wut.Initialize()\n  fmt.Println(\"testing wut version <~current>:<WutVersion~>\")\n}"
+ Import: |
+  import "fmt"
+  import "flag"
+  import "os"
+  import "${me}"
+ Method: "\nfunc ${me}(<=-${me_0}>-<ArgLFirst:ArgLNext:TypeMap-=>){\n}"
+ ArgLFirst: "${me_0}"
+ ArgLNext: " ,${me_1}"
+ BinMethod: |
+  func main(){
+    wut.Initialize()
+    vptr := flag.Bool("version",false, "Print the version of izit and exit")
+    iptr := flag.String("in","-", "Input File")
+    optr := flag.String("out","-", "Output File")
+    eptr := flag.String("encoding","csv", "Encoding")
+    flag.Parse()
+    if *vptr {
+      fmt.Println("Go izit version <~current>:<WutVersion~>")
+      os.Exit(0)
+    }
+    Setup(*iptr,*optr,*eptr)
+  }
+ TstMethod: |
+  func main(){
+    wut.Initialize()
+    fmt.Println("testing wut version <~current>:<WutVersion~>")
+  }
  StructureStart: "\ntype ${me} struct {"
  StructureEnd: "}"
- StructureElement: "  ${me_0} <~${me_1}>:<TypeMap~>"
+ StructureElement: "  ${me} <~${me_0}>:<TypeMap~>"
  TypeMap: "Int64/int64 Float64/float64 AbstractString/string Bool/bool _nothing_/\"\""
  SourceSubPath: ""
  TestsSubPath: "cmd"
@@ -35,9 +58,9 @@ wut:
  MakeLib: ""                 
  MakeBin: "cd ../wutgo; go build cmd/izit.go"                 
  MakeTest: ""                
- DoTest: "../wutgo/izit"
+ DoTest: "../wutgo/izit --version"
 wutpy:
- Language: Python
+ Language: "Python"
  Path: "../wutpy"
  SourceFiles: " wut( [__init__.py:Lib] [izit.py:Bin] [test.py:Tst] [<encoder>.py:Mod]) [setup.py:Meta] [LICENSE:License] "
  Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<encoder>:Import][<encoder/Provides>:Method]"
@@ -49,11 +72,14 @@ wutpy:
  PackageStart: "# ${me} Module"
  Import: "from wut.${me} import ${me}"
  BinImport: "import ${me}"
- Method: "\ndef ${me_0}():\n  pass"
- BinMethod: "if __name__ ==  '__main__':\n  wut.Initialize()\n  print(\"Python izit version <~current>:<WutVersion~>\")"
+ Method: "\ndef ${me}():\n  pass"
+ BinMethod: |
+  if __name__ ==  '__main__':
+    wut.Initialize()
+    print("Python izit version <~current>:<WutVersion~>")
  StructureStart: "\nclass ${me}:\n  pass"
- StructureElement: "    ${me_0}"
- ClassMethod: "\ndef ${me_0}():\n  pass"
+ StructureElement: "    ${me}"
+ ClassMethod: "\ndef ${me}():\n  pass"
  SourceSubPath: "wut"
  TestsSubPath: "wut"
  MetaFileName: "setup.py"
@@ -69,9 +95,9 @@ wutpy:
  MakeLib: ""                 
  MakeBin: ""                 
  MakeTest: ""                
- DoTest: "cd ../wutpy; PYTHONPATH=$PYTHONPATH:. python wut/izit.py"
+ DoTest: "cd ../wutpy; PYTHONPATH=$PYTHONPATH:. python wut/izit.py -version"
 Wut.jl:
- Language: Julia
+ Language: "Julia"
  Path: "../Wut.jl"
  SourceFiles: " src( [Wut.jl:Lib] [Izit.jl:Bin] [<encoder>.jl:Mod]) test( [runtests.jl:Tst] )  [REQUIRE:Meta] [LICENSE:License] "
  Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<encoder>:PackageInclude][<_top_/Provides>:Method][Wut:PackageEnd]"
@@ -101,9 +127,9 @@ Wut.jl:
  MakeLib: ""
  MakeBin: ""
  MakeTest: ""
- DoTest: "rm /home/cperkins/.julia/v0.6/Wut.jl; ln -s /home/cperkins/go/src/github.com/charlesap/Wut.jl /home/cperkins/.julia/v0.6/Wut.jl; julia ../Wut.jl/src/Izit.jl"
+ DoTest: "rm /home/cperkins/.julia/v0.6/Wut.jl; ln -s /home/cperkins/go/src/github.com/charlesap/Wut.jl /home/cperkins/.julia/v0.6/Wut.jl; julia ../Wut.jl/src/Izit.jl -version"
 wutj:
- Language: Java
+ Language: "Java"
  Path: "../wutj"
  SourceFiles: " src(main(java( [Wut.java:Lib] [Izit.java:Bin] [Izm.java:Spk] [Test.java:Tst] [<encoder>.java:Mod]))) [pom.xml:Meta] [LICENSE:License] "
  Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<_top_/Provides>:Method][Wut:PackageEnd]"
@@ -115,7 +141,7 @@ wutj:
  Comment: "// "
  PackageStart: "\npublic class ${me}{"
  PackageEnd: "}"
- Method: "\n  public static void ${me_0}(){\n  }"
+ Method: "\n  public static void ${me}(){\n  }"
  BinMethod: "\n  public static void  main(String[] args){\n  Wut.Initialize();\n  System.out.println(\"Java izit version <~current>:<WutVersion~>\\n\");\n  }"
  BinImport: ""
  SourceSubPath: ""
@@ -133,7 +159,7 @@ wutj:
  MakeLib: ""                 
  MakeBin: "cd ../wutj; mvn package"                 
  MakeTest: ""                
- DoTest: "java -cp ../wutj/target/classes Izit"
+ DoTest: "java -cp ../wutj/target/classes Izit --version"
 wutc:
  Language: c
  Path: "../wutc"
@@ -152,8 +178,8 @@ wutc:
  Import: "#include <stdio.h>\n#include \"${me}.h\""
  GuardStart: "#ifndef _${me}_\n#define _${me}_"
  GuardEnd: "#endif"
- MethodDef: "\nvoid ${me_0}();"
- Method: "\nvoid ${me_0}(){\n}"
+ MethodDef: "\nvoid ${me}();"
+ Method: "\nvoid ${me}(){\n}"
  BinMethod: "\nvoid main(){\n  Initialize();\n  printf(\"c izit version <~current>:<WutVersion~>\\n\");\n}"
  TstMethod: "\nvoid main(){\n  Initialize();\n  printf(\"testing wut version <~current>:<WutVersion~>\\n\");\n}"
  StructureStart: "\ntypedef struct {"
@@ -174,7 +200,7 @@ wutc:
  MakeLib: ""                 
  MakeBin: "cd ../wutc; cc -o izit izit.c wut.c"                 
  MakeTest: ""                
- DoTest: "../wutc/izit"
+ DoTest: "../wutc/izit --version"
 wutrs:                        
  Language: rust                 
  Path: "../wutrs"             
@@ -189,7 +215,7 @@ wutrs:
  BinImport: "extern crate ${me};"
  PackageStart: "#![allow(non_snake_case)]\n//mod ${me} {\n"
  PackageEnd: "//}// ${me}"
- Method: "\n    pub fn ${me_0}(){\n    }"
+ Method: "\n    pub fn ${me}(){\n    }"
  BinMethod: "\npub fn main()\n{\n    wut::Initialize();\n    println!(\"rust izit version <~current>:<WutVersion~>\");\n}"
  SourceSubPath: "src"           
  TestsSubPath: "test"            
@@ -206,7 +232,7 @@ wutrs:
  MakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib wut.rs"                 
  MakeBin: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case izit.rs --extern wut=libwut.rlib"                 
  MakeTest: ""                
- DoTest: "../wutrs/src/izit"
+ DoTest: "../wutrs/src/izit --version"
 wutcs:                       
  Language: csharp              
  Path: "../wutcs"            
@@ -225,7 +251,7 @@ wutcs:
  BinImport: "using System;\nusing ${me};"
  BinPackageStart: "public class ${me}\n{"
  PackageEnd: "}// ${me}"
- Method: "\n    public void ${me_0}(){\n    }"
+ Method: "\n    public void ${me}(){\n    }"
  BinMethod: "\n    static public void Main(string[] args)\n    {\n        //Initialize();\n        Console.WriteLine (\"csharp izit version <~current>:<WutVersion~>\");\n    }"
  SourceSubPath: ""           
  TestsSubPath: "test"            
@@ -242,7 +268,7 @@ wutcs:
  MakeLib: "cd ../wutcs; csc -target:library -out:Wut.dll *.cs"                 
  MakeBin: "cd ../wutcs/cmd; csc -reference:../Wut.dll izit.cs"                 
  MakeTest: ""                
- DoTest: "mono ../wutcs/cmd/izit.exe"
+ DoTest: "mono ../wutcs/cmd/izit.exe --version"
 wutv:
  Language: Verilog
  Path: "../wutv"
@@ -271,7 +297,7 @@ wutv:
  MakeLib: ""                 
  MakeBin: "cd ../wutv; iverilog -o Izit Izit.v"                 
  MakeTest: ""                
- DoTest: "cd ../wutv; vvp Izit"
+ DoTest: "cd ../wutv; vvp Izit --version"
 wuths:
  Language: Haskell
  Path: "../wuths"
@@ -284,7 +310,7 @@ wuths:
  Comment: "-- "
  PackageStart: "-- Package ${me}"
  BinMethod: "main = putStrLn \"Haskell izit version <~current>:<WutVersion~>\""
- Method: "\n-- function ${me_0}()"
+ Method: "\n-- function ${me}()"
  SourceSubPath: ""
  TestsSubPath: ""
  MetaFileName: ""
@@ -300,7 +326,7 @@ wuths:
  MakeLib: ""                 
  MakeBin: "cd ../wuths; ghc -o izit izit.hs"                 
  MakeTest: ""                
- DoTest: "cd ../wuths; ./izit"
+ DoTest: "cd ../wuths; ./izit --version"
 wutjs:                          
  Language: Javascript              
  Path: "../wutjs"              
@@ -314,7 +340,7 @@ wutjs:
  PackageStart: "\n// Package ${me}"
  Import: "\nimport ${me}"
  BinMethod: "  console.log(\"Javascript izit version <~current>:<WutVersion~>\");"
- Method: "\nfunction ${me_0}(){\n}"
+ Method: "\nfunction ${me}(){\n}"
  StructureStart: "\ntype ${me} struct {"
  StructureEnd: "}"
  StructureElement: "  ${me}"
@@ -331,7 +357,7 @@ wutjs:
  MainModuleRequirements:        
  MakeClean: ""               
  MakeLib: ""                 
- MakeBin: ""                 
- MakeTest: "cd ../wutjs; LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node test.js"                
- DoTest: ""
+ MakeBin: ""
+ MakeTest: ""                 
+ DoTest: "cd ../wutjs; LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node test.js --version"                
 

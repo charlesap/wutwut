@@ -1,5 +1,6 @@
 import yaml
 import os
+import ast
 from string import Template
 from subprocess import call
 
@@ -130,6 +131,16 @@ def FTGetTo(s,c,d):
         c=len(s)
     return s[b+1:c-1],c
 
+def TypeFromMap(m,t):
+        o=t
+        lu=m.split(' ')
+        for i in lu:
+          bp=i.split('/')
+          if bp[0]==t:
+            o=bp[1]
+
+        return o
+
 
 def Interp(l,wt,fl,en):
     r=l
@@ -143,15 +154,43 @@ def Interp(l,wt,fl,en):
       lookup=l[b+3:c]
       postl=l[c+2:]
 
-      conv=oldt
-      if lookup in wt:
-        llist=wt[lookup]
-        lu=llist.split(' ')
-        for i in lu:
-          bp=i.split('/')
-          if bp[0]==oldt:
-            conv=bp[1]
+      conv=TypeFromMap(wt[lookup],oldt)
       r=prel+conv+postl
+
+    l=r
+    a=l.find("<=-")
+    b=l.find(">-<")    
+    c=l.find("-=>")
+    if a>-1 and b>a and c>b:
+
+      prel=l[0:a]
+      oldt=l[a+3:b]
+      lookup=l[b+3:c]
+      postl=l[c+3:]
+
+      lu=lookup.split(':')
+      lul=wt[lu[0]]
+      lur=wt[lu[1]]
+      tm=wt[lu[2]]
+           
+      conv=""
+      
+      x=ast.literal_eval(oldt)
+      first=True
+      for b in x:
+        if not first:
+          conv=conv+","
+        if len(b)>1:
+          tt=TypeFromMap(tm,b[1])
+        else:
+          tt=b[1]
+        conv=conv+b[0]+" "+tt
+        first=False
+      
+      r=prel+conv+postl
+
+
+
     return r
 
 def GenerateAll(wt,fl,en):
@@ -208,38 +247,46 @@ def GenerateAll(wt,fl,en):
                   w=en[fl[i][1]]
                   if ne[1] in w:
                     for x in w[ne[1]]:
+                      
+                      lx=len(w[ne[1]][x])
                       tt=[None,None,None,None] 
-                      if type(x)==list:
-                        if len(x)>0:
-                          tt[0]=x[0]
-                        if len(x)>1:
-                          tt[1]=x[1]
-                        if len(x)>2:
-                          tt[2]=x[2]
-                        if len(x)>3:
-                          tt[3]=x[3]
+                      
+                      if lx>0:
+                        tt[0]=w[ne[1]][x][0]
+                      if lx>1:
+                        tt[1]=w[ne[1]][x][1]
+                      if lx>2:
+                        tt[2]=w[ne[1]][x][2]
+                      if lx>3:
+                        tt[3]=w[ne[1]][x][3]
                       r=Template(tps).substitute(me=x,me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])
                       d=d+Interp(r+"\n",wt,fl,en)
                 else:
                   w=en[ne[0]]
                   if ne[1] in w:
                     for x in w[ne[1]]:
+
+                      lx=len(w[ne[1]][x])
                       tt=[None,None,None,None]
-                      if type(x)==list:
-                        if len(x)>0:
-                          tt[0]=x[0]
-                        if len(x)>1:
-                          tt[1]=x[1]
-                        if len(x)>2:
-                          tt[2]=x[2]
-                        if len(x)>3:
-                          tt[3]=x[3]
+
+                      if lx>0:
+                        tt[0]=w[ne[1]][x][0]
+                      if lx>1:
+                        tt[1]=w[ne[1]][x][1]
+                      if lx>2:
+                        tt[2]=w[ne[1]][x][2]
+                      if lx>3:
+                        tt[3]=w[ne[1]][x][3]
                       r=Template(tps).substitute(me=x,me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])
                       d=d+Interp(r+"\n",wt,fl,en)
 
                   #fp="REPEAT "+ne[0]+" "+ne[1]
                   #d=d+Template(tps).substitute(me=fp)+"\n"
             else:
+        #      print(tps)
+        #      print(wt[tp])
+        #      print(fp)
+        #      print(tp)
               tt=[None,None,None,None]
               if type(tps)==list:
                         if len(tps)>0:
@@ -250,7 +297,6 @@ def GenerateAll(wt,fl,en):
                           tt[2]=tps[2]
                         if len(tps)>3:
                           tt[3]=tps[3]
-
               r=Template(tps).substitute(me=fp,me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])+"\n"
               d=d+Interp(r,wt,fl,en)
 

@@ -1,158 +1,279 @@
 _cmd_:
    Provides:
-   - [Help,[],_nothing_]
+     Setup:
+     - [[i,AbstractString],[o,AbstractString],[e,AbstractString]]
+     - _nothing_
+     - ""
+     Help:
+     - []
+     - _nothing_
+     - ""
+   Flags:
+   - [version,Bool]
+   - [in,AbstractString]
+   - [out,AbstractString]
+   - [encoding,Bool]
 _tst_:
    Provides:
-   - [Test,[],_nothing_]
+     Test:
+     - []
+     - _nothing_
+     - ""
 _top_:
    Provides:
-   - [Initialize,[],_nothing_]
+     Initialize:
+     - []
+     - _nothing_
+     - "emit 'initializing encoders'"
 AbstractEncoder:
    Provides:
-   - [Encode,[[a,AbstractEncoder],[v]],_nothing_]
-   - [GetDisplayWidth,[[a,AbstractEncoder]],_nothing_]
-   - [Decode,[[e,AbstractEncoder], [b,BitPat], [parentFieldName,String,""]],_nothing_]
+     Encode:
+     - [[a,AbstractEncoder],[v,Int64]]
+     - _nothing_
+     - ""
+     GetDisplayWidth:
+     - [[a,AbstractEncoder]]
+     - _nothing_
+     - ""
+     Decode:
+     - [[e,AbstractEncoder], [b,BitPat], [parentFieldName,AbstractString,""]]
+     - _nothing_
+     - ""
    Requires:
    - getWidth(a::ConcreteEncoder) 
    - getDescription(a::ConcreteEncoder)
    - encodeIntoArray(a::ConcreteEncoder, inputData, output)
-   - setLearning(a::AbstractEncoder, learningEnabled):
-   - setFieldStats(a::AbstractEncoder, fieldName, fieldStatistics):
-   - getScalarNames(a::AbstractEncoder, parentFieldName=''):
-   - getDecoderOutputFieldTypes(a::AbstractEncoder):
-   - setStateLock(a::AbstractEncoder,lock):
-   - _getInputValue(a::AbstractEncoder, obj, fieldName):
-   - getEncoderList(a::AbstractEncoder):
-   - getScalars(a::AbstractEncoder, inputData):
-   - getEncodedValues(a::AbstractEncoder, inputData):
-   - getBucketIndices(a::AbstractEncoder, inputData):
-   - scalarsToStr(a::AbstractEncoder, scalarValues, scalarNames=None):
-   - getFieldDescription(a::AbstractEncoder, fieldName):
-   - encodedBitDescription(a::AbstractEncoder, bitOffset, formatted=False):
-   - pprintHeader(a::AbstractEncoder, prefix=""):
-   - pprint(a::AbstractEncoder, output, prefix=""):
-   - decode(a::AbstractEncoder, encoded, parentFieldName=''):
-   - decodedToStr(a::AbstractEncoder, decodeResults):
-   - getBucketValues(a::AbstractEncoder):
-   - getBucketInfo(a::AbstractEncoder, buckets):
-   - topDownCompute(a::AbstractEncoder, encoded):
-   - closenessScores(a::AbstractEncoder, expValues, actValues, fractional=True):
+   - setLearning(a::AbstractEncoder, learningEnabled)
+   - setFieldStats(a::AbstractEncoder, fieldName, fieldStatistics)
+   - getScalarNames(a::AbstractEncoder, parentFieldName='')
+   - getDecoderOutputFieldTypes(a::AbstractEncoder)
+   - setStateLock(a::AbstractEncoder,lock)
+   - _getInputValue(a::AbstractEncoder, obj, fieldName)
+   - getEncoderList(a::AbstractEncoder)
+   - getScalars(a::AbstractEncoder, inputData)
+   - getEncodedValues(a::AbstractEncoder, inputData)
+   - getBucketIndices(a::AbstractEncoder, inputData)
+   - scalarsToStr(a::AbstractEncoder, scalarValues, scalarNames=None)
+   - getFieldDescription(a::AbstractEncoder, fieldName)
+   - encodedBitDescription(a::AbstractEncoder, bitOffset, formatted=False)
+   - pprintHeader(a::AbstractEncoder, prefix="")
+   - pprint(a::AbstractEncoder, output, prefix="")
+   - decode(a::AbstractEncoder, encoded, parentFieldName='')
+   - decodedToStr(a::AbstractEncoder, decodeResults)
+   - getBucketValues(a::AbstractEncoder)
+   - getBucketInfo(a::AbstractEncoder, buckets)
+   - topDownCompute(a::AbstractEncoder, encoded)
+   - closenessScores(a::AbstractEncoder, expValues, actValues, fractional=True)
 AdaptiveScalarEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
+BitPat:
+   Contains:
+     b:
+     - Int64
+     n:
+     - Int64
 CategoryEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
-   -  [cL, Int64, Dict_String_Int64]
-   -  [sE, ScalarEncoder]
+     w:
+     - Int64
+     n:
+     - Int64
+     cL:
+     - Int64
+     - Dict_String_Int64
+     sE:
+     - ScalarEncoder
    Imports:
    -  [ScalarEncoder]
 CoordinateEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
 DateEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
-   -  [season, Int64, Number]
-   -  [dayOfWeek, Int64, Number]
-   -  [weekend, Int64, Number]
-   -  [holiday, Int64, Number]
-   -  [timeOfDay, Int64, Number]
-   -  [customDays, Int64, Number]
-   -  [forced, Bool]
-   -  [sE, ScalarEncoder, Nullable]
-   -  [sEo, Int64]
-   -  [dE, ScalarEncoder, Nullable]
-   -  [dEo, Int64]
-   -  [wE, ScalarEncoder, Nullable]
-   -  [wEo, Int64]
-   -  [hE, ScalarEncoder, Nullable]
-   -  [hEo, Int64]
-   -  [tE, ScalarEncoder, Nullable]
-   -  [tEo, Int64]
-   -  [cE, ScalarEncoder, Nullable]
-   -  [cEo, Int64]
-   -  [name, AbstractString]
+     w:
+     - Int64
+     n:
+     - Int64
+     season:
+     - Int64
+     - Number
+     dayOfWeek:
+     - Int64
+     - Number
+     weekend:
+     - Int64
+     - Number
+     holiday:
+     - Int64
+     - Number
+     timeOfDay:
+     - Int64
+     - Number
+     customDays:
+     - Int64
+     - Number
+     forced:
+     - Bool
+     sE:
+     - ScalarEncoder
+     - Nullable
+     sEo:
+     - Int64
+     dE:
+     - ScalarEncoder
+     - Nullable
+     dEo:
+     - Int64
+     wE:
+     - ScalarEncoder
+     - Nullable
+     wEo:
+     - Int64
+     hE:
+     - ScalarEncoder
+     - Nullable
+     hEo:
+     - Int64
+     tE:
+     - ScalarEncoder
+     - Nullable
+     tEo:
+     - Int64
+     cE:
+     - ScalarEncoder
+     - Nullable
+     cEo:
+     - Int64
+     name:
+     - AbstractString
    Imports:
    -  [ScalarEncoder] 
 DeltaEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
 GeospatialCoordinateEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
 LogEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
 MultiEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
 PassThroughEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
 RandomDistributedScalarEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
-   -  [minIndex, Int64]      
-   -  [maxIndex, Int64]      
-   -  [offset, Float64]
-   -  [oidx, Int64]
-   -  [resolution, Float64]
-   -  [verbosity, Int64]
-   -  [maxoverlap, Int64]
-   -  [random, Int64, MersenneTwister]
-   -  [bucketmap, Int64, Dict_Int32_Vector_Int32]
-   -  [numTries, Int64]
-   -  [maxBuckets, Int64]
-   -  [name, AbstractString]
+     w:
+     - Int64
+     n:
+     - Int64
+     minIndex:
+     - Int64      
+     maxIndex:
+     - Int64      
+     offset:
+     - Float64
+     oidx:
+     - Int64
+     resolution:
+     - Float64
+     verbosity:
+     - Int64
+     maxoverlap:
+     - Int64
+     random:
+     - Int64
+     - MersenneTwister
+     bucketmap:
+     - Int64
+     - Dict_Int32_Vector_Int32
+     numTries:
+     - Int64
+     maxBuckets:
+     - Int64
+     name:
+     - AbstractString
 SDRCategoryEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
 ScalarEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
-   -  [minval, Float64]
-   -  [maxval, Float64]
-   -  [periodic, Bool]
-   -  [radius, Float64]
-   -  [resolution, Float64]
-   -  [verbosity, Int64]
-   -  [clipInput, Bool]
-   -  [forced, Bool]
-   -  [padding, Int64]
-   -  [srange, Float64]
-   -  [name, AbstractString]
+     w:
+     - Int64
+     n:
+     - Int64
+     minval:
+     - Float64
+     maxval:
+     - Float64
+     periodic:
+     - Bool
+     radius:
+     - Float64
+     resolution:
+     - Float64
+     verbosity:
+     - Int64
+     clipInput:
+     - Bool
+     forced:
+     - Bool
+     padding:
+     - Int64
+     srange:
+     - Float64
+     name:
+     - AbstractString
 ScalarSpaceEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
 SparsePassThroughEncoder:
    Extends: AbstractEncoder
    Contains:
-   -  [w, Int64]
-   -  [n, Int64]
+     w:
+     - Int64
+     n:
+     - Int64
