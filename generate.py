@@ -141,6 +141,36 @@ def TypeFromMap(m,t):
 
         return o
 
+def token1(s):
+    c=0
+    while c<len(s) and s[c]==' ':
+      c=c+1
+    f=c
+    while c<len(s) and s[c]!=' ':
+      c=c+1
+    return s[f:c],f,c
+
+def emitcode(wt,s):
+    r=""
+    if len(s)>0:
+      for l in s.split('\n'):
+        t,i,n=token1(l)
+        la=l.split(' ')
+        tt=[None,None,None,None]
+        lx=len(la)
+        if lx>0:
+          tt[0]=la[0]
+        if lx>1:
+          tt[1]=la[1]
+        if lx>2:
+          tt[2]=la[2]
+        if lx>3:
+          tt[3]=la[3]
+
+        z=wt['CodeMap']
+        if t in z:
+          r=r+' '*i+Template(z[t]).substitute(me=l,me_r=l[n:],me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])+'\n'
+    return(r)
 
 def Interp(l,wt,fl,en):
     r=l
@@ -169,14 +199,15 @@ def Interp(l,wt,fl,en):
       postl=l[c+3:]
 
       lu=lookup.split(':')
-      lul=wt[lu[0]]
-      lur=wt[lu[1]]
-      tm=wt[lu[2]]
+      lul = wt[lu[0]]
+      lur = wt[lu[1]]
+      tm  = wt[lu[2]]
            
       conv=""
       
       x=ast.literal_eval(oldt)
       first=True
+      #print(l)
       for b in x:
         if not first:
           conv=conv+","
@@ -189,7 +220,15 @@ def Interp(l,wt,fl,en):
       
       r=prel+conv+postl
 
+    l=r
+    a=l.find("<~~")   
+    c=l.find("~~>")
+    if a>-1 and c>a:
+      prel=l[0:a]
+      body=l[a+3:c]
+      postl=l[c+3:]
 
+      r=prel+emitcode(wt,body)+postl
 
     return r
 

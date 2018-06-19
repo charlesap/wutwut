@@ -1,44 +1,88 @@
 _cmd_:
    Provides:
      Setup:
-     - [[i,AbstractString],[o,AbstractString],[e,AbstractString]]
+     - 
+     - [[i,String],[o,String],[c,String],[e,String],[f,String]]
      - _nothing_
-     - ""
+     - |
+       reserve ni as String
+       reserve no as String
+       reserve ne as String
+       reserve nf as String
+       if c isnot "" then
+          call LoadConfig with c giving ni,no,ne,nf
+       else
+          set ni to i
+          set no to o
+          set ne to e
+          set nf to f
+       fi
+       emit "Setup"
+     LoadConfig:
+     - 
+     - [[c,String]]
+     - [[i,String],[o,String],[e,String],[f,String]]
+     - |
+       reserve fh as FileHandle
+       emit "Loadconfig"
      Help:
+     - 
      - []
      - _nothing_
-     - ""
+     - |
+       emit "Help"
+     Run:
+     - 
+     - []
+     - _nothing_
+     - |
+       emit "running"
+       MERGE
+       emit "done"
    Flags:
    - [version,Bool]
-   - [in,AbstractString]
-   - [out,AbstractString]
-   - [encoding,Bool]
+   - [in,String]
+   - [out,String]
+   - [config,String]
+   - [encoders,String]
+   - [format,String]
 _tst_:
    Provides:
      Test:
+     - 
      - []
      - _nothing_
-     - ""
+     - |
+       emit "Test"
 _top_:
    Provides:
      Initialize:
+     - 
      - []
      - _nothing_
-     - "emit 'initializing encoders'"
+     - | 
+       emit "initializing-encoders"
+       emit "ready!"
 AbstractEncoder:
    Provides:
      Encode:
-     - [[a,AbstractEncoder],[v,Int64]]
+     - AbstractEncoder
+     - [[v,Int64]]
      - _nothing_
-     - ""
+     - |
+       emit "Encode"
      GetDisplayWidth:
-     - [[a,AbstractEncoder]]
+     - AbstractEncoder
+     - []
      - _nothing_
-     - ""
+     - |
+       emit "GetDisplayWidth"
      Decode:
-     - [[e,AbstractEncoder], [b,BitPat], [parentFieldName,AbstractString,""]]
+     - AbstractEncoder
+     - [[b,BitPat], [parentFieldName,String]]
      - _nothing_
-     - ""
+     - |
+       emit "Decode"
    Requires:
    - getWidth(a::ConcreteEncoder) 
    - getDescription(a::ConcreteEncoder)
@@ -71,12 +115,26 @@ AdaptiveScalarEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - AdaptiveScalarEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 BitPat:
    Contains:
      b:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - BitPat
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 CategoryEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -91,6 +149,13 @@ CategoryEncoder:
      - ScalarEncoder
    Imports:
    -  [ScalarEncoder]
+   Provides:
+     GetWidth:
+     - CategoryEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 CoordinateEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -98,6 +163,13 @@ CoordinateEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - CoordinateEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 DateEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -156,9 +228,16 @@ DateEncoder:
      cEo:
      - Int64
      name:
-     - AbstractString
+     - String
    Imports:
    -  [ScalarEncoder] 
+   Provides:
+     GetWidth:
+     - DateEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 DeltaEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -166,6 +245,13 @@ DeltaEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - DeltaEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 GeospatialCoordinateEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -173,6 +259,13 @@ GeospatialCoordinateEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - GeospatialCoordinateEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 LogEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -180,6 +273,13 @@ LogEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - LogEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 MultiEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -187,6 +287,13 @@ MultiEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - MultiEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 PassThroughEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -194,6 +301,13 @@ PassThroughEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - PassThroughEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 RandomDistributedScalarEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -226,7 +340,14 @@ RandomDistributedScalarEncoder:
      maxBuckets:
      - Int64
      name:
-     - AbstractString
+     - String
+   Provides:
+     GetWidth:
+     - RandomDistributedScalarEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 SDRCategoryEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -234,6 +355,13 @@ SDRCategoryEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - SDRCategoryEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 ScalarEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -262,7 +390,14 @@ ScalarEncoder:
      srange:
      - Float64
      name:
-     - AbstractString
+     - String
+   Provides:
+     GetWidth:
+     - ScalarEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 ScalarSpaceEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -270,6 +405,13 @@ ScalarSpaceEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - ScalarSpaceEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 SparsePassThroughEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -277,3 +419,11 @@ SparsePassThroughEncoder:
      - Int64
      n:
      - Int64
+   Provides:
+     GetWidth:
+     - SparsePassThroughEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
+

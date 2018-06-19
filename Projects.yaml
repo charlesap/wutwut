@@ -5,34 +5,40 @@ wut:
  Language: "Go"
  Path: "../wutgo"
  SourceFiles: " cmd( [izit.go:Bin] [izit_test.go:Tst] ) [wut.go:Lib] [<encoder>.go:Mod] [LICENSE:License] " 
- Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<_top_/Provides>:Method]"
- Mod: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:Method]"
- Bin: "(rsc/TOPCOMMENT:Comment)[main:PackageStart][github.com/charlesap/wutgo:Import][main:BinMethod][<_cmd_/Provides>:Method]"
- Tst: "(rsc/TOPCOMMENT:Comment)[test:PackageStart][github.com/charlesap/wutgo:Import][main:TstMethod][<_tst_/Provides>:Method]"
+ Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][wut:LibImport][<_top_/Provides>:Function]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][wut:LibImport][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:Method]"
+ Bin: "(rsc/TOPCOMMENT:Comment)[main:PackageStart][github.com/charlesap/wutgo:Import][main:BinMethod][<_cmd_/Provides>:Function]"
+ Tst: "(rsc/TOPCOMMENT:Comment)[test:PackageStart][github.com/charlesap/wutgo:Import][main:TstMethod][<_tst_/Provides>:Function]"
  Meta: ""
  Comment: "// "
  PackageStart: "\npackage ${me}\n"
+ LibImport: | 
+  import "fmt"
  Import: |
   import "fmt"
   import "flag"
   import "os"
   import "${me}"
- Method: "\nfunc ${me}(<=-${me_0}>-<ArgLFirst:ArgLNext:TypeMap-=>){\n}"
+ Function: "\nfunc ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap-=>){\n<~~${me_3}~~>\n}"
+ Method: "\nfunc (${me_0}) ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap-=>){\n<~~${me_3}~~>\n}"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
  BinMethod: |
   func main(){
-    wut.Initialize()
     vptr := flag.Bool("version",false, "Print the version of izit and exit")
     iptr := flag.String("in","-", "Input File")
     optr := flag.String("out","-", "Output File")
-    eptr := flag.String("encoding","csv", "Encoding")
+    cptr := flag.String("config","", "Config File")
+    eptr := flag.String("encoders","csv", "Encoders")
+    fptr := flag.String("format","-", "Format")
     flag.Parse()
     if *vptr {
       fmt.Println("Go izit version <~current>:<WutVersion~>")
       os.Exit(0)
     }
-    Setup(*iptr,*optr,*eptr)
+    Setup(*iptr,*optr,*cptr,*eptr,*fptr)
+    wut.Initialize()
+    Run()
   }
  TstMethod: |
   func main(){
@@ -42,60 +48,84 @@ wut:
  StructureStart: "\ntype ${me} struct {"
  StructureEnd: "}"
  StructureElement: "  ${me} <~${me_0}>:<TypeMap~>"
- TypeMap: "Int64/int64 Float64/float64 AbstractString/string Bool/bool _nothing_/\"\""
- SourceSubPath: ""
- TestsSubPath: "cmd"
- MetaFileName: ""
- MainDefFileName: ""
- MainModFileName: "wut"
- MainModFileSubPath: ""  
- MainBinFileName: "izit"
- MainBinFileSubPath: "cmd"    
- MainTestFileName: "izit_test"
- MainModuleName: "wut"
+ TypeMap: "Int64/int64 Float64/float64 String/string Bool/bool _nothing_/\"\""
+ CodeMap:
+   emit: " fmt.Println(${me_r})"
+   reserve: "// ${me}"
+   if: "// ${me}"
+   else: "// ${me}"
+   fi: "// ${me}"
+   set: "// ${me}"
+   call: "// ${me}"
+   MERGE: "// MERGE"
  MainModuleRequirements:
  MakeClean: "cd ../wutgo; rm izit"               
  MakeLib: ""                 
  MakeBin: "cd ../wutgo; go build cmd/izit.go"                 
  MakeTest: ""                
- DoTest: "../wutgo/izit --version"
+ DoTest: |
+         cd ../wutgo
+         ./izit --version
+         ./izit --in - --out - --encoders "CE,SE,RDSE" --format "csv" 
 wutpy:
  Language: "Python"
  Path: "../wutpy"
  SourceFiles: " wut( [__init__.py:Lib] [izit.py:Bin] [test.py:Tst] [<encoder>.py:Mod]) [setup.py:Meta] [LICENSE:License] "
  Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<encoder>:Import][<encoder/Provides>:Method]"
- Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:StructureStart][<encoder/Includes>:StructureElement][<encoder/provides>:ClassMethod]"
- Bin: "(rsc/TOPCOMMENT:Comment)[wut:BinImport][main:BinMethod][<_cmd_/Provides>:Method]"
- Tst: "(rsc/TOPCOMMENT:Comment)[test:Method]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:StructureStart][<encoder/Contains>:StructureElement][<encoder/Provides>:ClassMethod]"
+ Bin: "(rsc/TOPCOMMENT:Comment)[wut:BinImport][<_cmd_/Provides>:Method][main:BinMethod]"
+ Tst: "(rsc/TOPCOMMENT:Comment)[<_tst_/Provides>:Method]"
  Meta: "(rsc/setup.py)"
  Comment: "# "
  PackageStart: "# ${me} Module"
  Import: "from wut.${me} import ${me}"
- BinImport: "import ${me}"
- Method: "\ndef ${me}():\n  pass"
+ BinImport: |
+            import argparse
+            import ${me}
+ xMethod: "\ndef ${me}():\n  pass"
+ Method: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap-=>):\n<~~${me_3}~~>"
+ ArgLFirst: "${me_0}"
+ ArgLNext: " ,${me_1}"
  BinMethod: |
   if __name__ ==  '__main__':
+    p = argparse.ArgumentParser()
+ 
+    p.add_argument("--version", action='store_true', help="Print the version of izit and exit")
+    p.add_argument("--inp", nargs='?', const="-", help="Input File")
+    p.add_argument("--out", nargs='?', const="-", help="Output File")
+    p.add_argument("--config", nargs='?', const="", help="Config File")
+    p.add_argument("--encoders", nargs='?', const="csv", help="Encoders")
+    p.add_argument("--format", nargs='?', const="-", help="Format")
+    args=p.parse_args()
+    if args.version:
+      print("Python izit version <~current>:<WutVersion~>")
+      quit()
+    Setup( args.inp, args.out, args.config, args.encoders, args.format )
     wut.Initialize()
-    print("Python izit version <~current>:<WutVersion~>")
+    Run()
+    
  StructureStart: "\nclass ${me}:\n  pass"
- StructureElement: "    ${me}"
- ClassMethod: "\ndef ${me}():\n  pass"
- SourceSubPath: "wut"
- TestsSubPath: "wut"
- MetaFileName: "setup.py"
- MainDefFileName: ""
- MainModFileName: "__init__"
- MainModFileSubPath: "wut"  
- MainBinFileName: "izit"
- MainBinFileSubPath: "wut"    
- MainTestFileName: "test"
- MainModuleName: "Wut"
+ StructureElement: "  ${me} =  None"
+ ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap-=>):\n  pass\n<~~${me_3}~~>\n"
+ TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/" 
+ CodeMap:
+   emit: "  print(${me_r})"
+   reserve: "  # ${me}"
+   if: "  # ${me}"
+   else: "  # ${me}"
+   fi: "  # ${me}"
+   set: "  # ${me}"
+   call: "  # ${me}"
+   MERGE: "  # MERGE"
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: ""                 
  MakeBin: ""                 
  MakeTest: ""                
- DoTest: "cd ../wutpy; PYTHONPATH=$PYTHONPATH:. python wut/izit.py -version"
+ DoTest: | 
+         cd ../wutpy
+         PYTHONPATH=$PYTHONPATH:. python wut/izit.py --version
+         PYTHONPATH=$PYTHONPATH:. python wut/izit.py --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 Wut.jl:
  Language: "Julia"
  Path: "../Wut.jl"
@@ -112,16 +142,6 @@ Wut.jl:
  BinInclude: "import ${me}"
  BinMethod: "\n#Wut.Initialize()\n\nprintln(\"Julia izit version <~current>:<WutVersion~>\")\n"
  StructureStart: ""
- SourceSubPath: "src"
- TestsSubPath: "test"
- MetaFileName: "REQUIRE"
- MainDefFileName: ""
- MainModFileName: "Wut"
- MainModFileSubPath: "src"
- MainBinFileName: "Izit"
- MainBinFileSubPath: "src"
- MainTestFileName: "runtests"
- MainModuleName: "Wut"
  MainModuleRequirements:
  MakeClean: ""
  MakeLib: ""
@@ -144,16 +164,6 @@ wutj:
  Method: "\n  public static void ${me}(){\n  }"
  BinMethod: "\n  public static void  main(String[] args){\n  Wut.Initialize();\n  System.out.println(\"Java izit version <~current>:<WutVersion~>\\n\");\n  }"
  BinImport: ""
- SourceSubPath: ""
- TestsSubPath: ""
- MetaFileName: ""
- MainDefFileName: ""
- MainModFileName: "wut"
- MainModFileSubPath: ""  
- MainBinFileName: "izit"
- MainBinFileSubPath: ""     
- MainTestFileName: "test"
- MainModuleName: "Wut"
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: ""                 
@@ -185,16 +195,6 @@ wutc:
  StructureStart: "\ntypedef struct {"
  StructureEnd: "} ${me};"
  StructureElement: "  ${me}"
- SourceSubPath: ""
- TestsSubPath: ""
- MetaFileName: ""
- MainDefFileName: "wut"
- MainModFileName: "wut"
- MainModFileSubPath: ""  
- MainBinFileName: "izit"      
- MainBinFileSubPath: ""        
- MainTestFileName: "test"
- MainModuleName: "wut"
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: ""                 
@@ -217,16 +217,6 @@ wutrs:
  PackageEnd: "//}// ${me}"
  Method: "\n    pub fn ${me}(){\n    }"
  BinMethod: "\npub fn main()\n{\n    wut::Initialize();\n    println!(\"rust izit version <~current>:<WutVersion~>\");\n}"
- SourceSubPath: "src"           
- TestsSubPath: "test"            
- MetaFileName: "Cargo.toml"
- MainDefFileName: ""      
- MainModFileName: "wut"      
- MainModFileSubPath: "src"      
- MainBinFileName: "izit"     
- MainBinFileSubPath: "src"      
- MainTestFileName: "test"    
- MainModuleName: "wut"      
  MainModuleRequirements:    
  MakeClean: ""               
  MakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib wut.rs"                 
@@ -253,16 +243,6 @@ wutcs:
  PackageEnd: "}// ${me}"
  Method: "\n    public void ${me}(){\n    }"
  BinMethod: "\n    static public void Main(string[] args)\n    {\n        //Initialize();\n        Console.WriteLine (\"csharp izit version <~current>:<WutVersion~>\");\n    }"
- SourceSubPath: ""           
- TestsSubPath: "test"            
- MetaFileName: ""            
- MainDefFileName: "Wut"      
- MainModFileName: "Wut"      
- MainModFileSubPath: ""     
- MainBinFileName: "izit"    
- MainBinFileSubPath: "cmd"     
- MainTestFileName: "test"   
- MainModuleName: "Wut"      
  MainModuleRequirements:    
  MakeClean: "cd ../wutcs; rm *.dll; cd cmd; rm *.exe"               
  MakeLib: "cd ../wutcs; csc -target:library -out:Wut.dll *.cs"                 
@@ -282,16 +262,6 @@ wutv:
  PackageStart: "module ${me};"
  PackageEnd: "endmodule"
  BinMethod: "  initial\n    begin\n      $$display(\"verilog izit version <~current>:<WutVersion~>\");\n      $$finish ;\n    end"
- SourceSubPath: ""
- TestsSubPath: ""
- MetaFileName: ""
- MainDefFileName: ""
- MainModFileName: "wut"
- MainModFileSubPath: ""  
- MainBinFileName: "izit"   
- MainBinFileSubPath: ""        
- MainTestFileName: "test"
- MainModuleName: "Wut"
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: ""                 
@@ -311,16 +281,6 @@ wuths:
  PackageStart: "-- Package ${me}"
  BinMethod: "main = putStrLn \"Haskell izit version <~current>:<WutVersion~>\""
  Method: "\n-- function ${me}()"
- SourceSubPath: ""
- TestsSubPath: ""
- MetaFileName: ""
- MainDefFileName: ""
- MainModFileName: "wut"
- MainModFileSubPath: ""  
- MainBinFileName: "izit"      
- MainBinFileSubPath: ""         
- MainTestFileName: "test"
- MainModuleName: "Wut"
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: ""                 
@@ -344,16 +304,6 @@ wutjs:
  StructureStart: "\ntype ${me} struct {"
  StructureEnd: "}"
  StructureElement: "  ${me}"
- SourceSubPath: ""              
- TestsSubPath: ""               
- MetaFileName: "package.json"
- MainDefFileName: ""
- MainModFileName: "index"      
- MainModFileSubPath: ""         
- MainBinFileName: "izit"      
- MainBinFileSubPath: ""         
- MainTestFileName: "test"     
- MainModuleName: "Wut"          
  MainModuleRequirements:        
  MakeClean: ""               
  MakeLib: ""                 
