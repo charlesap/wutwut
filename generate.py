@@ -202,6 +202,7 @@ def Interp(l,wt,fl,en):
       lul = wt[lu[0]]
       lur = wt[lu[1]]
       tm  = wt[lu[2]]
+      ae  = wt[lu[3]]
            
       conv=""
       
@@ -215,7 +216,8 @@ def Interp(l,wt,fl,en):
           tt=TypeFromMap(tm,b[1])
         else:
           tt=b[1]
-        conv=conv+b[0]+" "+tt
+        #nle=b[0]+" "+tt
+        conv=conv+Template(ae).substitute(nm=b[0],tp=tt)
         first=False
       
       r=prel+conv+postl

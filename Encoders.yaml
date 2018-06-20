@@ -63,6 +63,19 @@ _top_:
      - | 
        emit "initializing-encoders"
        emit "ready!"
+BitPat:
+   Contains:
+     b:
+     - Int64
+     n:
+     - Int64
+   Provides:
+     GetWidth:
+     - BitPat
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
 AbstractEncoder:
    Provides:
      Encode:
@@ -122,40 +135,6 @@ AdaptiveScalarEncoder:
      - _nothing_
      - |
        emit "GetWidth"
-BitPat:
-   Contains:
-     b:
-     - Int64
-     n:
-     - Int64
-   Provides:
-     GetWidth:
-     - BitPat
-     - []
-     - _nothing_
-     - |
-       emit "GetWidth"
-CategoryEncoder:
-   Extends: AbstractEncoder
-   Contains:
-     w:
-     - Int64
-     n:
-     - Int64
-     cL:
-     - Int64
-     - Dict_String_Int64
-     sE:
-     - ScalarEncoder
-   Imports:
-   -  [ScalarEncoder]
-   Provides:
-     GetWidth:
-     - CategoryEncoder
-     - []
-     - _nothing_
-     - |
-       emit "GetWidth"
 CoordinateEncoder:
    Extends: AbstractEncoder
    Contains:
@@ -166,74 +145,6 @@ CoordinateEncoder:
    Provides:
      GetWidth:
      - CoordinateEncoder
-     - []
-     - _nothing_
-     - |
-       emit "GetWidth"
-DateEncoder:
-   Extends: AbstractEncoder
-   Contains:
-     w:
-     - Int64
-     n:
-     - Int64
-     season:
-     - Int64
-     - Number
-     dayOfWeek:
-     - Int64
-     - Number
-     weekend:
-     - Int64
-     - Number
-     holiday:
-     - Int64
-     - Number
-     timeOfDay:
-     - Int64
-     - Number
-     customDays:
-     - Int64
-     - Number
-     forced:
-     - Bool
-     sE:
-     - ScalarEncoder
-     - Nullable
-     sEo:
-     - Int64
-     dE:
-     - ScalarEncoder
-     - Nullable
-     dEo:
-     - Int64
-     wE:
-     - ScalarEncoder
-     - Nullable
-     wEo:
-     - Int64
-     hE:
-     - ScalarEncoder
-     - Nullable
-     hEo:
-     - Int64
-     tE:
-     - ScalarEncoder
-     - Nullable
-     tEo:
-     - Int64
-     cE:
-     - ScalarEncoder
-     - Nullable
-     cEo:
-     - Int64
-     name:
-     - String
-   Imports:
-   -  [ScalarEncoder] 
-   Provides:
-     GetWidth:
-     - DateEncoder
      - []
      - _nothing_
      - |
@@ -394,6 +305,95 @@ ScalarEncoder:
    Provides:
      GetWidth:
      - ScalarEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
+CategoryEncoder:
+   Extends: AbstractEncoder
+   Contains:
+     w:
+     - Int64
+     n:
+     - Int64
+     cL:
+     - Int64
+     - Dict_String_Int64
+     sE:
+     - ScalarEncoder
+   Imports:
+   -  [ScalarEncoder]
+   Provides:
+     GetWidth:
+     - CategoryEncoder
+     - []
+     - _nothing_
+     - |
+       emit "GetWidth"
+DateEncoder:
+   Extends: AbstractEncoder
+   Contains:
+     w:
+     - Int64
+     n:
+     - Int64
+     season:
+     - Int64
+     - Number
+     dayOfWeek:
+     - Int64
+     - Number
+     weekend:
+     - Int64
+     - Number
+     holiday:
+     - Int64
+     - Number
+     timeOfDay:
+     - Int64
+     - Number
+     customDays:
+     - Int64
+     - Number
+     forced:
+     - Bool
+     sE:
+     - ScalarEncoder
+     - Nullable
+     sEo:
+     - Int64
+     dE:
+     - ScalarEncoder
+     - Nullable
+     dEo:
+     - Int64
+     wE:
+     - ScalarEncoder
+     - Nullable
+     wEo:
+     - Int64
+     hE:
+     - ScalarEncoder
+     - Nullable
+     hEo:
+     - Int64
+     tE:
+     - ScalarEncoder
+     - Nullable
+     tEo:
+     - Int64
+     cE:
+     - ScalarEncoder
+     - Nullable
+     cEo:
+     - Int64
+     name:
+     - String
+   Imports:
+   -  [ScalarEncoder]
+   Provides:
+     GetWidth:
+     - DateEncoder
      - []
      - _nothing_
      - |

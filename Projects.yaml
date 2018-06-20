@@ -19,10 +19,11 @@ wut:
   import "flag"
   import "os"
   import "${me}"
- Function: "\nfunc ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap-=>){\n<~~${me_3}~~>\n}"
- Method: "\nfunc (${me_0}) ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap-=>){\n<~~${me_3}~~>\n}"
+ Function: "\nfunc ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ Method: "\nfunc (${me_0}) ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
+ ArgLE: "${nm} ${tp}"
  BinMethod: |
   func main(){
     vptr := flag.Bool("version",false, "Print the version of izit and exit")
@@ -83,9 +84,10 @@ wutpy:
             import argparse
             import ${me}
  xMethod: "\ndef ${me}():\n  pass"
- Method: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap-=>):\n<~~${me_3}~~>"
+ Method: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n<~~${me_3}~~>"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
+ ArgLE: "${nm} ${tp}"
  BinMethod: |
   if __name__ ==  '__main__':
     p = argparse.ArgumentParser()
@@ -103,10 +105,9 @@ wutpy:
     Setup( args.inp, args.out, args.config, args.encoders, args.format )
     wut.Initialize()
     Run()
-    
  StructureStart: "\nclass ${me}:\n  pass"
  StructureElement: "  ${me} =  None"
- ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap-=>):\n  pass\n<~~${me_3}~~>\n"
+ ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n  pass\n<~~${me_3}~~>\n"
  TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/" 
  CodeMap:
    emit: "  print(${me_r})"
@@ -131,23 +132,67 @@ Wut.jl:
  Path: "../Wut.jl"
  SourceFiles: " src( [Wut.jl:Lib] [Izit.jl:Bin] [<encoder>.jl:Mod]) test( [runtests.jl:Tst] )  [REQUIRE:Meta] [LICENSE:License] "
  Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<encoder>:PackageInclude][<_top_/Provides>:Method][Wut:PackageEnd]"
- Mod: "(rsc/TOPCOMMENT:Comment)[Wut:BinInclude][Wut:PackageEnd]"
- Bin: "(rsc/TOPCOMMENT:Comment)[main:BinMethod]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:ClassMethod]"
+ Bin: "(rsc/TOPCOMMENT:Comment)[Wut:BinInclude][main:BinMethod]"
  Tst: "(rsc/TOPCOMMENT:Comment)"
  Meta: ""
  Comment: "# "
  PackageStart: "\nmodule ${me}"
  PackageEnd: "end # module ${me}"
- PackageInclude: "include (\"${me}.jl\")"
- BinInclude: "import ${me}"
- BinMethod: "\n#Wut.Initialize()\n\nprintln(\"Julia izit version <~current>:<WutVersion~>\")\n"
- StructureStart: ""
+ PackageInclude: "include(\"${me}.jl\")"
+ Method: "function ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend"
+ ArgLFirst: "${me_0}"
+ ArgLNext: " ,${me_1}"
+ ArgLE: "${nm}::${tp}"
+ BinInclude: |
+             using ArgParse
+             import ${me}
+ BinMethod: |
+            function main()
+
+
+              s = ArgParseSettings(description = "Izit utility for Wut processing.")
+              @add_arg_table s begin
+                "--version"
+                    action = :store_true
+                "--in"         
+                "--out"               
+                "--config"         
+                "--encoders"               
+                "--format"         
+              end
+              args = parse_args(s) 
+              if args["version"] 
+                println("Julia izit version <~current>:<WutVersion~>")
+              else
+                Wut.Initialize()
+              end
+            end
+            main()
+ StructureStart: "\nstruct ${me}"
+ StructureElement: "  ${me}::<~${me_0}>:<TypeMap~>"
+ StructureEnd: "end"
+ ClassMethod: "\nfunction ${me}( me::${me_0},<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend\nexport ${me}"
+ TypeMap: "Int64/Int64 Float64/Float64 String/AbstractString Bool/Bool _nothing_/\"\""
+ CodeMap:
+   emit: " println(${me_r})"
+   reserve: "# ${me}"
+   if: "# ${me}"
+   else: "# ${me}"
+   fi: "# ${me}"
+   set: "# ${me}"
+   call: "# ${me}"
+   MERGE: "# MERGE"
  MainModuleRequirements:
  MakeClean: ""
  MakeLib: ""
  MakeBin: ""
  MakeTest: ""
- DoTest: "rm /home/cperkins/.julia/v0.6/Wut.jl; ln -s /home/cperkins/go/src/github.com/charlesap/Wut.jl /home/cperkins/.julia/v0.6/Wut.jl; julia ../Wut.jl/src/Izit.jl -version"
+ DoTest: |
+         rm /home/cperkins/.julia/v0.6/Wut.jl; ln -s /home/cperkins/go/src/github.com/charlesap/Wut.jl /home/cperkins/.julia/v0.6/Wut.jl
+         cd ../Wut.jl/src
+         julia ./Izit.jl --version
+         julia ./Izit.jl --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutj:
  Language: "Java"
  Path: "../wutj"
