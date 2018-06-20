@@ -30,8 +30,8 @@ wut:
     iptr := flag.String("in","-", "Input File")
     optr := flag.String("out","-", "Output File")
     cptr := flag.String("config","", "Config File")
-    eptr := flag.String("encoders","csv", "Encoders")
-    fptr := flag.String("format","-", "Format")
+    eptr := flag.String("encoders","ASE", "Encoders")
+    fptr := flag.String("format","csv", "Format")
     flag.Parse()
     if *vptr {
       fmt.Println("Go izit version <~current>:<WutVersion~>")
@@ -96,8 +96,8 @@ wutpy:
     p.add_argument("--inp", nargs='?', const="-", help="Input File")
     p.add_argument("--out", nargs='?', const="-", help="Output File")
     p.add_argument("--config", nargs='?', const="", help="Config File")
-    p.add_argument("--encoders", nargs='?', const="csv", help="Encoders")
-    p.add_argument("--format", nargs='?', const="-", help="Format")
+    p.add_argument("--encoders", nargs='?', const="ASE", help="Encoders")
+    p.add_argument("--format", nargs='?', const="csv", help="Format")
     args=p.parse_args()
     if args.version:
       print("Python izit version <~current>:<WutVersion~>")
@@ -133,7 +133,7 @@ Wut.jl:
  SourceFiles: " src( [Wut.jl:Lib] [Izit.jl:Bin] [<encoder>.jl:Mod]) test( [runtests.jl:Tst] )  [REQUIRE:Meta] [LICENSE:License] "
  Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<encoder>:PackageInclude][<_top_/Provides>:Method][Wut:PackageEnd]"
  Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:ClassMethod]"
- Bin: "(rsc/TOPCOMMENT:Comment)[Wut:BinInclude][main:BinMethod]"
+ Bin: "(rsc/TOPCOMMENT:Comment)[Wut:BinInclude][<_cmd_/Provides>:Method][main:BinMethod]"
  Tst: "(rsc/TOPCOMMENT:Comment)"
  Meta: ""
  Comment: "# "
@@ -155,17 +155,24 @@ Wut.jl:
               @add_arg_table s begin
                 "--version"
                     action = :store_true
-                "--in"         
-                "--out"               
-                "--config"         
-                "--encoders"               
-                "--format"         
+                "--in"
+                    default="-" 
+                "--out"
+                    default="-"       
+                "--config"
+                    default=""    
+                "--encoders"
+                    default="ASE"
+                "--format"      
+                    default="csv"   
               end
               args = parse_args(s) 
               if args["version"] 
                 println("Julia izit version <~current>:<WutVersion~>")
               else
+                Setup( args["in"], args["out"], args["config"], args["encoders"], args["format"] )
                 Wut.Initialize()
+                Run()
               end
             end
             main()
