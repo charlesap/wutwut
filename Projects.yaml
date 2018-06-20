@@ -140,7 +140,7 @@ Wut.jl:
  PackageStart: "\nmodule ${me}"
  PackageEnd: "end # module ${me}"
  PackageInclude: "include(\"${me}.jl\")"
- Method: "function ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend"
+ Method: "\n\nfunction ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
  ArgLE: "${nm}::${tp}"
@@ -214,14 +214,49 @@ wutj:
  PackageStart: "\npublic class ${me}{"
  PackageEnd: "}"
  Method: "\n  public static void ${me}(){\n  }"
- BinMethod: "\n  public static void  main(String[] args){\n  Wut.Initialize();\n  System.out.println(\"Java izit version <~current>:<WutVersion~>\\n\");\n  }"
- BinImport: ""
+ BinMethod: |
+            public static void  main(String[] args) throws Exception {
+
+              ArgumentParser parser = ArgumentParsers.newFor("Checksum").build()
+                .defaultHelp(true)
+                .description("Calculate checksum of given files.");
+              parser.addArgument("-t", "--type")
+                .choices("SHA-256", "SHA-512", "SHA1").setDefault("SHA-256")
+                .help("Specify hash function to use");
+              parser.addArgument("file").nargs("*")
+                .help("File to calculate checksum");
+              Namespace ns = null;
+              try {
+                  ns = parser.parseArgs(args);
+              } catch (ArgumentParserException e) {
+                  parser.handleError(e);
+                  System.exit(1);
+              }
+              Wut.Initialize();
+              System.out.println("Java izit version <~current>:<WutVersion~>\n");
+            }
+ BinImport: |
+            import java.io.IOException;
+            import java.nio.ByteBuffer;
+            import java.nio.channels.ByteChannel;
+            import java.nio.file.Files;
+            import java.nio.file.Path;
+            import java.nio.file.Paths;
+            import java.nio.file.StandardOpenOption;
+            import java.security.MessageDigest;
+            import java.security.NoSuchAlgorithmException;
+            import net.sourceforge.argparse4j.ArgumentParsers;
+            import net.sourceforge.argparse4j.inf.ArgumentParser;
+            import net.sourceforge.argparse4j.inf.ArgumentParserException;
+            import net.sourceforge.argparse4j.inf.Namespace;
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: ""                 
  MakeBin: "cd ../wutj; mvn package"                 
  MakeTest: ""                
- DoTest: "java -cp ../wutj/target/classes Izit --version"
+ DoTest: |
+         java -cp ../wutj/target/classes Izit --version
+         java -cp ../wutj/target/classes Izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutc:
  Language: c
  Path: "../wutc"
