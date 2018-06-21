@@ -215,36 +215,27 @@ wutj:
  PackageEnd: "}"
  Method: "\n  public static void ${me}(){\n  }"
  BinMethod: |
-            public static void  main(String[] args) throws Exception {
+      public static void  main(String[] args) throws Exception {
 
-              ArgumentParser parser = ArgumentParsers.newFor("Checksum").build()
-                .defaultHelp(true)
-                .description("Calculate checksum of given files.");
-              parser.addArgument("-t", "--type")
-                .choices("SHA-256", "SHA-512", "SHA1").setDefault("SHA-256")
-                .help("Specify hash function to use");
-              parser.addArgument("file").nargs("*")
-                .help("File to calculate checksum");
-              Namespace ns = null;
-              try {
-                  ns = parser.parseArgs(args);
-              } catch (ArgumentParserException e) {
-                  parser.handleError(e);
-                  System.exit(1);
-              }
-              Wut.Initialize();
-              System.out.println("Java izit version <~current>:<WutVersion~>\n");
-            }
+        ArgumentParser parser = ArgumentParsers.newFor("prog").build().description("Process some integers.");
+        parser.addArgument("--version").dest("version").action(storeTrue()).help("Print the version and exit");
+        parser.addArgument("--in").dest("inf").help("Print the version and exit");
+        parser.addArgument("--out").dest("outf").help("Print the version and exit");
+        parser.addArgument("--config").dest("configf").help("Print the version and exit");
+        parser.addArgument("--encoders").dest("encoders").help("Print the version and exit");
+        parser.addArgument("--format").dest("format").help("Print the version and exit");
+        try {
+            Namespace res = parser.parseArgs(args);
+        } catch (ArgumentParserException e) {
+            parser.handleError(e);
+        }
+
+
+        Wut.Initialize();
+        System.out.println("Java izit version <~current>:<WutVersion~>\n");
+      }
  BinImport: |
-            import java.io.IOException;
-            import java.nio.ByteBuffer;
-            import java.nio.channels.ByteChannel;
-            import java.nio.file.Files;
-            import java.nio.file.Path;
-            import java.nio.file.Paths;
-            import java.nio.file.StandardOpenOption;
-            import java.security.MessageDigest;
-            import java.security.NoSuchAlgorithmException;
+            import static net.sourceforge.argparse4j.impl.Arguments.storeTrue;
             import net.sourceforge.argparse4j.ArgumentParsers;
             import net.sourceforge.argparse4j.inf.ArgumentParser;
             import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -255,8 +246,8 @@ wutj:
  MakeBin: "cd ../wutj; mvn package"                 
  MakeTest: ""                
  DoTest: |
-         java -cp ../wutj/target/classes Izit --version
-         java -cp ../wutj/target/classes Izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
+         java -cp ../wutj/target/classes:../wutj/target/argparse4j-0.8.1.jar Izit --version
+         java -cp ../wutj/target/classes:../wutj/target/argparse4j-0.8.1.jar Izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutc:
  Language: c
  Path: "../wutc"
