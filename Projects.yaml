@@ -277,7 +277,7 @@ wutc:
  SourceFiles: " [wut.c:Lib] [wut.h:Libh] [izit.c:Bin] [izit.h:Binh] [test.c:Tst] [test.h:Tsth] [<encoder>.c:Mod] [<encoder>.h:Modh] [LICENSE:License] "
  Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<_top_/Provides>:Method]"
  Mod: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<encoder/Provides>:Method]"
- Bin: "(rsc/TOPCOMMENT:Comment)[izit:PackageStart][wut:Import][main:BinMethod][<_cmd_/Provides>:Method]"
+ Bin: "(rsc/TOPCOMMENT:Comment)[izit:PackageStart][wut:Import][<_cmd_/Provides>:Method][main:BinMethod]"
  Tst: "(rsc/TOPCOMMENT:Comment)[test:PackageStart][wut:Import][main:TstMethod][<_tst_/Provides>:Method]"
  Libh: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<_top_/Provides>:MethodDef]"
  Modh: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][{encoder}:GuardStart][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:MethodDef][{encoder}:GuardEnd]"
@@ -286,22 +286,66 @@ wutc:
  Meta: ""
  PackageStart: "// implementing ${me}"
  Comment: "// "
- Import: "#include <stdio.h>\n#include \"${me}.h\""
+ Import: |
+         #include <stdio.h>
+         #include "${me}.h"
+         #include "argparse.h"
  GuardStart: "#ifndef _${me}_\n#define _${me}_"
  GuardEnd: "#endif"
  MethodDef: "\nvoid ${me}();"
  Method: "\nvoid ${me}(){\n}"
- BinMethod: "\nvoid main(){\n  Initialize();\n  printf(\"c izit version <~current>:<WutVersion~>\\n\");\n}"
+ BinMethod: |
+  static const char *const usage[] = {
+                "Izit [options] [[--] args]",
+                "Izit [options]",
+                NULL,
+  };
+
+
+  void main(int argc, const char **argv){
+
+    int version = 0;
+    const char *in = NULL;
+    const char *out = NULL;
+    const char *config = NULL;
+    const char *encoders = NULL;
+    const char *format = NULL;
+
+    struct argparse_option options[] = {
+        OPT_HELP(),
+        OPT_GROUP("Basic options"),
+        OPT_BOOLEAN('v', "version", &version, "print version and exit"),
+        OPT_STRING('i', "in", &in, "input file"),
+        OPT_STRING('o', "out", &out, "output file"),
+        OPT_STRING('c', "config", &config, "config file"),
+        OPT_STRING('e', "encoders", &encoders, "encocers"),
+        OPT_STRING('f', "format", &format, "format"),
+        OPT_END(),
+    };
+
+    struct argparse argparse;
+    argparse_init(&argparse, options, usage, 0);
+    argparse_describe(&argparse, "\nA brief description of what the program does and how it works.", "\nAdditional description of the program after the description of the arguments.");
+    argc = argparse_parse(&argparse, argc, argv);
+    if (version != 0){
+      printf("c izit version <~current>:<WutVersion~>\n");
+    }else{
+      Initialize();
+      Run();
+    }
+  }
  TstMethod: "\nvoid main(){\n  Initialize();\n  printf(\"testing wut version <~current>:<WutVersion~>\\n\");\n}"
  StructureStart: "\ntypedef struct {"
  StructureEnd: "} ${me};"
  StructureElement: "  ${me}"
  MainModuleRequirements:
  MakeClean: ""               
- MakeLib: ""                 
- MakeBin: "cd ../wutc; cc -o izit izit.c wut.c"                 
+ MakeLib: "cp rsc/argparse* ../wutc/"                 
+ MakeBin: "cd ../wutc; cc -o izit izit.c wut.c argparse.c"                 
  MakeTest: ""                
- DoTest: "../wutc/izit --version"
+ DoTest: |
+         ../wutc/izit --version
+         ../wutc/izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutrs:                        
  Language: rust                 
  Path: "../wutrs"             
