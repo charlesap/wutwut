@@ -213,26 +213,35 @@ wutj:
  Comment: "// "
  PackageStart: "\npublic class ${me}{"
  PackageEnd: "}"
- Method: "\n  public static void ${me}(){\n  }"
+ Method: "\n  public static void ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ ArgLFirst: "${me_0}"
+ ArgLNext: " ,${me_1}"
+ ArgLE: "${tp} ${nm}"
  BinMethod: |
+    // Main Method
       public static void  main(String[] args) throws Exception {
 
         ArgumentParser parser = ArgumentParsers.newFor("prog").build().description("Process some integers.");
         parser.addArgument("--version").dest("version").action(storeTrue()).help("Print the version and exit");
-        parser.addArgument("--in").dest("inf").help("Print the version and exit");
-        parser.addArgument("--out").dest("outf").help("Print the version and exit");
-        parser.addArgument("--config").dest("configf").help("Print the version and exit");
-        parser.addArgument("--encoders").dest("encoders").help("Print the version and exit");
-        parser.addArgument("--format").dest("format").help("Print the version and exit");
+        parser.addArgument("--in").dest("inf").help("input file");
+        parser.addArgument("--out").dest("outf").help("output file");
+        parser.addArgument("--config").dest("configf").help("config file");
+        parser.addArgument("--encoders").dest("encoders").help("encoders");
+        parser.addArgument("--format").dest("format").help("format");
         try {
             Namespace res = parser.parseArgs(args);
+            if (res.get("version")){
+              System.out.println("Java izit version <~current>:<WutVersion~>\n");
+            }else{
+              Setup( res.get("in"), res.get("out"), res.get("config"), res.get("encoders"), res.get("format") );
+              Wut.Initialize();
+              Run();
+            }
         } catch (ArgumentParserException e) {
             parser.handleError(e);
         }
 
 
-        Wut.Initialize();
-        System.out.println("Java izit version <~current>:<WutVersion~>\n");
       }
  BinImport: |
             import static net.sourceforge.argparse4j.impl.Arguments.storeTrue;
@@ -240,6 +249,16 @@ wutj:
             import net.sourceforge.argparse4j.inf.ArgumentParser;
             import net.sourceforge.argparse4j.inf.ArgumentParserException;
             import net.sourceforge.argparse4j.inf.Namespace;
+ TypeMap: "Int64/int Float64/double String/String Bool/Bool _nothing_/\"\""
+ CodeMap:
+   emit: " System.out.println(${me_r});"
+   reserve: "// ${me}"
+   if: "// ${me}"
+   else: "// ${me}"
+   fi: "// ${me}"
+   set: "// ${me}"
+   call: "// ${me}"
+   MERGE: "// MERGE"
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: ""                 
