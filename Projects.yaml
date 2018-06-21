@@ -205,7 +205,7 @@ wutj:
  Path: "../wutj"
  SourceFiles: " src(main(java( [Wut.java:Lib] [Izit.java:Bin] [Izm.java:Spk] [Test.java:Tst] [<encoder>.java:Mod]))) [pom.xml:Meta] [LICENSE:License] "
  Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<_top_/Provides>:Method][Wut:PackageEnd]"
- Mod: "(rsc/TOPCOMMENT:Comment)"
+ Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:StructureStart][<encoder/Contains>:StructureElement][<encoder/Provides>:ClassMethod][{encoder}:StructureEnd]"
  Bin: "(rsc/TOPCOMMENT:Comment)[Wut:BinImport][Izit:PackageStart][main:BinMethod][<_cmd_/Provides>:Method][Izit:PackageEnd]"
  Spk: "(rsc/TOPCOMMENT:Comment)"
  Tst: "(rsc/TOPCOMMENT:Comment)"
@@ -249,7 +249,11 @@ wutj:
             import net.sourceforge.argparse4j.inf.ArgumentParser;
             import net.sourceforge.argparse4j.inf.ArgumentParserException;
             import net.sourceforge.argparse4j.inf.Namespace;
- TypeMap: "Int64/int Float64/double String/String Bool/Bool _nothing_/\"\""
+ StructureStart: "\nclass ${me} {"
+ StructureElement: "  public <~${me_0}>:<TypeMap~> ${me};"
+ StructureEnd: "}"
+ ClassMethod: "\npublic void ${me}( <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ TypeMap: "Int64/int Float64/double String/String Bool/boolean _nothing_/\"\""
  CodeMap:
    emit: " System.out.println(${me_r});"
    reserve: "// ${me}"
