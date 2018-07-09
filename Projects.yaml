@@ -38,12 +38,12 @@ wut:
       os.Exit(0)
     }
     Setup(*iptr,*optr,*cptr,*eptr,*fptr)
-    wut.Initialize()
-    Run()
+    wut.Initialize(true)
+    Run(true)
   }
  TstMethod: |
   func main(){
-    wut.Initialize()
+    wut.Initialize(true)
     fmt.Println("testing wut version <~current>:<WutVersion~>")
   }
  StructureStart: "\ntype ${me} struct {"
@@ -103,8 +103,8 @@ wutpy:
       print("Python izit version <~current>:<WutVersion~>")
       quit()
     Setup( args.inp, args.out, args.config, args.encoders, args.format )
-    wut.Initialize()
-    Run()
+    wut.Initialize(True)
+    Run(True)
  StructureStart: "\nclass ${me}:\n  pass"
  StructureElement: "  ${me} =  None"
  ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n  pass\n<~~${me_3}~~>\n"
@@ -171,8 +171,8 @@ Wut.jl:
                 println("Julia izit version <~current>:<WutVersion~>")
               else
                 Setup( args["in"], args["out"], args["config"], args["encoders"], args["format"] )
-                Wut.Initialize()
-                Run()
+                Wut.Initialize(true)
+                Run(true)
               end
             end
             main()
@@ -234,8 +234,8 @@ wutj:
               System.out.println("Java izit version <~current>:<WutVersion~>\n");
             }else{
               Setup( res.get("in"), res.get("out"), res.get("config"), res.get("encoders"), res.get("format") );
-              Wut.Initialize();
-              Run();
+              Wut.Initialize(true);
+              Run(true);
             }
         } catch (ArgumentParserException e) {
             parser.handleError(e);
@@ -274,26 +274,35 @@ wutj:
 wutc:
  Language: c
  Path: "../wutc"
- SourceFiles: " [wut.c:Lib] [wut.h:Libh] [izit.c:Bin] [izit.h:Binh] [test.c:Tst] [test.h:Tsth] [<encoder>.c:Mod] [<encoder>.h:Modh] [LICENSE:License] "
- Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<_top_/Provides>:Method]"
- Mod: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<encoder/Provides>:Method]"
- Bin: "(rsc/TOPCOMMENT:Comment)[izit:PackageStart][wut:Import][<_cmd_/Provides>:Method][main:BinMethod]"
- Tst: "(rsc/TOPCOMMENT:Comment)[test:PackageStart][wut:Import][main:TstMethod][<_tst_/Provides>:Method]"
- Libh: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<_top_/Provides>:MethodDef]"
- Modh: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][{encoder}:GuardStart][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:MethodDef][{encoder}:GuardEnd]"
- Binh: "(rsc/TOPCOMMENT:Comment)[izit:PackageStart][wut:Import][main:Method][<_cmd_/Provides>:MethodDef]"
- Tsth: "(rsc/TOPCOMMENT:Comment)[test:PackageStart][wut:Import][main:Method][<_tst_/Provides>:MethodDef]"
+ SourceFiles: " [wut.c:Lib] [wut.h:Libh] [izit.c:Bin] [izit.h:Binh] cmd( [test.c:Tst] [test.h:Tsth] ) [<encoder>.c:Mod] [<encoder>.h:Modh] [LICENSE:License] "
+ Lib: "(rsc/TOPCOMMENT:Comment)[wut:Import][<_top_/Provides>:Method]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[<encoder>:ModImport][<encoder/Provides>:ModMethod]"
+ Bin: "(rsc/TOPCOMMENT:Comment)[wut:Import][<_cmd_/Provides>:Method][main:BinMethod]"
+ Tst: "(rsc/TOPCOMMENT:Comment)[wut:Import][main:TstMethod][<_tst_/Provides>:Method]"
+ Libh: "(rsc/TOPCOMMENT:Comment)[wut:GuardStart][<encoder>:PackageInclude][<_top_/Provides>:LibDef][wut:GuardEnd]"
+ Modh: "(rsc/TOPCOMMENT:Comment)[{encoder}:GuardStart][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:MethodDef][{encoder}:GuardEnd]"
+ Binh: "(rsc/TOPCOMMENT:Comment)[wut:Import][<_cmd_/Provides>:MethodDef]"
+ Tsth: "(rsc/TOPCOMMENT:Comment)[wut:Import][<_tst_/Provides>:MethodDef]"
  Meta: ""
- PackageStart: "// implementing ${me}"
+ PackageInclude: "#include \"${me}.h\""
  Comment: "// "
  Import: |
          #include <stdio.h>
          #include "${me}.h"
          #include "argparse.h"
+ ModImport: |
+            #include <stdio.h>
+            #include "wut.h"
  GuardStart: "#ifndef _${me}_\n#define _${me}_"
  GuardEnd: "#endif"
- MethodDef: "\nvoid ${me}();"
- Method: "\nvoid ${me}(){\n}"
+ xMethodDef: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ MethodDef: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ LibDef: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ Method: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ ModMethod: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ ArgLFirst: "${me_0}"
+ ArgLNext: " ,${me_1}"
+ ArgLE: "${tp} ${nm}"
  BinMethod: |
   static const char *const usage[] = {
                 "Izit [options] [[--] args]",
@@ -330,18 +339,29 @@ wutc:
     if (version != 0){
       printf("c izit version <~current>:<WutVersion~>\n");
     }else{
-      Initialize();
-      Run();
+      Setup( (char *)in, (char *)out, (char *)config, (char *)encoders, (char *)format );
+      Initialize(0);
+      Run(0);
     }
   }
- TstMethod: "\nvoid main(){\n  Initialize();\n  printf(\"testing wut version <~current>:<WutVersion~>\\n\");\n}"
+ TstMethod: "\nvoid main(){\n  Initialize(true);\n  printf(\"testing wut version <~current>:<WutVersion~>\\n\");\n}"
  StructureStart: "\ntypedef struct {"
  StructureEnd: "} ${me};"
- StructureElement: "  ${me}"
+ StructureElement: "  <~${me_0}>:<TypeMap~> ${me};"
+ TypeMap: "Int64/int Float64/double String/char* Bool/char _nothing_/\"\""
+ CodeMap:
+   emit: " printf(${me_r});printf(\"\\n\");"
+   reserve: "// ${me}"
+   if: "// ${me}"
+   else: "// ${me}"
+   fi: "// ${me}"
+   set: "// ${me}"
+   call: "// ${me}"
+   MERGE: "// MERGE"
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: "cp rsc/argparse* ../wutc/"                 
- MakeBin: "cd ../wutc; cc -o izit izit.c wut.c argparse.c"                 
+ MakeBin: "cd ../wutc; cc -o izit *.c"                 
  MakeTest: ""                
  DoTest: |
          ../wutc/izit --version
@@ -387,7 +407,7 @@ wutcs:
  BinPackageStart: "public class ${me}\n{"
  PackageEnd: "}// ${me}"
  Method: "\n    public void ${me}(){\n    }"
- BinMethod: "\n    static public void Main(string[] args)\n    {\n        //Initialize();\n        Console.WriteLine (\"csharp izit version <~current>:<WutVersion~>\");\n    }"
+ BinMethod: "\n    static public void Main(string[] args)\n    {\n        //Initialize(true);\n        Console.WriteLine (\"csharp izit version <~current>:<WutVersion~>\");\n    }"
  MainModuleRequirements:    
  MakeClean: "cd ../wutcs; rm *.dll; cd cmd; rm *.exe"               
  MakeLib: "cd ../wutcs; csc -target:library -out:Wut.dll *.cs"                 

@@ -27,13 +27,13 @@ _cmd_:
        emit "Loadconfig"
      Help:
      - 
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "Help"
      Run:
      - 
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "running"
@@ -50,7 +50,7 @@ _tst_:
    Provides:
      Test:
      - 
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "Test"
@@ -58,7 +58,7 @@ _top_:
    Provides:
      Initialize:
      - 
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - | 
        emit "initializing-encoders"
@@ -72,7 +72,7 @@ BitPat:
    Provides:
      GetWidth:
      - BitPat
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -86,7 +86,7 @@ AbstractEncoder:
        emit "Encode"
      GetDisplayWidth:
      - AbstractEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetDisplayWidth"
@@ -131,7 +131,7 @@ AdaptiveScalarEncoder:
    Provides:
      GetWidth:
      - AdaptiveScalarEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -145,7 +145,7 @@ CoordinateEncoder:
    Provides:
      GetWidth:
      - CoordinateEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -159,7 +159,7 @@ DeltaEncoder:
    Provides:
      GetWidth:
      - DeltaEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -173,7 +173,7 @@ GeospatialCoordinateEncoder:
    Provides:
      GetWidth:
      - GeospatialCoordinateEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -187,7 +187,7 @@ LogEncoder:
    Provides:
      GetWidth:
      - LogEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -201,7 +201,7 @@ MultiEncoder:
    Provides:
      GetWidth:
      - MultiEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -215,7 +215,7 @@ PassThroughEncoder:
    Provides:
      GetWidth:
      - PassThroughEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -255,7 +255,7 @@ RandomDistributedScalarEncoder:
    Provides:
      GetWidth:
      - RandomDistributedScalarEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -269,7 +269,7 @@ SDRCategoryEncoder:
    Provides:
      GetWidth:
      - SDRCategoryEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -305,7 +305,7 @@ ScalarEncoder:
    Provides:
      GetWidth:
      - ScalarEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -326,7 +326,7 @@ CategoryEncoder:
    Provides:
      GetWidth:
      - CategoryEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -394,7 +394,7 @@ DateEncoder:
    Provides:
      GetWidth:
      - DateEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -408,7 +408,7 @@ ScalarSpaceEncoder:
    Provides:
      GetWidth:
      - ScalarSpaceEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
@@ -422,7 +422,7 @@ SparsePassThroughEncoder:
    Provides:
      GetWidth:
      - SparsePassThroughEncoder
-     - []
+     - [[debug,Bool]]
      - _nothing_
      - |
        emit "GetWidth"
