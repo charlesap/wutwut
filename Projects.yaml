@@ -400,15 +400,56 @@ wutrs:
             extern crate argparse;
  PackageStart: "#![allow(non_snake_case)]\n//mod ${me} {\n"
  PackageEnd: "//}// ${me}"
- Method: "\n    pub fn ${me}(){\n    }"
+ Method: "\n    pub fn ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~> \n  }"
+ ModMethod: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ ArgLFirst: "${me_0}"
+ ArgLNext: " ,${me_1}"
+ ArgLE: "${nm}: ${tp}"
  BinMethod: |
             use argparse::{ArgumentParser, StoreTrue, Store};
 
             pub fn main()
             {
-                wut::Initialize();
-                println!("rust izit version <~current>:<WutVersion~>");
+                let mut version = false;
+                let mut inf = "World".to_string();
+                let mut outf = "World".to_string();
+                let mut configf = "World".to_string();                
+                let mut encoders = "World".to_string();                
+                let mut format = "World".to_string();                
+                {  // this block limits scope of borrows by ap.refer() method
+                   let mut ap = ArgumentParser::new();
+                   ap.set_description("izit htm utility.");
+                   ap.refer(&mut version)
+                   .add_option(&["-v", "--version"], StoreTrue,"Print version and exit");
+                   ap.refer(&mut inf).add_option(&["--in"], Store,  "input file");
+                   ap.refer(&mut outf).add_option(&["--out"], Store,  "output file");
+                   ap.refer(&mut configf).add_option(&["--config"], Store,  "config file");
+                   ap.refer(&mut encoders).add_option(&["--encoders"], Store,  "encoders");
+                   ap.refer(&mut format).add_option(&["--format"], Store,  "format");
+                   ap.parse_args_or_exit();
+                }
+
+                if version {
+                    println!("rust izit version <~current>:<WutVersion~>");
+                } else {                
+                  Setup( inf, outf, configf, encoders, format );
+                  wut::Initialize(true);
+                  Run(true);
+                }
             }
+ StructureStart: "\ntypedef struct {"
+ StructureEnd: "} ${me};"
+ StructureElement: "  <~${me_0}>:<TypeMap~> ${me};"
+ TypeMap: "Int64/i64 Float64/f64 String/std::string::String Bool/bool _nothing_/\"\""
+ CodeMap:
+   emit: " println!(${me_r});"
+   reserve: "// ${me}"
+   if: "// ${me}"
+   else: "// ${me}"
+   fi: "// ${me}"
+   set: "// ${me}"
+   call: "// ${me}"
+   MERGE: "// MERGE"
  MainModuleRequirements:    
  MakeClean: ""               
  xMakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib wut.rs"                 
@@ -416,7 +457,9 @@ wutrs:
  xMakeBin: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case izit.rs --extern wut=libwut.rlib"                 
  MakeBin: ""
  MakeTest: ""                
- DoTest: "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../wutrs/target/debug ../wutrs/target/debug/izit --version"
+ DoTest: |
+         LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../wutrs/target/debug ../wutrs/target/debug/izit --version
+         LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../wutrs/target/debug ../wutrs/target/debug/izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutcs:                       
  Language: csharp              
  Path: "../wutcs"            
