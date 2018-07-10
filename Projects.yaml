@@ -374,20 +374,49 @@ wutrs:
  Mod: "(rsc/TOPCOMMENT:Comment)"
  Bin: "(rsc/TOPCOMMENT:Comment)[wut:BinImport][main:BinMethod][<_cmd_/Provides>:Method]"
  Tst: "(rsc/TOPCOMMENT:Comment)"
- Meta: ""
+ Meta: "[ok:MetaText]"
+ MetaText: |
+           [package]
+           name = "wut" # the name of the package
+           version = "0.0.1"    # the current version, obeying semver
+           authors = ["you@example.com"]
+           
+           [lib]
+           name = "wut"
+           path = "src/wut.rs"
+           crate-type = ["dylib"]
+           
+           [[bin]]
+           name = "izit"
+           path = "src/izit.rs"
+                      
+           [dependencies]
+           argparse = "0.2.1"
+           
  Comment: "// "
  LibImport: "  //using ${me};"
- BinImport: "extern crate ${me};"
+ BinImport: |
+            extern crate ${me};
+            extern crate argparse;
  PackageStart: "#![allow(non_snake_case)]\n//mod ${me} {\n"
  PackageEnd: "//}// ${me}"
  Method: "\n    pub fn ${me}(){\n    }"
- BinMethod: "\npub fn main()\n{\n    wut::Initialize();\n    println!(\"rust izit version <~current>:<WutVersion~>\");\n}"
+ BinMethod: |
+            use argparse::{ArgumentParser, StoreTrue, Store};
+
+            pub fn main()
+            {
+                wut::Initialize();
+                println!("rust izit version <~current>:<WutVersion~>");
+            }
  MainModuleRequirements:    
  MakeClean: ""               
- MakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib wut.rs"                 
- MakeBin: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case izit.rs --extern wut=libwut.rlib"                 
+ xMakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib wut.rs"                 
+ MakeLib: "cd ../wutrs; CARGO_INCREMENTAL=0 RUSTFLAGS=\"-A dead_code -A non_snake_case  -A unused_imports -C prefer-dynamic\" cargo build"
+ xMakeBin: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case izit.rs --extern wut=libwut.rlib"                 
+ MakeBin: ""
  MakeTest: ""                
- DoTest: "../wutrs/src/izit --version"
+ DoTest: "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../wutrs/target/debug ../wutrs/target/debug/izit --version"
 wutcs:                       
  Language: csharp              
  Path: "../wutcs"            
