@@ -96,6 +96,9 @@ AbstractEncoder:
      - _nothing_
      - |
        emit "Decode"
+   Imports:
+     BitPat:
+     - foo
    Requires:
    - getWidth(a::ConcreteEncoder) 
    - getDescription(a::ConcreteEncoder)
@@ -322,7 +325,8 @@ CategoryEncoder:
      sE:
      - ScalarEncoder
    Imports:
-   -  [ScalarEncoder]
+     ScalarEncoder:
+     - foo
    Provides:
      GetWidth:
      - CategoryEncoder
@@ -389,8 +393,9 @@ DateEncoder:
      - Int64
      name:
      - String
-   Imports:
-   -  [ScalarEncoder]
+   Imports: 
+     ScalarEncoder:
+     - foo
    Provides:
      GetWidth:
      - DateEncoder

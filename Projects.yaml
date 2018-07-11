@@ -370,8 +370,8 @@ wutrs:
  Language: rust                 
  Path: "../wutrs"             
  SourceFiles: " src( [wut.rs:Lib] [izit.rs:Bin] [<encoder>.rs:Mod]) test( [test.rs:Tst] ) [Cargo.toml:Meta] [LICENSE:License] "
- Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<_top_/Provides>:Method][wut:PackageEnd]"
- Mod: "(rsc/TOPCOMMENT:Comment)"
+ Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<encoder>:LibImport][<_top_/Provides>:Method][wut:PackageEnd]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:StdImport][<encoder/Imports>:ModImport][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureMid][<encoder/Provides>:ModMethod][{encoder}:StructureEnd]"
  Bin: "(rsc/TOPCOMMENT:Comment)[wut:BinImport][main:BinMethod][<_cmd_/Provides>:Method]"
  Tst: "(rsc/TOPCOMMENT:Comment)"
  Meta: "[ok:MetaText]"
@@ -394,16 +394,18 @@ wutrs:
            argparse = "0.2.1"
            
  Comment: "// "
- LibImport: "  //using ${me};"
+ StdImport: "use std;"
+ LibImport: "mod ${me};"
  BinImport: |
             extern crate ${me};
             extern crate argparse;
- PackageStart: "#![allow(non_snake_case)]\n//mod ${me} {\n"
+ ModImport: "use ${me}::${me};"
+ PackageStart: "//{// ${me}"
  PackageEnd: "//}// ${me}"
- Method: "\n    pub fn ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~> \n  }"
- ModMethod: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ Method: "\npub fn ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ ModMethod: "\n  pub fn ${me}( &self, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>  }"
  ArgLFirst: "${me_0}"
- ArgLNext: " ,${me_1}"
+ ArgLNext: ", ${me_1}"
  ArgLE: "${nm}: ${tp}"
  BinMethod: |
             use argparse::{ArgumentParser, StoreTrue, Store};
@@ -437,12 +439,13 @@ wutrs:
                   Run(true);
                 }
             }
- StructureStart: "\ntypedef struct {"
- StructureEnd: "} ${me};"
- StructureElement: "  <~${me_0}>:<TypeMap~> ${me};"
+ StructureStart: "\npub struct ${me}{"
+ StructureMid: "}\nimpl ${me}{"
+ StructureEnd: "}"
+ StructureElement: "  ${me}: <~${me_0}>:<TypeMap~>,"
  TypeMap: "Int64/i64 Float64/f64 String/std::string::String Bool/bool _nothing_/\"\""
  CodeMap:
-   emit: " println!(${me_r});"
+   emit: "   println!(${me_r});"
    reserve: "// ${me}"
    if: "// ${me}"
    else: "// ${me}"
@@ -453,7 +456,7 @@ wutrs:
  MainModuleRequirements:    
  MakeClean: ""               
  xMakeLib: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case --crate-type=lib wut.rs"                 
- MakeLib: "cd ../wutrs; CARGO_INCREMENTAL=0 RUSTFLAGS=\"-A dead_code -A non_snake_case  -A unused_imports -C prefer-dynamic\" cargo build"
+ MakeLib: "cd ../wutrs; CARGO_INCREMENTAL=0 RUSTFLAGS=\"-A dead_code -A non_snake_case  -A unused_imports -A unused_variables -C prefer-dynamic\" cargo build"
  xMakeBin: "cd ../wutrs/src; rustc -A dead_code -A non_snake_case izit.rs --extern wut=libwut.rlib"                 
  MakeBin: ""
  MakeTest: ""                
