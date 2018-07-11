@@ -478,15 +478,35 @@ wutcs:
  LibEnd: "  }"
  Comment: "// "
  LibImport: "  //using ${me};"
- BinImport: "using System;\nusing ${me};"
+ BinImport: |
+            using System;
+            using ${me};
+            using Mono.Documentation;
  BinPackageStart: "public class ${me}\n{"
  PackageEnd: "}// ${me}"
  Method: "\n    public void ${me}(){\n    }"
- BinMethod: "\n    static public void Main(string[] args)\n    {\n        //Initialize(true);\n        Console.WriteLine (\"csharp izit version <~current>:<WutVersion~>\");\n    }"
+ BinMethod: |
+            static public void Main(string[] args)
+            {
+            int count = 0;
+            var p = new Options () {
+                { "really-long-option", "description", (v) => {} },
+                { "h|?|help", "print out this message and exit", (v) => {} },
+            };
+            p.WriteOptionDescriptions (Console.Out);
+
+            //Initialize(true);
+            Console.WriteLine ("csharp izit version <~current>:<WutVersion~>");
+            }
  MainModuleRequirements:    
  MakeClean: "cd ../wutcs; rm *.dll; cd cmd; rm *.exe"               
- MakeLib: "cd ../wutcs; csc -target:library -out:Wut.dll *.cs"                 
- MakeBin: "cd ../wutcs/cmd; csc -reference:../Wut.dll izit.cs"                 
+ MakeLib: |
+          cp rsc/Options.v1.cs ../wutcs/cmd
+          cd ../wutcs
+          csc -target:library -out:Wut.dll *.cs
+          cd cmd
+          csc -target:library -d:TEST -out:Options.dll Options.v1.cs        
+ MakeBin: "cd ../wutcs/cmd; csc -reference:../Wut.dll -reference:Options.dll izit.cs"                 
  MakeTest: ""                
  DoTest: "mono ../wutcs/cmd/izit.exe --version"
 wutv:
