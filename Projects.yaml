@@ -617,7 +617,7 @@ wuths:
  Method: "\n-- function ${me}()"
  MainModuleRequirements:
  MakeClean: ""               
- MakeLib: ""                 
+ MakeLib: "cabal install options"                 
  MakeBin: "cd ../wuths; ghc -o izit izit.hs"                 
  MakeTest: ""                
  DoTest: |
@@ -647,4 +647,58 @@ wutjs:
  MakeBin: ""
  MakeTest: ""                 
  DoTest: "cd ../wutjs; LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node test.js --version"                
+wutnp:
+ Language: Python
+ Path: "../wutnp"
+ SourceFiles: " wutnp( [__init__.py:Lib] [izit.py:Bin] ) [setup.py:Meta] [LICENSE:License] "
+ Lib: "(rsc/TOPCOMMENT:Comment)"
+ Bin: "(rsc/TOPCOMMENT:Comment)[wutnp:BinImport][<_cmd_/Provides>:Method][main:BinMethod]"
+ Meta: "(rsc/setup.py)"
+ Comment: "# "
+ BinImport: |
+            import argparse
+            import ${me}
+ Method: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n<~~${me_3}~~>"
+ ArgLFirst: "${me_0}"
+ ArgLNext: " ,${me_1}"
+ ArgLE: "${nm} ${tp}"
+ BinMethod: |
+  if __name__ ==  '__main__':
+    p = argparse.ArgumentParser()
+
+    p.add_argument("--version", action='store_true', help="Print the version of izit and exit")
+    p.add_argument("--inp", nargs='?', const="-", help="Input File")
+    p.add_argument("--out", nargs='?', const="-", help="Output File")
+    p.add_argument("--config", nargs='?', const="", help="Config File")
+    p.add_argument("--encoders", nargs='?', const="ASE", help="Encoders")
+    p.add_argument("--format", nargs='?', const="csv", help="Format")
+    args=p.parse_args()
+    if args.version:
+      print("NuPIC izit version <~current>:<WutVersion~>")
+      quit()
+    Setup( args.inp, args.out, args.config, args.encoders, args.format )
+    #wut.Initialize(True)
+    Run(True)
+ StructureStart: "\nclass ${me}:\n  pass"
+ StructureElement: "  ${me} =  None"
+ ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n  pass\n<~~${me_3}~~>\n"
+ TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/"
+ CodeMap:
+   emit: "  print(${me_r})"
+   reserve: "  # ${me}"
+   if: "  # ${me}"
+   else: "  # ${me}"
+   fi: "  # ${me}"
+   set: "  # ${me}"
+   call: "  # ${me}"
+   MERGE: "  # MERGE"
+ MainModuleRequirements:
+ MakeClean: ""
+ MakeLib: ""
+ MakeBin: ""
+ MakeTest: ""
+ DoTest: |
+         cd ../wutnp
+         PYTHONPATH=$PYTHONPATH:. python wutnp/izit.py --version
+         PYTHONPATH=$PYTHONPATH:. python wutnp/izit.py --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 
