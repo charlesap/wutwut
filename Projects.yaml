@@ -468,7 +468,7 @@ wutcs:
  Path: "../wutcs"            
  SourceFiles: " cmd( [izit.cs:Bin]  [test.cs:Tst] ) [Wut.cs:Lib] [<encoder>.cs:Mod] [LICENSE:License] "
  MainModDef: ""
- Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<encoder>:LibImport][Wut:LibStart][<_top_/Provides>:Method][Wut:LibEnd][Wut:PackageEnd]"
+ Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][Wut:StdImport][<encoder>:LibImport][Wut:LibStart][<_top_/Provides>:Method][Wut:LibEnd][Wut:PackageEnd]"
  Mod: "(rsc/TOPCOMMENT:Comment)"
  Bin: "(rsc/TOPCOMMENT:Comment)[Wut:BinImport][izit:BinPackageStart][main:BinMethod][<_cmd_/Provides>:Method][izit:PackageEnd]"
  Tst: "(rsc/TOPCOMMENT:Comment)"
@@ -477,38 +477,57 @@ wutcs:
  LibStart: "  public class ${me}\n  {"
  LibEnd: "  }"
  Comment: "// "
- LibImport: "  //using ${me};"
+ StdImport: "using System;"
+ LibImport: "//using ${me};"
  BinImport: |
             using System;
-            using ${me};
+            using Wut;
             using System.Linq;
             using Mono.Documentation;
  BinPackageStart: "public class ${me}\n{"
  PackageEnd: "}// ${me}"
- Method: "\n    public void ${me}(){\n    }"
+ Method: "\nstatic public void ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ ArgLFirst: "${me_0}"
+ ArgLNext: ", ${me_1}"
+ ArgLE: "${tp} ${nm}"
  BinMethod: |
             static public void Main(string[] args)
             {
 
               if (args != null){
 
-                string inp = null;
+                string inf = null;
+                string outf = null;
+                string configf = null;
+                string encoders = null;
+                string format = null;
                 bool version   = false;
 
                 var p = new Options () {
-                    { "in=",      (v) => inp = v },
+                    { "in=",      (v) => inf = v },
                     { "v|version",   (v) => version = v != null },
                 };
                 p.Parse (args).ToArray ();
                 if (version) {
-                  //Initialize(true);
                   Console.WriteLine ("csharp izit version <~current>:<WutVersion~>");
                 }else{
-                  Console.WriteLine ("OK....");
-                  Console.WriteLine (inp);
+                  Setup( inf, outf, configf, encoders, format );
+                  //var w = new Wut.Wut ();
+                  Wut.Wut.Initialize(true);
+                  Run(true);
                 }
               }
             }
+ TypeMap: "Int64/int Float64/float String/string Bool/bool _nothing_/\"\""
+ CodeMap:
+   emit: "   Console.WriteLine(${me_r});"
+   reserve: "// ${me}"
+   if: "// ${me}"
+   else: "// ${me}"
+   fi: "// ${me}"
+   set: "// ${me}"
+   call: "// ${me}"
+   MERGE: "// MERGE"
  MainModuleRequirements:    
  MakeClean: "cd ../wutcs; rm *.dll; cd cmd; rm *.exe"               
  MakeLib: |
@@ -520,8 +539,11 @@ wutcs:
  MakeBin: "cd ../wutcs/cmd; csc -reference:../Wut.dll -reference:Options.dll izit.cs"                 
  MakeTest: ""                
  DoTest: |
-         mono ../wutcs/cmd/izit.exe --version
-         mono ../wutcs/cmd/izit.exe in=- out=- encoders="CE,SE,RDSE" format="csv"
+         cd ../wutcs
+         cp *.dll cmd/
+         cd cmd
+         mono izit.exe --version
+         mono izit.exe in=- out=- encoders="CE,SE,RDSE" format="csv"
 wutv:
  Language: Verilog
  Path: "../wutv"
