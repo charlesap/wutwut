@@ -520,8 +520,8 @@ wutcs:
                 }
               }
             }
- StructureStart: "\npublic struct ${me}Struct{"
- StructureMid: "};"
+ StructureStart: ""
+ StructureMid: ""
  StructureEnd: ""
  StructureElement: "  public <~${me_0}>:<TypeMap~> ${me};"
  TypeMap: "Int64/int Float64/float String/string Bool/bool _nothing_/\"\""
@@ -580,14 +580,50 @@ wuths:
  Meta: ""
  Comment: "-- "
  PackageStart: "-- Package ${me}"
- BinMethod: "main = putStrLn \"Haskell izit version <~current>:<WutVersion~>\""
+ BinMethod: |
+            import Control.Applicative
+            import Options
+            
+            data MainOptions = MainOptions
+                { optIn :: String
+                , optOut :: String
+                , optConfig :: String
+                , optEncoders :: String
+                , optFormat :: String
+                , optVersion :: Bool
+                }
+            
+            instance Options MainOptions where
+                defineOptions = pure MainOptions
+                    <*> simpleOption "in" "-"
+                        "Input File."
+                    <*> simpleOption "out" "-"
+                        "Output File."
+                    <*> simpleOption "config" "-"
+                        "Config File."
+                    <*> simpleOption "encoders" "-"
+                        "Encoders."
+                    <*> simpleOption "format" "-"
+                        "Format."
+                    <*> simpleOption "version" False
+                        "Whether to print version and exit."
+            
+            main :: IO ()
+            main = runCommand $$ \opts args -> do
+                if optVersion opts
+                    then  putStrLn "Haskell izit version <~current>:<WutVersion~>"
+                    else putStrLn (optIn opts)
+            
  Method: "\n-- function ${me}()"
  MainModuleRequirements:
  MakeClean: ""               
  MakeLib: ""                 
  MakeBin: "cd ../wuths; ghc -o izit izit.hs"                 
  MakeTest: ""                
- DoTest: "cd ../wuths; ./izit --version"
+ DoTest: |
+         cd ../wuths
+         ./izit --version
+         ./izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutjs:                          
  Language: Javascript              
  Path: "../wutjs"              
