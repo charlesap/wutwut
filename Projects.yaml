@@ -572,17 +572,40 @@ wutv:
 wuths:
  Language: Haskell
  Path: "../wuths"
- SourceFiles: " [izit.hs:Bin]  [test.hs:Tst] [wut.hs:Lib] [<encoder>.hs:Mod] [LICENSE:License] "
- Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart]"
- Mod: "(rsc/TOPCOMMENT:Comment)"
+ SourceFiles: " cmd([izit.hs:Bin]  [test.hs:Tst]) lib([Wut.hs:Lib] [<encoder>.hs:Mod]) [wuths.cabal:Meta] [Setup.hs:Setup] [LICENSE:License] "
+ Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<_top_/Provides>:LibMethod]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:PackageStart][<encoder/Provides>:LibMethod]"
  Bin: "(rsc/TOPCOMMENT:Comment)[main:BinMethod][<_cmd_/Provides>:Method]"
  Tst: "(rsc/TOPCOMMENT:Comment)"
- Meta: ""
+ Meta: "[wuths:Cab]"
+ Setup: "[wuths:SetText"
+ Cab: |
+       Name:            wuths
+       Version:         <~current>:<WutVersion~>
+       Cabal-Version:   >= 1.2
+       License:         GNU Affero
+       Author:          Charles Perkins
+       Synopsis:        Package with library and two programs
+       Build-Type:      Simple
+       
+       Library
+         Build-Depends:   base
+         Exposed-Modules: wuths
+       
+       Executable program1
+         Main-Is:         izit.hs
+         Build-Depends:   Options
+         Hs-Source-Dirs:  cmd
+         Other-Modules:   wuths
+ SetText: |
+          import Distribution.Simple
+          main = defaultMain
  Comment: "-- "
- PackageStart: "-- Package ${me}"
+ PackageStart: "module ${me} where"
  BinMethod: |
             import Control.Applicative
             import Options
+            import Wut
             
             data MainOptions = MainOptions
                 { optIn :: String
@@ -612,16 +635,33 @@ wuths:
             main = runCommand $$ \opts args -> do
                 if optVersion opts
                     then  putStrLn "Haskell izit version <~current>:<WutVersion~>"
-                    else putStrLn (optIn opts)
+                    else do
+                      fSetup
+                      Wut.fInitialize
+                      fRun
+                      
             
- Method: "\n-- function ${me}()"
+ LibMethod: " f${me} = do\n<~~${me_3}~~>"
+ Method: "f${me} :: IO ()\nf${me} = do\n<~~${me_3}~~>"
+ CodeMap:
+   emit: "    putStrLn ${me_r}"
+   reserve: "-- ${me}"
+   if: "-- ${me}"
+   else: "-- ${me}"
+   fi: "-- ${me}"
+   set: "-- ${me}"
+   call: "-- ${me}"
+   MERGE: "-- MERGE"
  MainModuleRequirements:
  MakeClean: ""               
- MakeLib: "cabal install options"                 
- MakeBin: "cd ../wuths; ghc -o izit izit.hs"                 
+ MakeLib: |
+          cabal install options
+          cd ../wuths/lib
+          ghc --make -dynamic -shared -fPIC Wut.hs -o libwut.so
+ MakeBin: "cd ../wuths/cmd; ghc -o izit -i izit.hs -i ../lib/*.hs"                 
  MakeTest: ""                
  DoTest: |
-         cd ../wuths
+         cd ../wuths/cmd
          ./izit --version
          ./izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutjs:                          
