@@ -795,7 +795,25 @@ wutjs:
  Comment: "// "
  PackageStart: "\n// Package ${me}"
  Import: "\nimport ${me}"
- BinMethod: "  console.log(\"Javascript izit version <~current>:<WutVersion~>\");"
+ BinMethod: |
+              var ArgumentParser = require('./argparse').ArgumentParser;
+              var parser = new ArgumentParser({
+                addHelp:true,
+                description: 'Izit htm example'
+              });
+              parser.addArgument([ '--version' ], { action: 'storeTrue' });
+              parser.addArgument([ '-i', '--in' ], { help: 'Input File'});
+              parser.addArgument([ '-o', '--out' ], { help: 'Output File'});
+              parser.addArgument([ '-c', '--config' ], { help: 'Config File'});
+              parser.addArgument([ '-e', '--encoders' ], { help: 'Encoders'});
+              parser.addArgument([ '-f', '--format' ], { help: 'Format'});
+              var args = parser.parseArgs();
+              
+              if (args['version']) {              
+                console.log("Javascript izit version <~current>:<WutVersion~>");
+              } else {
+                console.dir(args);
+              }
  Method: "\nfunction ${me}(){\n}"
  StructureStart: "\ntype ${me} struct {"
  StructureEnd: "}"
@@ -805,7 +823,10 @@ wutjs:
  MakeLib: ""                 
  MakeBin: ""
  MakeTest: ""                 
- DoTest: "cd ../wutjs; LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node test.js --version"                
+ DoTest: |
+         cd ../wutjs
+         LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node izit.js --version
+         LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node izit.js --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutnp:
  Language: Python
  Path: "../wutnp"
