@@ -271,6 +271,101 @@ wutj:
  DoTest: |
          java -cp ../wutj/target/classes:../wutj/target/argparse4j-0.8.1.jar Izit --version
          java -cp ../wutj/target/classes:../wutj/target/argparse4j-0.8.1.jar Izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
+wutcu:
+ Language: cuda
+ Path: "../wutcu"
+ SourceFiles: " [wut.c:Lib] [wut.h:Libh] [izit.c:Bin] [izit.h:Binh] cmd( [test.c:Tst] [test.h:Tsth] ) [<encoder>.c:Mod] [<encoder>.h:Modh] [LICENSE:License] "
+ Lib: "(rsc/TOPCOMMENT:Comment)[wut:Import][<_top_/Provides>:Method]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[<encoder>:ModImport][<encoder/Provides>:ModMethod]"
+ Bin: "(rsc/TOPCOMMENT:Comment)[wut:Import][<_cmd_/Provides>:Method][main:BinMethod]"
+ Tst: "(rsc/TOPCOMMENT:Comment)[wut:Import][main:TstMethod][<_tst_/Provides>:Method]"
+ Libh: "(rsc/TOPCOMMENT:Comment)[wut:GuardStart][<encoder>:PackageInclude][<_top_/Provides>:LibDef][wut:GuardEnd]"
+ Modh: "(rsc/TOPCOMMENT:Comment)[{encoder}:GuardStart][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:MethodDef][{encoder}:GuardEnd]"
+ Binh: "(rsc/TOPCOMMENT:Comment)[wut:Import][<_cmd_/Provides>:MethodDef]"
+ Tsth: "(rsc/TOPCOMMENT:Comment)[wut:Import][<_tst_/Provides>:MethodDef]"
+ Meta: ""
+ PackageInclude: "#include \"${me}.h\""
+ Comment: "// "
+ Import: |
+         #include <stdio.h>
+         #include "${me}.h"
+         #include "argparse.h"
+ ModImport: |
+            #include <stdio.h>
+            #include "wut.h"
+ GuardStart: "#ifndef _${me}_\n#define _${me}_"
+ GuardEnd: "#endif"
+ xMethodDef: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ MethodDef: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ LibDef: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ Method: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ ModMethod: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ ArgLFirst: "${me_0}"
+ ArgLNext: " ,${me_1}"
+ ArgLE: "${tp} ${nm}"
+ BinMethod: |
+  static const char *const usage[] = {
+                "Izit [options] [[--] args]",
+                "Izit [options]",
+                NULL,
+  };
+
+
+  void main(int argc, const char **argv){
+
+    int version = 0;
+    const char *in = NULL;
+    const char *out = NULL;
+    const char *config = NULL;
+    const char *encoders = NULL;
+    const char *format = NULL;
+
+    struct argparse_option options[] = {
+        OPT_HELP(),
+        OPT_GROUP("Basic options"),
+        OPT_BOOLEAN('v', "version", &version, "print version and exit"),
+        OPT_STRING('i', "in", &in, "input file"),
+        OPT_STRING('o', "out", &out, "output file"),
+        OPT_STRING('c', "config", &config, "config file"),
+        OPT_STRING('e', "encoders", &encoders, "encocers"),
+        OPT_STRING('f', "format", &format, "format"),
+        OPT_END(),
+    };
+
+    struct argparse argparse;
+    argparse_init(&argparse, options, usage, 0);
+    argparse_describe(&argparse, "\nA brief description of what the program does and how it works.", "\nAdditional description of the program after the description of the arguments.");
+    argc = argparse_parse(&argparse, argc, argv);
+    if (version != 0){
+      printf("c izit version <~current>:<WutVersion~>\n");
+    }else{
+      Setup( (char *)in, (char *)out, (char *)config, (char *)encoders, (char *)format );
+      Initialize(0);
+      Run(0);
+    }
+  }
+ TstMethod: "\nvoid main(){\n  Initialize(true);\n  printf(\"testing wut version <~current>:<WutVersion~>\\n\");\n}"
+ StructureStart: "\ntypedef struct {"
+ StructureEnd: "} ${me};"
+ StructureElement: "  <~${me_0}>:<TypeMap~> ${me};"
+ TypeMap: "Int64/int Float64/double String/char* Bool/char _nothing_/\"\""
+ CodeMap:
+   emit: " printf(${me_r});printf(\"\\n\");"
+   reserve: "// ${me}"
+   if: "// ${me}"
+   else: "// ${me}"
+   fi: "// ${me}"
+   set: "// ${me}"
+   call: "// ${me}"
+   MERGE: "// MERGE"
+ MainModuleRequirements:
+ MakeClean: ""               
+ MakeLib: "cp rsc/argparse* ../wutc/"                 
+ MakeBin: "cd ../wutc; cc -o izit *.c"                 
+ MakeTest: ""                
+ DoTest: |
+         ../wutc/izit --version
+         ../wutc/izit --in - --out - --encoders "CE,SE,RDSE" --format "csv"
 wutc:
  Language: c
  Path: "../wutc"

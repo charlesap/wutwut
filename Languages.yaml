@@ -202,6 +202,48 @@ c:
     AbstractString: "char *"
     Bool: int
     _nothing_: void
+cuda:
+ lc: "//"
+ xComment: "//"
+ xModuleStart: "// implementing ${mn}"
+ xModuleEnd: "// end of implementation"
+ xModuleInitStart: ""
+ xModuleInitEnd: ""
+ xMainPreStart: ""
+ xMainPostEnd: ""
+ xMainStart: "void  main(void){"
+ xMainFuncImport: "\n\n#include <stdio.h>\n#include \"wut.h\"\n"
+ xMainFuncPreamble: "  Initialize();\n  printf(\"izit version 0.0.0\\n\");"
+ xMainEnd: "}"
+ xTestStart: "void  main(void){"
+ xTestFuncImport: "\n\n#include <stdio.h>\n#include \"wut.h\"\n"
+ xTestFuncPreamble: "  Initialize();\n  printf(\"izit version 0.0.0\\n\");"
+ xTestEnd: "}"
+ xHasImplicitImports: "No"
+ DefFileName: "${en}.h"
+ ImpSubPrefix: ""
+ ImpFileName: "${en}.c"
+ RefFileName: "${en}"
+ ImportStart: ""
+ ImportEnd: ""
+ ImportElement: "#include \"${inm}\""
+ LinkElement: ""
+ GuardStart: "#ifndef _${gnm}_\n#define _${gnm}_"
+ GuardEnd: "#endif"
+ StructStart: "typedef struct {"
+ StructEnd: "} ${snm};"
+ StructElement: "${etp} ${enm};"
+ StructElementImported: "${etp} ${enm};"
+ FuncImpStart: "${ftyp} ${fnm}(${fprm}){"
+ FuncImpEnd: "}//${fnm}"
+ FuncDef: "${ftyp} ${fnm}(${fprm});"
+ MetaText: ""
+ Typemap:
+    Int64: int
+    Float64: float
+    AbstractString: "char *"
+    Bool: int
+    _nothing_: void
 rust:    
  lc: "//"                                                                                    
  xComment: "//"                                                                            
