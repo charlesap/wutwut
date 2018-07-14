@@ -812,12 +812,27 @@ wutjs:
               if (args['version']) {              
                 console.log("Javascript izit version <~current>:<WutVersion~>");
               } else {
-                console.dir(args);
+                Setup( args['in'], args['out'], args['config'], args['encoders'], args['format']);
+                //wut.Initialize(true);
+                Run(true);
               }
- Method: "\nfunction ${me}(){\n}"
+ Method: "\nfunction ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
+ ArgLFirst: "${me_0}"
+ ArgLNext: ", ${me_1}"
+ ArgLE: "${nm}"
  StructureStart: "\ntype ${me} struct {"
  StructureEnd: "}"
  StructureElement: "  ${me}"
+ TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/"
+ CodeMap:
+   emit: "  console.log(${me_r});"
+   reserve: "  // ${me}"
+   if: "  // ${me}"
+   else: "  // ${me}"
+   fi: "  // ${me}"
+   set: "  // ${me}"
+   call: "  // ${me}"
+   MERGE: "  // MERGE"
  MainModuleRequirements:        
  MakeClean: ""               
  MakeLib: ""                 
