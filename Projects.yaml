@@ -786,17 +786,18 @@ wuths:
 wutjs:                          
  Language: Javascript              
  Path: "../wutjs"              
- SourceFiles: " [izit.js:Bin]  [test.js:Tst] [index.js:Lib] [<encoder>.js:Mod] [package.json:Meta] [LICENSE:License] "
- Lib: "(rsc/TOPCOMMENT:Comment)[wut:PackageStart][<encoder>:Import][<_top_/Provides>:Method]"
- Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:PackageStart][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:Method]"
+ SourceFiles: " [izit.js:Bin]  [test.js:Tst] Wut([Wut.js:Lib] [<encoder>.js:Mod]) [package.json:Meta] [LICENSE:License] "
+ Lib: "(rsc/TOPCOMMENT:Comment)[Wut:PackageStart][<encoder>:Import][<_top_/Provides>:ModMethod]"
+ Mod: "(rsc/TOPCOMMENT:Comment)[{encoder}:PackageStart][{encoder}:StructureStart][<encoder/Contains>:StructureElement][{encoder}:StructureEnd][<encoder/Provides>:ModMethod]"
  Bin: "(rsc/TOPCOMMENT:Comment)[main:BinMethod][<_cmd_/Provides>:Method]"
  Tst: "(rsc/TOPCOMMENT:Comment)[test:BinMethod][<_tst_/Provides>:Method]"
  Meta: ""
  Comment: "// "
  PackageStart: "\n// Package ${me}"
- Import: "\nimport ${me}"
+ Import: "require (\"${me}.js\");"
  BinMethod: |
-              var ArgumentParser = require('./argparse').ArgumentParser;
+             Wut=require('Wut');
+             var ArgumentParser = require('./argparse').ArgumentParser;
               var parser = new ArgumentParser({
                 addHelp:true,
                 description: 'Izit htm example'
@@ -813,16 +814,17 @@ wutjs:
                 console.log("Javascript izit version <~current>:<WutVersion~>");
               } else {
                 Setup( args['in'], args['out'], args['config'], args['encoders'], args['format']);
-                //wut.Initialize(true);
+                Wut.Initialize(true);
                 Run(true);
               }
+ ModMethod: "\nexports.${me} = function (<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
  Method: "\nfunction ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
  ArgLFirst: "${me_0}"
  ArgLNext: ", ${me_1}"
  ArgLE: "${nm}"
- StructureStart: "\ntype ${me} struct {"
- StructureEnd: "}"
- StructureElement: "  ${me}"
+ StructureStart: "\n//type ${me} struct {"
+ StructureEnd: "//}"
+ StructureElement: "//  ${me}"
  TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/"
  CodeMap:
    emit: "  console.log(${me_r});"
@@ -834,7 +836,7 @@ wutjs:
    call: "  // ${me}"
    MERGE: "  // MERGE"
  MainModuleRequirements:        
- MakeClean: ""               
+ MakeClean: "cd ../wutjs; rm node_modules; ln -s Wut node_modules"               
  MakeLib: ""                 
  MakeBin: ""
  MakeTest: ""                 
