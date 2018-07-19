@@ -150,12 +150,12 @@ def token1(s):
       c=c+1
     return s[f:c],f,c
 
-def emitcode(wt,s):
+def emitcode(s,wt,fl,en):
     r=""
     if len(s)>0:
       for l in s.split('\n'):
         t,i,n=token1(l)
-        la=l.split(' ')
+        la=l[i:].split(' ')
         tt=[None,None,None,None]
         lx=len(la)
         if lx>0:
@@ -170,10 +170,29 @@ def emitcode(wt,s):
         z=wt['CodeMap']
         if t in z:
           r=r+' '*i+Template(z[t]).substitute(me=l,me_r=l[n:],me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])+'\n'
+          r=Interp(r,wt,fl,en) 
     return(r)
 
-def Interp(l,wt,fl,en):
+def DropCond(l):
     r=l
+    a=l.find("<?!")
+    b=l.find(">?<")
+    c=l.find("!?>")
+    if a>-1 and b>a and c>b:
+      prel=l[0:a]
+      ct=l[a+3:b]
+      rt=l[b+3:c]
+      postl=l[c+3:]
+   #   print("------:::::"+ct)
+      if ct.isspace() or ct == "[]":
+        r=prel+postl
+      else:
+        r=prel+rt+postl
+    return (r)
+
+def Interp(l,wt,fl,en):
+    r=DropCond(l)
+    l=r
     a=l.find("<~")
     b=l.find(">:<")
     c=l.find("~>")
@@ -222,6 +241,23 @@ def Interp(l,wt,fl,en):
       r=prel+conv+postl
 
     l=r
+    a=l.find("<=~")
+    b=l.find(">~<")
+    c=l.find("~=>")
+    if a>-1 and b>a and c>b:
+
+      prel=l[0:a]
+      oldt=l[a+3:b]
+      lookup=l[b+3:c]
+      postl=l[c+3:]
+
+      tt=""
+      tm  = wt[lookup]
+      tt=TypeFromMap(tm,oldt)
+      r=prel+tt+postl
+
+
+    l=r
     a=l.find("<~~")   
     c=l.find("~~>")
     if a>-1 and c>a:
@@ -229,7 +265,13 @@ def Interp(l,wt,fl,en):
       body=l[a+3:c]
       postl=l[c+3:]
 
-      r=prel+emitcode(wt,body)+postl
+      r=prel+emitcode(body,wt,fl,en)+postl
+
+    ra=r.find("<~")
+    rb=l.find("<=-")
+    rc=l.find("<~~")
+    if ra>-1 or rb>-1 or rc>-1:
+      r=Interp(r,wt,fl,en)
 
     return r
 

@@ -18,23 +18,32 @@ _cmd_:
           set nf to f
        fi
        emit "Setup"
+       return ni,no,ne,nf
      LoadConfig:
      - 
      - [[c,String]]
      - [[i,String],[o,String],[e,String],[f,String]]
      - |
-       use fh as FileHandle
+       use i as String
+       use o as String
+       use e as String
+       use f as String
        emit "Loadconfig"
+       set i to "-"
+       set o to "-"
+       set e to "-"
+       set f to "-"
+       return i,o,e,f
      Help:
      - 
      - [[debug,Bool]]
-     - _nothing_
+     - [] 
      - |
        emit "Help"
      Run:
      - 
      - [[inf,String],[param,String],[state,String],[outf,String]]
-     - _nothing_
+     - []
      - |
        emit "running"
        MERGE
@@ -51,7 +60,7 @@ _tst_:
      Test:
      - 
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "Test"
 _top_:
@@ -59,7 +68,7 @@ _top_:
      Initialize:
      - 
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - | 
        emit "initializing-encoders"
        emit "ready!"
@@ -73,7 +82,7 @@ BitPat:
      GetWidth:
      - BitPat
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 AbstractEncoder:
@@ -81,19 +90,19 @@ AbstractEncoder:
      Encode:
      - AbstractEncoder
      - [[v,Int64]]
-     - _nothing_
+     - []
      - |
        emit "Encode"
      GetDisplayWidth:
      - AbstractEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetDisplayWidth"
      Decode:
      - AbstractEncoder
      - [[b,BitPat], [parentFieldName,String]]
-     - _nothing_
+     - []
      - |
        emit "Decode"
    Imports:
@@ -135,7 +144,7 @@ AdaptiveScalarEncoder:
      GetWidth:
      - AdaptiveScalarEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 CoordinateEncoder:
@@ -149,7 +158,7 @@ CoordinateEncoder:
      GetWidth:
      - CoordinateEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 DeltaEncoder:
@@ -163,7 +172,7 @@ DeltaEncoder:
      GetWidth:
      - DeltaEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 GeospatialCoordinateEncoder:
@@ -177,7 +186,7 @@ GeospatialCoordinateEncoder:
      GetWidth:
      - GeospatialCoordinateEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 LogEncoder:
@@ -191,7 +200,7 @@ LogEncoder:
      GetWidth:
      - LogEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 MultiEncoder:
@@ -205,7 +214,7 @@ MultiEncoder:
      GetWidth:
      - MultiEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 PassThroughEncoder:
@@ -219,7 +228,7 @@ PassThroughEncoder:
      GetWidth:
      - PassThroughEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 RandomDistributedScalarEncoder:
@@ -259,7 +268,7 @@ RandomDistributedScalarEncoder:
      GetWidth:
      - RandomDistributedScalarEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 SDRCategoryEncoder:
@@ -273,7 +282,7 @@ SDRCategoryEncoder:
      GetWidth:
      - SDRCategoryEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 ScalarEncoder:
@@ -309,7 +318,7 @@ ScalarEncoder:
      GetWidth:
      - ScalarEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 CategoryEncoder:
@@ -331,7 +340,7 @@ CategoryEncoder:
      GetWidth:
      - CategoryEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 DateEncoder:
@@ -400,7 +409,7 @@ DateEncoder:
      GetWidth:
      - DateEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 ScalarSpaceEncoder:
@@ -414,7 +423,7 @@ ScalarSpaceEncoder:
      GetWidth:
      - ScalarSpaceEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 SparsePassThroughEncoder:
@@ -428,7 +437,7 @@ SparsePassThroughEncoder:
      GetWidth:
      - SparsePassThroughEncoder
      - [[debug,Bool]]
-     - _nothing_
+     - []
      - |
        emit "GetWidth"
 

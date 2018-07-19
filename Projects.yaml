@@ -19,11 +19,12 @@ wut:
   import "flag"
   import "os"
   import "${me}"
- Function: "\nfunc ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ Function: "\nfunc ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>) <?!${me_2}>?< (<=-${me_2}>-<ArgLFirst:ArgLNext:TypeMap:RetLE-=>) !?> {\n<~~${me_3}~~>\n}"
  Method: "\nfunc (${me_0}) ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
  ArgLFirst: "${me_0}"
- ArgLNext: " ,${me_1}"
+ ArgLNext: ", ${me_1}"
  ArgLE: "${nm} ${tp}"
+ RetLE: " ${tp}"
  BinMethod: |
   func main(){
     vptr := flag.Bool("version",false, "Print the version of izit and exit")
@@ -49,15 +50,17 @@ wut:
  StructureStart: "\ntype ${me} struct {"
  StructureEnd: "}"
  StructureElement: "  ${me} <~${me_0}>:<TypeMap~>"
- TypeMap: "Int64/int64 Float64/float64 String/string Bool/bool _nothing_/\"\""
+ TypeMap: "Int64/int64 Float64/float64 String/string Bool/bool _nothing_/\"\" FileHandle/string"
+ CondMap: "is/== isnot/!="
  CodeMap:
    emit: " fmt.Println(${me_r})"
-   use: "// ${me}"
-   if: "// ${me}"
-   else: "// ${me}"
-   fi: "// ${me}"
-   set: "// ${me}"
+   use: " var ${me_1} <=~${me_3}>~<TypeMap~=>"
+   if: " if ${me_1} <=~${me_2}>~<CondMap~=> ${me_3} {"
+   else: " }else{"
+   fi: " }"
+   set: " ${me_1} = ${me_3}"
    call: "// ${me}"
+   return: " return ${me_r}"
    MERGE: "// MERGE"
  MainModuleRequirements:
  MakeClean: "cd ../wutgo; rm izit"               
@@ -117,6 +120,7 @@ wutpy:
    fi: "  # ${me}"
    set: "  # ${me}"
    call: "  # ${me}"
+   return: "  # ${me}"
    MERGE: "  # MERGE"
  MainModuleRequirements:
  MakeClean: ""               
@@ -189,6 +193,7 @@ Wut.jl:
    fi: "# ${me}"
    set: "# ${me}"
    call: "# ${me}"
+   return: "# ${me}"
    MERGE: "# MERGE"
  MainModuleRequirements:
  MakeClean: ""
@@ -262,6 +267,7 @@ wutj:
    fi: "// ${me}"
    set: "// ${me}"
    call: "// ${me}"
+   return: "// ${me}"
    MERGE: "// MERGE"
  MainModuleRequirements:
  MakeClean: ""               
@@ -357,6 +363,7 @@ wutcu:
    fi: "// ${me}"
    set: "// ${me}"
    call: "// ${me}"
+   return: "// ${me}"
    MERGE: "// MERGE"
  MainModuleRequirements:
  MakeClean: ""               
@@ -452,6 +459,7 @@ wutc:
    fi: "// ${me}"
    set: "// ${me}"
    call: "// ${me}"
+   return: "// ${me}"
    MERGE: "// MERGE"
  MainModuleRequirements:
  MakeClean: ""               
@@ -547,6 +555,7 @@ wutrs:
    fi: "// ${me}"
    set: "// ${me}"
    call: "// ${me}"
+   return: "// ${me}"
    MERGE: "// MERGE"
  MainModuleRequirements:    
  MakeClean: ""               
@@ -628,6 +637,7 @@ wutcs:
    fi: "// ${me}"
    set: "// ${me}"
    call: "// ${me}"
+   return: "// ${me}"
    MERGE: "// MERGE"
  MainModuleRequirements:    
  MakeClean: "cd ../wutcs; rm *.dll; cd cmd; rm *.exe"               
@@ -770,6 +780,7 @@ wuths:
    fi: "-- ${me}"
    set: "-- ${me}"
    call: "-- ${me}"
+   return: "-- ${me}"
    MERGE: "-- MERGE"
  MainModuleRequirements:
  MakeClean: ""               
@@ -834,6 +845,7 @@ wutjs:
    fi: "  // ${me}"
    set: "  // ${me}"
    call: "  // ${me}"
+   return: "  // ${me}"
    MERGE: "  // MERGE"
  MainModuleRequirements:        
  MakeClean: "cd ../wutjs; rm node_modules; ln -s Wut node_modules"               
@@ -888,6 +900,7 @@ wutnp:
    fi: "  # ${me}"
    set: "  # ${me}"
    call: "  # ${me}"
+   return: "  # ${me}"
    MERGE: "  # MERGE"
  MainModuleRequirements:
  MakeClean: ""
