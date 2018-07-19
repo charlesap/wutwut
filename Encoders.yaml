@@ -3,12 +3,12 @@ _cmd_:
      Setup:
      - 
      - [[i,String],[o,String],[c,String],[e,String],[f,String]]
-     - _nothing_
+     - [[inf,String],[param,String],[state,String],[outf,String]]
      - |
-       reserve ni as String
-       reserve no as String
-       reserve ne as String
-       reserve nf as String
+       use ni as String
+       use no as String
+       use ne as String
+       use nf as String
        if c isnot "" then
           call LoadConfig with c giving ni,no,ne,nf
        else
@@ -23,7 +23,7 @@ _cmd_:
      - [[c,String]]
      - [[i,String],[o,String],[e,String],[f,String]]
      - |
-       reserve fh as FileHandle
+       use fh as FileHandle
        emit "Loadconfig"
      Help:
      - 
@@ -33,7 +33,7 @@ _cmd_:
        emit "Help"
      Run:
      - 
-     - [[debug,Bool]]
+     - [[inf,String],[param,String],[state,String],[outf,String]]
      - _nothing_
      - |
        emit "running"

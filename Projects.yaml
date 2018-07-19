@@ -39,7 +39,7 @@ wut:
     }
     Setup(*iptr,*optr,*cptr,*eptr,*fptr)
     wut.Initialize(true)
-    Run(true)
+    Run("input","params","state","output")
   }
  TstMethod: |
   func main(){
@@ -52,7 +52,7 @@ wut:
  TypeMap: "Int64/int64 Float64/float64 String/string Bool/bool _nothing_/\"\""
  CodeMap:
    emit: " fmt.Println(${me_r})"
-   reserve: "// ${me}"
+   use: "// ${me}"
    if: "// ${me}"
    else: "// ${me}"
    fi: "// ${me}"
@@ -104,14 +104,14 @@ wutpy:
       quit()
     Setup( args.inp, args.out, args.config, args.encoders, args.format )
     wut.Initialize(True)
-    Run(True)
+    Run("input","params","state","output")
  StructureStart: "\nclass ${me}:\n  pass"
  StructureElement: "  ${me} =  None"
  ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n  pass\n<~~${me_3}~~>\n"
  TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/" 
  CodeMap:
    emit: "  print(${me_r})"
-   reserve: "  # ${me}"
+   use: "  # ${me}"
    if: "  # ${me}"
    else: "  # ${me}"
    fi: "  # ${me}"
@@ -172,7 +172,7 @@ Wut.jl:
               else
                 Setup( args["in"], args["out"], args["config"], args["encoders"], args["format"] )
                 Wut.Initialize(true)
-                Run(true)
+                Run("input","params","state","output")
               end
             end
             main()
@@ -183,7 +183,7 @@ Wut.jl:
  TypeMap: "Int64/Int64 Float64/Float64 String/AbstractString Bool/Bool _nothing_/\"\""
  CodeMap:
    emit: " println(${me_r})"
-   reserve: "# ${me}"
+   use: "# ${me}"
    if: "# ${me}"
    else: "# ${me}"
    fi: "# ${me}"
@@ -235,7 +235,7 @@ wutj:
             }else{
               Setup( res.get("in"), res.get("out"), res.get("config"), res.get("encoders"), res.get("format") );
               Wut.Initialize(true);
-              Run(true);
+              Run("input","params","state","output");
             }
         } catch (ArgumentParserException e) {
             parser.handleError(e);
@@ -256,7 +256,7 @@ wutj:
  TypeMap: "Int64/int Float64/double String/String Bool/boolean _nothing_/\"\""
  CodeMap:
    emit: " System.out.println(${me_r});"
-   reserve: "// ${me}"
+   use: "// ${me}"
    if: "// ${me}"
    else: "// ${me}"
    fi: "// ${me}"
@@ -341,7 +341,7 @@ wutcu:
     }else{
       Setup( (char *)in, (char *)out, (char *)config, (char *)encoders, (char *)format );
       Initialize(0);
-      Run(0);
+      Run("input","params","state","output");
     }
   }
  TstMethod: "\nvoid main(){\n  Initialize(true);\n  printf(\"testing wut version <~current>:<WutVersion~>\\n\");\n}"
@@ -351,7 +351,7 @@ wutcu:
  TypeMap: "Int64/int Float64/double String/char* Bool/char _nothing_/\"\""
  CodeMap:
    emit: " printf(${me_r});printf(\"\\n\");"
-   reserve: "// ${me}"
+   use: "// ${me}"
    if: "// ${me}"
    else: "// ${me}"
    fi: "// ${me}"
@@ -360,12 +360,12 @@ wutcu:
    MERGE: "// MERGE"
  MainModuleRequirements:
  MakeClean: ""               
- MakeLib: "cp rsc/argparse* ../wutc/"                 
- MakeBin: "cd ../wutc; cc -o izit *.c"                 
+ MakeLib: "cp rsc/argparse* ../wutcu/"                 
+ MakeBin: "cd ../wutcu; cc -o izit *.c"                 
  MakeTest: ""                
  DoTest: |
-         ../wutc/izit --version
-         ../wutc/izit --in rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         ../wutcu/izit --version
+         ../wutcu/izit --in rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
 wutc:
  Language: c
  Path: "../wutc"
@@ -436,7 +436,7 @@ wutc:
     }else{
       Setup( (char *)in, (char *)out, (char *)config, (char *)encoders, (char *)format );
       Initialize(0);
-      Run(0);
+      Run("input","params","state","output");
     }
   }
  TstMethod: "\nvoid main(){\n  Initialize(true);\n  printf(\"testing wut version <~current>:<WutVersion~>\\n\");\n}"
@@ -446,7 +446,7 @@ wutc:
  TypeMap: "Int64/int Float64/double String/char* Bool/char _nothing_/\"\""
  CodeMap:
    emit: " printf(${me_r});printf(\"\\n\");"
-   reserve: "// ${me}"
+   use: "// ${me}"
    if: "// ${me}"
    else: "// ${me}"
    fi: "// ${me}"
@@ -531,7 +531,7 @@ wutrs:
                 } else {                
                   Setup( inf, outf, configf, encoders, format );
                   wut::Initialize(true);
-                  Run(true);
+                  Run("input".to_string(),"params".to_string(),"state".to_string(),"output".to_string());
                 }
             }
  StructureStart: "\npub struct ${me}{"
@@ -541,7 +541,7 @@ wutrs:
  TypeMap: "Int64/i64 Float64/f64 String/std::string::String Bool/bool _nothing_/\"\""
  CodeMap:
    emit: "   println!(${me_r});"
-   reserve: "// ${me}"
+   use: "// ${me}"
    if: "// ${me}"
    else: "// ${me}"
    fi: "// ${me}"
@@ -611,7 +611,7 @@ wutcs:
                   Setup( inf, outf, configf, encoders, format );
                   //var w = new Wut.Wut ();
                   Wut.Wut.Initialize(true);
-                  Run(true);
+                  Run("input","params","state","output");
                 }
               }
             }
@@ -622,7 +622,7 @@ wutcs:
  TypeMap: "Int64/int Float64/float String/string Bool/bool _nothing_/\"\""
  CodeMap:
    emit: "   Console.WriteLine(${me_r});"
-   reserve: "// ${me}"
+   use: "// ${me}"
    if: "// ${me}"
    else: "// ${me}"
    fi: "// ${me}"
@@ -764,7 +764,7 @@ wuths:
  TypeMap: "Int64/Int Float64/Float String/String Bool/Bool _nothing_/\"\""
  CodeMap:
    emit: "    putStrLn ${me_r}"
-   reserve: "-- ${me}"
+   use: "-- ${me}"
    if: "-- ${me}"
    else: "-- ${me}"
    fi: "-- ${me}"
@@ -815,7 +815,7 @@ wutjs:
               } else {
                 Setup( args['in'], args['out'], args['config'], args['encoders'], args['format']);
                 Wut.Initialize(true);
-                Run(true);
+                Run("input","params","state","output");
               }
  ModMethod: "\nexports.${me} = function (<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
  Method: "\nfunction ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
@@ -828,7 +828,7 @@ wutjs:
  TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/"
  CodeMap:
    emit: "  console.log(${me_r});"
-   reserve: "  // ${me}"
+   use: "  // ${me}"
    if: "  // ${me}"
    else: "  // ${me}"
    fi: "  // ${me}"
@@ -875,14 +875,14 @@ wutnp:
       quit()
     Setup( args.inp, args.out, args.config, args.encoders, args.format )
     #wut.Initialize(True)
-    Run(True)
+    Run("input","params","state","output")
  StructureStart: "\nclass ${me}:\n  pass"
  StructureElement: "  ${me} =  None"
  ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n  pass\n<~~${me_3}~~>\n"
  TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/"
  CodeMap:
    emit: "  print(${me_r})"
-   reserve: "  # ${me}"
+   use: "  # ${me}"
    if: "  # ${me}"
    else: "  # ${me}"
    fi: "  # ${me}"
