@@ -156,7 +156,7 @@ def emitcode(s,wt,fl,en):
       for l in s.split('\n'):
         t,i,n=token1(l)
         la=l[i:].split(' ')
-        tt=[None,None,None,None]
+        tt=[None,None,None,None,None,None]
         lx=len(la)
         if lx>0:
           tt[0]=la[0]
@@ -166,10 +166,14 @@ def emitcode(s,wt,fl,en):
           tt[2]=la[2]
         if lx>3:
           tt[3]=la[3]
+        if lx>4:
+          tt[4]=la[4]
+        if lx>5:
+          tt[5]=la[5]
 
         z=wt['CodeMap']
         if t in z:
-          r=r+' '*i+Template(z[t]).substitute(me=l,me_r=l[n:],me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3])+'\n'
+          r=r+' '*i+Template(z[t]).substitute(me=l,me_r=l[n:],me_0=tt[0],me_1=tt[1],me_2=tt[2],me_3=tt[3],me_4=tt[4],me_5=tt[5])+'\n'
           r=Interp(r,wt,fl,en) 
     return(r)
 

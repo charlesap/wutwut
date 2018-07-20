@@ -59,7 +59,7 @@ wut:
    else: " }else{"
    fi: " }"
    set: " ${me_1} = ${me_3}"
-   call: "// ${me}"
+   call: " ${me_5} = ${me_1}(${me_3}) // ${me}"
    return: " return ${me_r}"
    MERGE: "// MERGE"
  MainModuleRequirements:
@@ -71,6 +71,7 @@ wut:
          cd ../wutgo
          ./izit --version
          ./izit --in ../wutwut/rsc/gymdata.csv --out - --encoders "DE,SE" --format "csv" 
+         ./izit --config ../wutwut/rsc/gym.cfg
 wutpy:
  Language: "Python"
  Path: "../wutpy"
@@ -131,6 +132,7 @@ wutpy:
          cd ../wutpy
          PYTHONPATH=$PYTHONPATH:. python wut/izit.py --version
          PYTHONPATH=$PYTHONPATH:. python wut/izit.py --in ../wutwut/rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         PYTHONPATH=$PYTHONPATH:. python wut/izit.py --config ../wutwut/rsc/gym.cfg
 Wut.jl:
  Language: "Julia"
  Path: "../Wut.jl"
@@ -205,6 +207,7 @@ Wut.jl:
          cd ../Wut.jl/src
          julia ./Izit.jl --version
          julia ./Izit.jl --in ../../wutwut/rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         julia ./Izit.jl --config ../../wutwut/rsc/gym.cfg
 wutj:
  Language: "Java"
  Path: "../wutj"
@@ -277,6 +280,7 @@ wutj:
  DoTest: |
          java -cp ../wutj/target/classes:../wutj/target/argparse4j-0.8.1.jar Izit --version
          java -cp ../wutj/target/classes:../wutj/target/argparse4j-0.8.1.jar Izit --in rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         java -cp ../wutj/target/classes:../wutj/target/argparse4j-0.8.1.jar Izit --config rsc/gym.cfg
 wutcu:
  Language: cuda
  Path: "../wutcu"
@@ -373,6 +377,7 @@ wutcu:
  DoTest: |
          ../wutcu/izit --version
          ../wutcu/izit --in rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         ../wutcu/izit --config rsc/gym.cfg
 wutc:
  Language: c
  Path: "../wutc"
@@ -469,6 +474,7 @@ wutc:
  DoTest: |
          ../wutc/izit --version
          ../wutc/izit --in rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         ../wutc/izit --config rsc/gym.cfg
 wutrs:                        
  Language: rust                 
  Path: "../wutrs"             
@@ -567,6 +573,7 @@ wutrs:
  DoTest: |
          LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../wutrs/target/debug ../wutrs/target/debug/izit --version
          LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../wutrs/target/debug ../wutrs/target/debug/izit --in rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../wutrs/target/debug ../wutrs/target/debug/izit --config rsc/gym.cfg
 wutcs:                       
  Language: csharp              
  Path: "../wutcs"            
@@ -655,6 +662,7 @@ wutcs:
          cd cmd
          mono izit.exe --version
          mono izit.exe in=../../wutwut/rsc/gymdata.csv out=- encoders="CE,SE,RDSE" format="csv"
+         mono izit.exe config=../../wutwut/rsc/gym.cfg
 wutv:
  Language: Verilog
  Path: "../wutv"
@@ -794,6 +802,7 @@ wuths:
  DoTest: |
          ~/.cabal/bin/izit --version
          ~/.cabal/bin/izit --in rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         ~/.cabal/bin/izit --config rsc/gym.cfg
 wutjs:                          
  Language: Javascript              
  Path: "../wutjs"              
@@ -856,6 +865,7 @@ wutjs:
          cd ../wutjs
          LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node izit.js --version
          LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node izit.js --in ../wutwut/rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         LD_LIBRARY_PATH=/opt/rh/rh-nodejs4/root/usr/lib64:LD_LIBRARY_PATH /opt/rh/rh-nodejs4/root/usr/bin/node izit.js --config ../wutwut/rsc/gym.cfg
 wutnp:
  Language: Python
  Path: "../wutnp"
@@ -911,4 +921,5 @@ wutnp:
          cd ../wutnp
          PYTHONPATH=$PYTHONPATH:. python2 wutnp/izit.py --version
          PYTHONPATH=$PYTHONPATH:. python2 wutnp/izit.py --in ../wutwut/rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
+         PYTHONPATH=$PYTHONPATH:. python2 wutnp/izit.py --config ../wutwut/rsc/gym.cfg
 
