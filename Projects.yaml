@@ -106,22 +106,28 @@ wutpy:
     if args.version:
       print("Python izit version <~current>:<WutVersion~>")
       quit()
+    if args.inp == None: args.inp = ""
+    if args.out == None: args.out = ""
+    if args.config == None: args.config = ""
+    if args.encoders == None: args.encoders = ""
+    if args.format == None: args.format = ""
     Setup( args.inp, args.out, args.config, args.encoders, args.format )
     wut.Initialize(True)
     Run("input","params","state","output")
  StructureStart: "\nclass ${me}:\n  pass"
  StructureElement: "  ${me} =  None"
- ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n  pass\n<~~${me_3}~~>\n"
+ ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n pass\n<~~${me_3}~~>\n"
  TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/" 
+ CondMap: "is/== isnot/!="
  CodeMap:
-   emit: "  print(${me_r})"
-   use: "  # ${me}"
-   if: "  # ${me}"
-   else: "  # ${me}"
-   fi: "  # ${me}"
-   set: "  # ${me}"
-   call: "  # ${me}"
-   return: "  # ${me}"
+   emit: " print(${me_r})"
+   use: ""
+   if: " if ${me_1} <=~${me_2}>~<CondMap~=> ${me_3} :"
+   else: " else:"
+   fi: ""
+   set: " ${me_1} = ${me_3}"
+   call: " ${me_5} = ${me_1}(${me_3}) # ${me}"
+   return: " return ${me_r}"
    MERGE: "  # MERGE"
  MainModuleRequirements:
  MakeClean: ""               
