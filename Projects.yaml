@@ -106,11 +106,11 @@ wutpy:
     if args.version:
       print("Python izit version <~current>:<WutVersion~>")
       quit()
-    if args.inp == None: args.inp = ""
-    if args.out == None: args.out = ""
+    if args.inp == None: args.inp = "-"
+    if args.out == None: args.out = "-"
     if args.config == None: args.config = ""
-    if args.encoders == None: args.encoders = ""
-    if args.format == None: args.format = ""
+    if args.encoders == None: args.encoders = "ASE"
+    if args.format == None: args.format = "csv"
     Setup( args.inp, args.out, args.config, args.encoders, args.format )
     wut.Initialize(True)
     Run("input","params","state","output")
@@ -193,7 +193,18 @@ Wut.jl:
  StructureEnd: "end"
  ClassMethod: "\nfunction ${me}( me::${me_0},<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend\nexport ${me}"
  TypeMap: "Int64/Int64 Float64/Float64 String/AbstractString Bool/Bool _nothing_/\"\""
+ CondMap: "is/== isnot/!="
  CodeMap:
+   emit: " println(${me_r})"
+   use: ""
+   if: " if ${me_1} <=~${me_2}>~<CondMap~=> ${me_3} "
+   else: " else"
+   fi: " end"
+   set: " ${me_1} = ${me_3}"
+   call: " ${me_5} = ${me_1}(${me_3}) # ${me}"
+   return: " return ${me_r}"
+   MERGE: "  # MERGE"
+ xCodeMap:
    emit: " println(${me_r})"
    use: "# ${me}"
    if: "# ${me}"
