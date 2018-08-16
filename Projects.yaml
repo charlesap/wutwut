@@ -19,12 +19,28 @@ wut:
   import "flag"
   import "os"
   import "${me}"
- Function: "\nfunc ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>) <?!${me_2}>?< (<=-${me_2}>-<ArgLFirst:ArgLNext:TypeMap:RetLE-=>) !?> {\n<~~${me_3}~~>\n}"
- Method: "\nfunc (${me_0}) ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ Function: "\nfunc ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>) <?!${me_2}>?< (<=-${me_2}>-(,)-<ArgLFirst:ArgLNext:TypeMap:RetLE-=>) !?> {\n<~~${me_3}~~>\n}"
+ Method: "\nfunc (${me_0}) ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
  ArgLFirst: "${me_0}"
  ArgLNext: ", ${me_1}"
  ArgLE: "${nm} ${tp}"
  RetLE: " ${tp}"
+ xFunction: |
+           type ${me}R struct{}; 
+           func ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>) <?!${me_2}>?< ${me}R !?> {
+           <~~${me_3}~~>
+           }
+ xMethod: "\nfunc (${me_0}) ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ xDefLFirst: "//box ${me_0}"
+ xDefLNext: "\n//box ${me_1}"
+ xDefLE: "${nm} ${tp}"
+ xRefLFirst: "//unbox ${me_0}"
+ xRefLNext: "\n//unbox ${me_1}"
+ xRefLE: "${nm} ${tp}"
+ xArgLFirst: "${me_0}"
+ xArgLNext: ", ${me_1}"
+ xArgLE: "${nm} ${tp}"
+ xRetLE: " ${tp}"
  BinMethod: |
   func main(){
     vptr := flag.Bool("version",false, "Print the version of izit and exit")
@@ -60,6 +76,10 @@ wut:
    fi: " }"
    set: " ${me_1} = ${me_3}"
    call: " ${me_5} = ${me_1}(${me_3}) // ${me}"
+   xcall: |
+         <?!${me_2}>?< (<=-${me_2}>-(,)-<DefLFirst:DefLNext:TypeMap:DefLE-=>) !?> 
+         ${me_5} = ${me_1}(${me_3}) // ${me}
+         <?!${me_2}>?< (<=-${me_2}>-(,)-<RefLFirst:RefLNext:TypeMap:RefLE-=>) !?>
    return: " return ${me_r}"
    MERGE: "// MERGE"
  MainModuleRequirements:
@@ -88,7 +108,7 @@ wutpy:
             import argparse
             import ${me}
  xMethod: "\ndef ${me}():\n  pass"
- Method: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n<~~${me_3}~~>"
+ Method: "\ndef ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n<~~${me_3}~~>"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
  ArgLE: "${nm} ${tp}"
@@ -116,7 +136,7 @@ wutpy:
     Run("input","params","state","output")
  StructureStart: "\nclass ${me}:\n  pass"
  StructureElement: "  ${me} =  None"
- ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n pass\n<~~${me_3}~~>\n"
+ ClassMethod: "\ndef ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n pass\n<~~${me_3}~~>\n"
  TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/" 
  CondMap: "is/== isnot/!="
  CodeMap:
@@ -152,12 +172,13 @@ Wut.jl:
  PackageStart: "\nmodule ${me}"
  PackageEnd: "end # module ${me}"
  PackageInclude: "include(\"${me}.jl\")"
- Method: "\n\nfunction ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend"
+ Method: "\n\nfunction ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
  ArgLE: "${nm}::${tp}"
  BinInclude: |
              using ArgParse
+             push!(LOAD_PATH, "/home/cperkins/go/src/github.com/charlesap/Wut.jl/src/")
              import ${me}
  BinMethod: |
             function main()
@@ -191,8 +212,8 @@ Wut.jl:
  StructureStart: "\nstruct ${me}"
  StructureElement: "  ${me}::<~${me_0}>:<TypeMap~>"
  StructureEnd: "end"
- ClassMethod: "\nfunction ${me}( me::${me_0},<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend\nexport ${me}"
- TypeMap: "Int64/Int64 Float64/Float64 String/AbstractString Bool/Bool _nothing_/\"\""
+ ClassMethod: "\nfunction ${me}( me::${me_0},<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>)\n<~~${me_3}~~>\nend\nexport ${me}"
+ TypeMap: "Int64/Int64 Float64/Float64 String/String Bool/Bool _nothing_/\"\""
  CondMap: "is/== isnot/!="
  CodeMap:
    emit: " println(${me_r})"
@@ -204,23 +225,13 @@ Wut.jl:
    call: " ${me_5} = ${me_1}(${me_3}) # ${me}"
    return: " return ${me_r}"
    MERGE: "  # MERGE"
- xCodeMap:
-   emit: " println(${me_r})"
-   use: "# ${me}"
-   if: "# ${me}"
-   else: "# ${me}"
-   fi: "# ${me}"
-   set: "# ${me}"
-   call: "# ${me}"
-   return: "# ${me}"
-   MERGE: "# MERGE"
  MainModuleRequirements:
  MakeClean: ""
  MakeLib: ""
  MakeBin: ""
  MakeTest: ""
  DoTest: |
-         rm /home/cperkins/.julia/v0.6/Wut.jl; ln -s /home/cperkins/go/src/github.com/charlesap/Wut.jl /home/cperkins/.julia/v0.6/Wut.jl
+         rm /home/cperkins/.julia/packages/Wut.jl; ln -s /home/cperkins/go/src/github.com/charlesap/Wut.jl /home/cperkins/.julia/packages/Wut.jl
          cd ../Wut.jl/src
          julia ./Izit.jl --version
          julia ./Izit.jl --in ../../wutwut/rsc/gymdata.csv --out - --encoders "CE,SE,RDSE" --format "csv"
@@ -238,14 +249,41 @@ wutj:
  Comment: "// "
  PackageStart: "\npublic class ${me}{"
  PackageEnd: "}"
- Method: "\n  public static void ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ Method: |
+         public static class ${me}R {  <=-${me_2}>-(;)-<DefLFirst:DefLNext:TypeMap:DefLE-=>;  }
+         public static ${me}R ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>) {
+          ${me}R rv = new ${me}R();
+         <~~${me_3}~~>
+         <=-${me_2}>-(;)-<DefLFirst:DefLNext:TypeMap:RetLE-=>;
+          return rv;
+         }
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
  ArgLE: "${tp} ${nm}"
+ DefLFirst: " ${me_0}"
+ DefLNext: " ${me_1}"
+ DefLE: "public ${tp} ${nm}"
+ RetLE: " rv.${nm} = \"\" "
+ xFunction: |
+           type ${me}R struct{};
+           func ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>) <?!${me_2}>?< ${me}R !?> {
+           <~~${me_3}~~>
+           }
+ xMethod: "\nfunc (${me_0}) ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ xDefLFirst: "//box ${me_0}"
+ xDefLNext: "\n//box ${me_1}"
+ xDefLE: "${nm} ${tp}"
+ xRefLFirst: "//unbox ${me_0}"
+ xRefLNext: "\n//unbox ${me_1}"
+ xRefLE: "${nm} ${tp}"
+ xArgLFirst: "${me_0}"
+ xArgLNext: ", ${me_1}"
+ xArgLE: "${nm} ${tp}"
+ xRetLE: " ${tp}"
  BinMethod: |
     // Main Method
       public static void  main(String[] args) throws Exception {
-
+        Izit izit = new Izit();
         ArgumentParser parser = ArgumentParsers.newFor("prog").build().description("Process some integers.");
         parser.addArgument("--version").dest("version").action(storeTrue()).help("Print the version and exit");
         parser.addArgument("--in").dest("inf").help("input file");
@@ -258,9 +296,9 @@ wutj:
             if (res.get("version")){
               System.out.println("Java izit version <~current>:<WutVersion~>\n");
             }else{
-              Setup( res.get("in"), res.get("out"), res.get("config"), res.get("encoders"), res.get("format") );
+              SetupR SetupV = izit.Setup( res.get("in"), res.get("out"), res.get("config"), res.get("encoders"), res.get("format") );
               Wut.Initialize(true);
-              Run("input","params","state","output");
+              RunR RunV = izit.Run("input","params","state","output");
             }
         } catch (ArgumentParserException e) {
             parser.handleError(e);
@@ -277,9 +315,24 @@ wutj:
  StructureStart: "\nclass ${me} {"
  StructureElement: "  public <~${me_0}>:<TypeMap~> ${me};"
  StructureEnd: "}"
- ClassMethod: "\npublic void ${me}( <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ ClassMethod: "\npublic void ${me}( <=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
  TypeMap: "Int64/int Float64/double String/String Bool/boolean _nothing_/\"\""
+ CondMap: "is/== isnot/!="
  CodeMap:
+   emit: " System.out.println(${me_r});"
+   use: " <=~${me_3}>~<TypeMap~=> ${me_1};"
+   if: " if (${me_1} <=~${me_2}>~<CondMap~=> ${me_3}) {"
+   else: " }else{"
+   fi: " }"
+   set: " ${me_1} = ${me_3};"
+   call: " ${me_1}R ${me_1}V = ${me_1}(${me_3});\n // ${me_5}"
+   xcall: |
+         <?!${me_2}>?< (<=-${me_2}>-(,)-<DefLFirst:DefLNext:TypeMap:DefLE-=>) !?>
+         ${me_5} = ${me_1}(${me_3}) // ${me}
+         <?!${me_2}>?< (<=-${me_2}>-(,)-<RefLFirst:RefLNext:TypeMap:RefLE-=>) !?>
+   return: " //return ${me_r};"
+   MERGE: "// MERGE"
+ xCodeMap:
    emit: " System.out.println(${me_r});"
    use: "// ${me}"
    if: "// ${me}"
@@ -322,11 +375,11 @@ wutcu:
             #include "wut.h"
  GuardStart: "#ifndef _${me}_\n#define _${me}_"
  GuardEnd: "#endif"
- xMethodDef: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
- MethodDef: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
- LibDef: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
- Method: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
- ModMethod: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ xMethodDef: "\nvoid ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ MethodDef: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ LibDef: "\nvoid ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ Method: "\nvoid ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ ModMethod: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
  ArgLE: "${tp} ${nm}"
@@ -364,7 +417,7 @@ wutcu:
     argparse_describe(&argparse, "\nA brief description of what the program does and how it works.", "\nAdditional description of the program after the description of the arguments.");
     argc = argparse_parse(&argparse, argc, argv);
     if (version != 0){
-      printf("c izit version <~current>:<WutVersion~>\n");
+      printf("cuda izit version <~current>:<WutVersion~>\n");
     }else{
       Setup( (char *)in, (char *)out, (char *)config, (char *)encoders, (char *)format );
       Initialize(0);
@@ -419,11 +472,11 @@ wutc:
             #include "wut.h"
  GuardStart: "#ifndef _${me}_\n#define _${me}_"
  GuardEnd: "#endif"
- xMethodDef: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
- MethodDef: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
- LibDef: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
- Method: "\nvoid ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
- ModMethod: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ xMethodDef: "\nvoid ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ MethodDef: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ LibDef: "\nvoid ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>);"
+ Method: "\nvoid ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
+ ModMethod: "\nvoid ${me_0}${me}( ${me_0} me, <=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n  }"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
  ArgLE: "${tp} ${nm}"
@@ -528,8 +581,8 @@ wutrs:
  ModImport: "use ${me}::${me};"
  PackageStart: "//{// ${me}"
  PackageEnd: "//}// ${me}"
- Method: "\npub fn ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
- ModMethod: "\n  pub fn ${me}( &self, <=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>  }"
+ Method: "\npub fn ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ ModMethod: "\n  pub fn ${me}( &self, <=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>  }"
  ArgLFirst: "${me_0}"
  ArgLNext: ", ${me_1}"
  ArgLE: "${nm}: ${tp}"
@@ -615,8 +668,8 @@ wutcs:
  ModImport: "//use ${me}::${me};"
  PackageStart: "public class ${me}\n{"
  PackageEnd: "}// ${me}"
- Method: "\nstatic public void ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
- ModMethod: "\nstatic public void ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ Method: "\nstatic public void ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
+ ModMethod: "\nstatic public void ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>\n}"
  ArgLFirst: "${me_0}"
  ArgLNext: ", ${me_1}"
  ArgLE: "${tp} ${nm}"
@@ -854,8 +907,8 @@ wutjs:
                 Wut.Initialize(true);
                 Run("input","params","state","output");
               }
- ModMethod: "\nexports.${me} = function (<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
- Method: "\nfunction ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
+ ModMethod: "\nexports.${me} = function (<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
+ Method: "\nfunction ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>){\n<~~${me_3}~~>}"
  ArgLFirst: "${me_0}"
  ArgLNext: ", ${me_1}"
  ArgLE: "${nm}"
@@ -894,7 +947,7 @@ wutnp:
  BinImport: |
             import argparse
             import ${me}
- Method: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n<~~${me_3}~~>"
+ Method: "\ndef ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n<~~${me_3}~~>"
  ArgLFirst: "${me_0}"
  ArgLNext: " ,${me_1}"
  ArgLE: "${nm} ${tp}"
@@ -917,7 +970,7 @@ wutnp:
     Run("input","params","state","output")
  StructureStart: "\nclass ${me}:\n  pass"
  StructureElement: "  ${me} =  None"
- ClassMethod: "\ndef ${me}(<=-${me_1}>-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n  pass\n<~~${me_3}~~>\n"
+ ClassMethod: "\ndef ${me}(<=-${me_1}>-(,)-<ArgLFirst:ArgLNext:TypeMap:ArgLE-=>):\n  pass\n<~~${me_3}~~>\n"
  TypeMap: "Int64/ Float64/ String/ Bool/ _nothing_/ BitPat/"
  CodeMap:
    emit: "  print(${me_r})"

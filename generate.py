@@ -212,14 +212,16 @@ def Interp(l,wt,fl,en):
 
     l=r
     a=l.find("<=-")
-    b=l.find(">-<")    
-    c=l.find("-=>")
-    if a>-1 and b>a and c>b:
+    b=l.find(">-(")    
+    c=l.find(")-<")
+    d=l.find("-=>")
+    if a>-1 and b>a and c>b and d>c:
 
       prel=l[0:a]
       oldt=l[a+3:b]
-      lookup=l[b+3:c]
-      postl=l[c+3:]
+      divi=l[b+3:c]
+      lookup=l[c+3:d]
+      postl=l[d+3:]
 
       lu=lookup.split(':')
       lul = wt[lu[0]]
@@ -233,7 +235,7 @@ def Interp(l,wt,fl,en):
       #print(l)
       for b in x:
         if not first:
-          conv=conv+","
+          conv=conv+divi
         if len(b)>1:
           tt=TypeFromMap(tm,b[1])
         else:
